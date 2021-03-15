@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using TbsFramework.Cells;
+using TbsFramework.Cells;//test
 using UnityEditor;
+//using DBGTD.Cells;
 
 namespace TbsFramework.EditorUtils.GridGenerators
 {
@@ -35,7 +36,7 @@ namespace TbsFramework.EditorUtils.GridGenerators
 
                     square.transform.position = new Vector3(i * squareSize.x, j * squareSize.y, 0);
                     square.GetComponent<Cell>().OffsetCoord = new Vector2(i, j);
-                    square.GetComponent<Cell>().MovementCost = 1;
+                    //square.GetComponent<Cell>().MovementCost = 1;//test
                     ret.Add(square.GetComponent<Cell>());
 
                     square.transform.parent = CellsParent;
