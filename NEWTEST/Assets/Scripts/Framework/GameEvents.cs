@@ -12,17 +12,15 @@ public class GameEvents : Singleton<GameEvents>
     //         onEventName(para);
     // }
 
-    public event Action onCoreStart;
-    public void CoreStart()
+    public event Action onEnemyReach;
+    public void EnemyReach()
     {
-        if (onCoreStart != null)
-            onCoreStart();
+        onEnemyReach?.Invoke();
     }
 
-    public event Action onCoreEnd;
-    public void CoreEnd()
+    public event Action onEnemyDie;
+    public void EnemyDie()
     {
-        if (onCoreEnd != null)
-            onCoreEnd();
+        onEnemyDie?.Invoke();
     }
 }

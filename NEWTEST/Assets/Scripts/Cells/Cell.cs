@@ -14,6 +14,7 @@ namespace DBGTD.Cells
         public Vector2 OffsetCoord { get => _offsetCoord; set => _offsetCoord = value; }
 
         public bool IsTaken;
+        public bool IsRoad;
 
         public event EventHandler CellClicked;
 

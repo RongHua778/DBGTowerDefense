@@ -6,6 +6,7 @@ public class ObjectPool : Singleton<ObjectPool>
 {
     public string ResourceDir = "";
     Dictionary<string, SubPool> m_pools = new Dictionary<string, SubPool>();
+    Dictionary<SubPool, GameObject> m_pools_parent = new Dictionary<SubPool, GameObject>();
 
     public void ClearPools()
     {
@@ -18,7 +19,8 @@ public class ObjectPool : Singleton<ObjectPool>
         if (!m_pools.ContainsKey(name))
             RegisterNew(name);
         SubPool pool = m_pools[name];
-        return pool.Spawn();
+
+        return pool.Spawn(m_pools_parent[pool]);
 
     }
     //回收对象
@@ -57,8 +59,10 @@ public class ObjectPool : Singleton<ObjectPool>
         GameObject prefab = Resources.Load<GameObject>(path);
 
         //创建子对象池
-        SubPool pool = new SubPool(name,prefab);
+        SubPool pool = new SubPool(name, prefab);
         m_pools.Add(pool.Name, pool);
 
+        GameObject container = new GameObject($"Pool-{name}");
+        m_pools_parent.Add(pool, container);
     }
 }
