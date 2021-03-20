@@ -23,6 +23,15 @@ public class ObjectPool : Singleton<ObjectPool>
         return pool.Spawn(m_pools_parent[pool]);
 
     }
+
+    public GameObject Spawn(GameObject gameObj)
+    {
+        if (!m_pools.ContainsKey(gameObj.name))
+            RegisterNew(gameObj);
+        SubPool pool = m_pools[gameObj.name];
+
+        return pool.Spawn(m_pools_parent[pool]);
+    }
     //回收对象
     public void UnSpawn(GameObject go)
     {
@@ -63,6 +72,17 @@ public class ObjectPool : Singleton<ObjectPool>
         m_pools.Add(pool.Name, pool);
 
         GameObject container = new GameObject($"Pool-{name}");
+        m_pools_parent.Add(pool, container);
+    }
+
+    void RegisterNew(GameObject obj)
+    {
+        GameObject prefab = obj;
+
+        SubPool pool = new SubPool(obj.name, prefab);
+        m_pools.Add(pool.Name, pool);
+
+        GameObject container = new GameObject($"Pool-{obj.name}");
         m_pools_parent.Add(pool, container);
     }
 }

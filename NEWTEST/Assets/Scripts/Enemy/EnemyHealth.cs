@@ -35,15 +35,15 @@ public class EnemyHealth : MonoBehaviour,IDamageable
     // Start is called before the first frame update
     void Start()
     {
-        CurrentHealth = _initialHealth;
+        ResetHealth();
         _enemyAnim = GetComponent<EnemyAnim>();
         _enemy = GetComponent<Enemy>();
     }
 
     public void TakeDamage(float damageReceived)
     {
-        CurrentHealth -= damageReceived;
-
+        if(!IsDie)
+            CurrentHealth -= damageReceived;
     }
 
 
@@ -57,13 +57,18 @@ public class EnemyHealth : MonoBehaviour,IDamageable
         _enemy.UnspawnThisEnemy();
     }
 
+    public void ResetHealth()
+    {
+        CurrentHealth = _initialHealth;
+        IsDie = false;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            CurrentHealth -= 5f;
-        }
+        //if (Input.GetKeyUp(KeyCode.D))
+        //{
+        //    CurrentHealth -= 5f;
+        //}
     }
 }

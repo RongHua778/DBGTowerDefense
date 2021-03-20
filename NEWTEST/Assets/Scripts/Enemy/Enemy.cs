@@ -38,6 +38,8 @@ public abstract class Enemy : ReusableObject
         _currentWayPointIndex = 0;
         _lastPointPosition = transform.position;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _enemyHealth.ResetHealth();
+
     }
 
     // Update is called once per frame
