@@ -70,6 +70,7 @@ public class HoverPreview : MonoBehaviour
     private void PreviewThisObject()
     {
         StopAllPreviews();
+        Time.timeScale = 0;//test
         _currentlyViewing = this;
         PreviewGameObject.SetActive(true);
         ResetPreviewSize();
@@ -92,6 +93,7 @@ public class HoverPreview : MonoBehaviour
 
     public void StopThisPreview()
     {
+        Time.timeScale = 1;//test
         PreviewGameObject.SetActive(false);
         ResetPreviewSize();
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour
+public class Card : ReusableObject
 {
     public CardSO CardAsset;
     public Card PreviewCard;
@@ -18,13 +18,15 @@ public class Card : MonoBehaviour
     [Header("Image References")]
     public Image CardBodyImage;
     public Image CardGraphicImage;
+
+    public GameObject HandleNode;
     // Start is called before the first frame update
 
-    private void Awake()
-    {
-        if (CardAsset != null)
-            ReadCardFromAsset();
-    }
+    //private void Awake()
+    //{
+    //    if (CardAsset != null)
+    //        ReadCardFromAsset();
+    //}
 
     public void ReadCardFromAsset()
     {
@@ -56,4 +58,16 @@ public class Card : MonoBehaviour
         this.GetComponent<Collider2D>().enabled = false;
     }
 
+
+    public override void OnSpawn()
+    {
+        
+    }
+
+    public override void OnUnSpawn()
+    {
+        GameEvents.Instance.DiscardCard(CardAsset);
+        ShowCard();
+        HandleNode = null;
+    }
 }

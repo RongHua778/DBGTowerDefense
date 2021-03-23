@@ -23,4 +23,10 @@ public class GameEvents : Singleton<GameEvents>
     {
         onEnemyDie?.Invoke();
     }
+
+    public event Action<CardSO> onDiscardCard;
+    public void DiscardCard(CardSO cardSO)
+    {
+        onDiscardCard?.Invoke(cardSO);
+    }
 }

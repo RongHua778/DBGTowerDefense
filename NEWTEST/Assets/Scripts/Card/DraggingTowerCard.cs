@@ -10,6 +10,7 @@ public class DraggingTowerCard : DraggingActions
 
     public override void OnDraggingInUpdate()
     {
+        Time.timeScale = 0;
         if (GhostTurret != null)
             GhostTurret.transform.position = transform.position;
     }
@@ -28,11 +29,12 @@ public class DraggingTowerCard : DraggingActions
             GhostTurret.GetComponent<Collider2D>().enabled = true;
         }
         GhostTurret = null;
-
+        Time.timeScale = 1;
     }
 
     public override void OnStartDrag()
     {
+    
         GhostTurret = CreateGhostTower(_card.CardAsset.TurretPrefab);
         _card.HideCard();
     }

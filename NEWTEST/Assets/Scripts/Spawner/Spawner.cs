@@ -82,7 +82,7 @@ public class Spawner : MonoBehaviour
         GameObject newInstance = ObjectPool.Instance.Spawn("Enemy/Enemy_Red");
         Enemy enemy = newInstance.GetComponent<Enemy>();
         enemy.WayPoint = _waypoint;
-        enemy.transform.localPosition = transform.position;
+        enemy.transform.localPosition = _waypoint.GetWaypointPosition(0);
     }
 
     private void RecordEnemy()

@@ -55,6 +55,13 @@ public abstract class DraggingActions : MonoBehaviour
             transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z) + pointerOffset;
             OnDraggingInUpdate();
         }
+        else
+        {
+            if (_card.HandleNode != null)
+            {
+                transform.position = _card.HandleNode.transform.position;
+            }
+        }
     }
 
     private void OnMouseUp()
