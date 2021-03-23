@@ -6,7 +6,7 @@ using DBGTD.Cells;
 public class TestController : Singleton<TestController>
 {
     public CellGrid _cellGrid;
-    public TurretSO _turretSO;
+    public CardSO _turretSO;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +26,7 @@ public class TestController : Singleton<TestController>
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            GameObject turret = ObjectPool.Instance.Spawn(_turretSO.turretPrefab);
+            GameObject turret = ObjectPool.Instance.Spawn(_turretSO.TurretPrefab);
             turret.GetComponent<Turret>().SetAttribute(_turretSO);
 
         }

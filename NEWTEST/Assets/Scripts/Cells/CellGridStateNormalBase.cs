@@ -12,7 +12,7 @@ namespace DBGTD.Cells
 
         public override void OnCellClicked(Cell cell)
         {
-            Debug.Log(cell.OffsetCoord);
+            
         }
     }
 }

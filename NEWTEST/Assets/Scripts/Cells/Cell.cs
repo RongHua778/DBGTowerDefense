@@ -16,6 +16,8 @@ namespace DBGTD.Cells
         public bool IsTaken;
         public bool IsRoad;
 
+        public static Cell HighLightedCell;
+
         public event EventHandler CellClicked;
 
         public event EventHandler CellHighlighted;
@@ -38,6 +40,8 @@ namespace DBGTD.Cells
             if (CellClicked != null)
                 CellClicked.Invoke(this, new EventArgs());
         }
+
+
 
         public abstract Vector3 GetCellDimensions();
 
@@ -83,6 +87,11 @@ namespace DBGTD.Cells
         public int GetDistance(IGraphNode other)
         {
             return GetDistance(other as Cell);
+        }
+
+        public Vector2 GetPosofCell()
+        {
+            return transform.position;
         }
 
         public abstract List<Cell> GetNeighbours(List<Cell> cells);

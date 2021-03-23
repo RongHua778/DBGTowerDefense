@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 900205811379659541}
   - component: {fileID: 3134071576497901001}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Highlighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6341352828723188415}
   - component: {fileID: 309403257790612250}
   - component: {fileID: -3489594824268163648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RoadTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsTaken: 0
+  IsRoad: 0
 --- !u!1 &7699730711681469100
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8690687775846555765}
   - component: {fileID: 1750796489587837038}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}

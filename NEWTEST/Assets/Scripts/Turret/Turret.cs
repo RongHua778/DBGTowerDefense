@@ -86,11 +86,11 @@ public abstract class Turret : ReusableObject
         }
     }
 
-    public virtual void SetAttribute(TurretSO turretSO)
+    public virtual void SetAttribute(CardSO cardSO)
     {
-        AttackDamage = turretSO.attackDamage;
-        AttackRange = turretSO.attackRange;
-        AttackSpeed = turretSO.attackSpeed;
+        AttackDamage = cardSO.AttackDamage;
+        AttackRange = cardSO.AttackRange;
+        AttackSpeed = cardSO.AttackSpeed;
         this.GetComponent<CircleCollider2D>().radius = AttackRange;
     }
 

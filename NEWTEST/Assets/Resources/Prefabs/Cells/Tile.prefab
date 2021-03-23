@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5998265240198423696}
   - component: {fileID: 8376210837740784204}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Highlighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,9 +94,9 @@ GameObject:
   - component: {fileID: 522752712096978234}
   - component: {fileID: 6560348833416086687}
   - component: {fileID: -3773135414641402352}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile
-  m_TagString: Untagged
+  m_TagString: Cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,3 +206,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsTaken: 0
+  IsRoad: 0
