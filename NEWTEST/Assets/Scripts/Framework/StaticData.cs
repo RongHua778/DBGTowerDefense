@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public  class StaticData : MonoBehaviour
+public class StaticData : Singleton<StaticData>
 {
-    
+    public int BasicIncome = 1;
+    public float BasicIncomeInterval = 2f;
 
     public static int RandomNumber(float[] pros)
     {

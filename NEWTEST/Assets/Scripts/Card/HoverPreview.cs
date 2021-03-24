@@ -70,7 +70,7 @@ public class HoverPreview : MonoBehaviour
     private void PreviewThisObject()
     {
         StopAllPreviews();
-        Time.timeScale = 0;//test
+        LevelManager.Instance.GameSpeedControl(0);
         _currentlyViewing = this;
         PreviewGameObject.SetActive(true);
         ResetPreviewSize();

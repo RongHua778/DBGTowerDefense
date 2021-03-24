@@ -1,21 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
+    public List<CardSO> _startDeck = new List<CardSO>();
+
     public List<CardSO> _drawPile = new List<CardSO>();
     public List<CardSO> _discardPile = new List<CardSO>();
     public List<CardSO> _tablePile = new List<CardSO>();
-
     private void Start()
     {
         GameEvents.Instance.onDiscardCard += AddToDiscardPile;
+        InitDeck();
     }
 
     private void OnDisable()
     {
         GameEvents.Instance.onDiscardCard -= AddToDiscardPile;
+    }
+
+    private void InitDeck()
+    {
+        foreach(var cardSO in _startDeck)
+        {
+            CardSO newCard = Instantiate(cardSO);
+            newCard.name = newCard.CardName;
+            _drawPile.Add(newCard);
+        }
+        DrawPileShuffle();
     }
     public CardSO DrawCard()
     {

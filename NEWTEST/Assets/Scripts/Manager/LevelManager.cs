@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 //玩家生命值计算，胜负条件判断
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private int lives = 10;
 
@@ -26,6 +26,10 @@ public class LevelManager : MonoBehaviour
         TotalLives -= live;
     }
 
+    public void GameSpeedControl(float amount)
+    {
+        Time.timeScale = amount;
+    }
     private void OnEnable()
     {
         

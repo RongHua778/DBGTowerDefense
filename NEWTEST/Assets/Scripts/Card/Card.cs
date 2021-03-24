@@ -20,20 +20,13 @@ public class Card : ReusableObject
     public Image CardGraphicImage;
 
     public GameObject HandleNode;
-    // Start is called before the first frame update
 
-    //private void Awake()
-    //{
-    //    if (CardAsset != null)
-    //        ReadCardFromAsset();
-    //}
 
     public void ReadCardFromAsset()
     {
         NameText.text = CardAsset.CardName;
         CostText.text = CardAsset.CardCost.ToString();
         CardGraphicImage.sprite = CardAsset.CardImage;
-
         //PreviewSetting
         if (DescriptionText != null)
             DescriptionText.text = CardAsset.Description;

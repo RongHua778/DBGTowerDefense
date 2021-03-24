@@ -33,6 +33,15 @@ public class CardSO : ScriptableObject
     [Header("FunctionCard Info")]
     public float Temp;
 
+    //public CardSO CreateNewInstance()
+    //{
+    //    var cardSO = CreateInstance<CardSO>();
+    //    cardSO.CardType = this.CardType;
+    //    cardSO.CardName = this.CardName;
+
+    //    return cardSO;
+    //}
+
     //如果想要读取卡牌ASSET的列表，尝试以下方法
     //    Resources.LoadAll();
     //    Directory.GetFiles();

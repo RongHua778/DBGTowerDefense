@@ -29,4 +29,17 @@ public class GameEvents : Singleton<GameEvents>
     {
         onDiscardCard?.Invoke(cardSO);
     }
+
+    public event Action<int> onMoneySpend;
+    public void MoneySpend(int amount)
+    {
+        onMoneySpend?.Invoke(amount);
+    }
+
+    public event Action<int> onMoneyIncrease;
+
+    public void MoneyIncrease(int amount)
+    {
+        onMoneyIncrease?.Invoke(amount);
+    }
 }

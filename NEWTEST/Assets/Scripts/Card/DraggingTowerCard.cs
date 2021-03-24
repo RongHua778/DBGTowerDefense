@@ -10,13 +10,14 @@ public class DraggingTowerCard : DraggingActions
 
     public override void OnDraggingInUpdate()
     {
-        Time.timeScale = 0;
+        LevelManager.Instance.GameSpeedControl(0);
         if (GhostTurret != null)
             GhostTurret.transform.position = transform.position;
     }
 
     public override void OnEndDrag()
     {
+        LevelManager.Instance.GameSpeedControl(1);
         Vector2 pos;
         if (!WheatherEndAtCell(out pos))
         {
@@ -25,16 +26,24 @@ public class DraggingTowerCard : DraggingActions
         }
         else
         {
-            GhostTurret.transform.position = pos;
-            GhostTurret.GetComponent<Collider2D>().enabled = true;
+            if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
+            {
+                MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
+                GhostTurret.transform.position = pos;
+                GhostTurret.GetComponent<Collider2D>().enabled = true;
+            }
+            else
+            {
+                ObjectPool.Instance.UnSpawn(GhostTurret);
+                _card.ShowCard();
+            }
+
         }
         GhostTurret = null;
-        Time.timeScale = 1;
     }
 
     public override void OnStartDrag()
     {
-    
         GhostTurret = CreateGhostTower(_card.CardAsset.TurretPrefab);
         _card.HideCard();
     }

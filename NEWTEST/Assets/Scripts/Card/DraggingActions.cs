@@ -24,7 +24,17 @@ public abstract class DraggingActions : MonoBehaviour
 
     public virtual bool CanDrag
     {
-        get { return true; }
+        get 
+        {
+            if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     protected abstract bool DragSuccessful();
@@ -44,6 +54,10 @@ public abstract class DraggingActions : MonoBehaviour
             _draggingThis = this;
             OnStartDrag();
             zDisplacement = -_mainCam.transform.position.z + transform.position.z;
+        }
+        else
+        {
+            Debug.LogWarning("Not Enough Money");
         }
     }
 

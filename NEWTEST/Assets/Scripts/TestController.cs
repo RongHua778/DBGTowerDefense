@@ -7,10 +7,11 @@ public class TestController : Singleton<TestController>
 {
     public CellGrid _cellGrid;
     public CardSO _turretSO;
+    public MoneySystem moneySystem;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -19,7 +20,7 @@ public class TestController : Singleton<TestController>
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             List<Cell> cells = _cellGrid.Cells[13].GetNeighbours(_cellGrid.Cells);
-            foreach(Cell cell in cells)
+            foreach (Cell cell in cells)
             {
                 Debug.Log(cell.OffsetCoord);
             }
@@ -29,6 +30,15 @@ public class TestController : Singleton<TestController>
             GameObject turret = ObjectPool.Instance.Spawn(_turretSO.TurretPrefab);
             turret.GetComponent<Turret>().SetAttribute(_turretSO);
 
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            MoneySystem.AddMoney(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            MoneySystem.ReduceMoney(5);
         }
     }
 }
