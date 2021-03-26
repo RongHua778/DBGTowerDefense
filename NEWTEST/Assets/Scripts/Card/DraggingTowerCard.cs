@@ -8,16 +8,21 @@ public class DraggingTowerCard : DraggingActions
     private GameObject GhostTurret;
     public LayerMask GridLayer;
 
+
+    private void Start()
+    {
+        GridLayer = LayerMask.GetMask("Grid");
+    }
     public override void OnDraggingInUpdate()
     {
-        LevelManager.Instance.GameSpeedControl(0);
+        base.OnDraggingInUpdate();
         if (GhostTurret != null)
             GhostTurret.transform.position = transform.position;
     }
 
     public override void OnEndDrag()
     {
-        LevelManager.Instance.GameSpeedControl(1);
+        base.OnEndDrag();
         Vector2 pos;
         if (!WheatherEndAtCell(out pos))
         {
@@ -44,14 +49,14 @@ public class DraggingTowerCard : DraggingActions
 
     public override void OnStartDrag()
     {
+        base.OnStartDrag();
         GhostTurret = CreateGhostTower(_card.CardAsset.TurretPrefab);
-        _card.HideCard();
     }
 
     private GameObject CreateGhostTower(GameObject prefab)
     {
         GameObject turret = ObjectPool.Instance.Spawn(prefab);
-        turret.GetComponent<Turret>().SetAttribute(_card.CardAsset);
+        turret.GetComponent<Turret>().ReadCardAsset(_card.CardAsset);
         turret.GetComponent<Collider2D>().enabled = false;
         return turret;
     }

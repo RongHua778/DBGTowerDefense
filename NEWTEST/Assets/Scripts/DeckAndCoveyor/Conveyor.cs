@@ -45,6 +45,15 @@ public class Conveyor : MonoBehaviour
         Card card = cardObj.GetComponent<Card>();
         card.HandleNode = nodeObj;
         card.CardAsset = _deck.DrawCard();
+        switch (card.CardAsset.CardType)
+        {
+            case CardType.Tower:
+                cardObj.AddComponent<DraggingTowerCard>();
+                break;
+            case CardType.Magic:
+                cardObj.AddComponent<DraggingMagicCard>();
+                break;
+        }
         card.ReadCardFromAsset();
         return cardObj;
     }

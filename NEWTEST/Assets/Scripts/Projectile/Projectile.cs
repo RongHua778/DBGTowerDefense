@@ -1,38 +1,73 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum ProjectileType
-//{
-//    TargetEnemy,
-//    TargetGround
-//}
-public abstract class Projectile : ReusableObject
+
+public class Projectile : ReusableObject
 {
-   // public ProjectileType projectileType = ProjectileType.TargetEnemy;
+    [SerializeField] private ProjectileType _projectileType;
+    [SerializeField] private float _moveSpeed = 0f;
+    [SerializeField] private float _sputteringRange = 0f;
+    [SerializeField] private float _criticalRate = 0f;
 
-    [SerializeField] protected float moveSpeed = 10f;
+    private readonly float minDistanceToDealDamage = .1f;
+    [SerializeField] private float _damage;
+    public float Damage { get => _damage; set => _damage = value; }
 
-    protected float explodeRange = 2f;
+    [SerializeField] private Enemy _enemyTarget;
+    [SerializeField] private Vector2 _targetGroundPos;
 
-    protected float minDistanceToDealDamage = .1f;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
 
-    protected float damage;
-    protected float Damage { get => damage; set => damage = value; }
-
-    protected Enemy _enemyTarget;
-
-    protected Vector2 _targetGroundPos;
-
-    protected virtual void Update()
+    private void Update()
     {
-        
+        MoveProjectile();
+        RotateProjectile();
     }
 
-    protected virtual void MoveProjectile(Vector2 targetPos)
+    private void RotateProjectile()
+    {
+        switch (_projectileType)
+        {
+            case ProjectileType.Target:
+                if (_enemyTarget != null)
+                {
+                    RotateTowards(_enemyTarget.transform.position);
+                }
+                break;
+            case ProjectileType.Ground:
+                RotateTowards(_targetGroundPos);
+                break;
+        }
+    }
+    private void RotateTowards(Vector3 pos)
+    {
+        Vector3 targetPos = pos - transform.position;
+        float angle = Vector3.SignedAngle(transform.up, targetPos, transform.forward);
+        transform.Rotate(0f, 0f, angle);
+    }
+
+    private void MoveProjectile()
+    {
+        switch (_projectileType)
+        {
+            case ProjectileType.Target:
+                if (_enemyTarget != null)
+                {
+                    MoveTowards(_enemyTarget.transform.position);
+                }
+                break;
+            case ProjectileType.Ground:
+                MoveTowards(_targetGroundPos);
+                break;
+        }
+    }
+
+    private void MoveTowards(Vector2 targetPos)
     {
         transform.position = Vector2.MoveTowards(transform.position,
-            targetPos, moveSpeed * Time.deltaTime);
+            targetPos, _moveSpeed * Time.deltaTime);
         float distanceToTarget = (targetPos - (Vector2)transform.position).magnitude;
         if (distanceToTarget < minDistanceToDealDamage)
         {
@@ -41,16 +76,56 @@ public abstract class Projectile : ReusableObject
     }
 
 
-    protected virtual void DealDamage()
-    {
 
-    }
-    public void SetProjectile(Enemy enemy,float damage)
+
+    private void DealDamage()
     {
+        IDamageable idamage;
+        switch (_projectileType)
+        {
+            case ProjectileType.Target:
+                idamage = _enemyTarget.GetComponent<IDamageable>();
+                if (idamage != null)
+                {
+                    idamage.TakeDamage(Damage);
+                }
+                break;
+            case ProjectileType.Ground:
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _sputteringRange);
+                foreach (var item in colliders)
+                {
+                    idamage = item.GetComponent<IDamageable>();
+                    if (idamage != null)
+                    {
+                        idamage.TakeDamage(Damage);
+                    }
+                }
+                break;
+            case ProjectileType.Fly:
+                break;
+        }
+        ObjectPool.Instance.UnSpawn(this.gameObject);
+    }
+    public void SetProjectile(Enemy enemy,CardSO cardSO)
+    {
+        _projectileType = cardSO.ProjectileType;
         _enemyTarget = enemy;
         _targetGroundPos = enemy.transform.position;
-        this.Damage = damage;
+        _spriteRenderer.sprite = cardSO.ProjectileSprite;
+        _damage = cardSO.Damage;
+        _moveSpeed = cardSO.ProjectileSpeed;
+        _criticalRate = cardSO.CriticalRate;
+        _sputteringRange = cardSO.SputteringRange;
+
     }
 
+    public override void OnSpawn()
+    {
+       
+    }
 
+    public override void OnUnSpawn()
+    {
+        
+    }
 }

@@ -1,12 +1,38 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public enum CardType
 {
     Tower,
-    Magic,
-    Function
+    Magic
+}
+
+public enum ProjectileType
+{
+    Target,
+    Ground,
+    Fly
+}
+
+public enum MagicType
+{
+    Target,
+    NoTarget
+}
+
+public enum EffectType
+{
+    DamageIntensify,
+    RangeIntensify,
+    SpeedIntensify
+}
+
+[System.Serializable]
+public class MagicEffect
+{
+    public EffectType EffectType;
+    public float Value;
 }
 
 [CreateAssetMenu(fileName = "New Card", menuName = "DBGTD/CardSO")]
@@ -22,13 +48,22 @@ public class CardSO : ScriptableObject
 
     [Header("TowerCard Info")]
     public GameObject TurretPrefab;
-    public float AttackDamage;
-    public float AttackRange;
-    public float AttackSpeed;
+    public float Damage;
+    public float Range;
+    public float Speed;
+    public float PersistTime;
+    public float CriticalRate;
+    public ProjectileType ProjectileType;
+    public Sprite ProjectileSprite;
+    public float SputteringRange;
+    public float ProjectileSpeed;
 
     [Header("MagicCard Info")]
+    public MagicType MagicType;
     public float MagicDamage;
     public float MagicRange;
+    public List<MagicEffect> EffectList;
+    
 
     [Header("FunctionCard Info")]
     public float Temp;

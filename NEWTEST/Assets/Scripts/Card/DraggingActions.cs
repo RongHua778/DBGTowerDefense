@@ -16,11 +16,20 @@ public abstract class DraggingActions : MonoBehaviour
     private static DraggingActions _draggingThis;
 
     public static DraggingActions DraggingThis { get => _draggingThis; }
-    public abstract void OnStartDrag();
+    public virtual void OnStartDrag()
+    {
+        _card.HideCard();
+    }
 
-    public abstract void OnEndDrag();
+    public virtual void OnEndDrag()
+    {
+        LevelManager.Instance.GameSpeedControl(1);
+    }
 
-    public abstract void OnDraggingInUpdate();
+    public virtual void OnDraggingInUpdate()
+    {
+        LevelManager.Instance.GameSpeedControl(0);
+    }
 
     public virtual bool CanDrag
     {
@@ -39,7 +48,7 @@ public abstract class DraggingActions : MonoBehaviour
 
     protected abstract bool DragSuccessful();
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _mainCam = Camera.main;
         _card = GetComponent<Card>();

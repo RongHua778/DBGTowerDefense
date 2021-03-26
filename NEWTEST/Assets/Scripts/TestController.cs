@@ -28,7 +28,7 @@ public class TestController : Singleton<TestController>
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GameObject turret = ObjectPool.Instance.Spawn(_turretSO.TurretPrefab);
-            turret.GetComponent<Turret>().SetAttribute(_turretSO);
+            turret.GetComponent<Turret>().ReadCardAsset(_turretSO);
 
         }
 

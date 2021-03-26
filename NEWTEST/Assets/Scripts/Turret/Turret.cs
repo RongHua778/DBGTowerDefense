@@ -7,25 +7,29 @@ public abstract class Turret : ReusableObject
     [SerializeField] protected float _rotSpeed = 5f;
     [SerializeField] protected Transform _rotTrans;
     [SerializeField] protected Transform _projectileSpawnPos;
-    [SerializeField] protected GameObject _projectile;
-
-    [Header("TowerAttribute")]
-    [SerializeField] protected float _attackRange = 3f;
-    [SerializeField] protected float _attackDamage = 2f;
-    [SerializeField] protected float _attackSpeed = 1f;
-
     
 
+    [Header("TowerAttribute")]
+    [SerializeField] protected float _attackRange = 0f;
+    [SerializeField] protected float _attackDamage = 0f;
+    [SerializeField] protected float _attackSpeed = 0f;
+    [SerializeField] protected float _persistTime = 0f;
+    [SerializeField] protected float _criticalRate = 0f;
+    [SerializeField] protected float _projectileSpeed = 0f;
+   
     public float AttackRange { get { return _attackRange; } set { _attackRange = value; } }
     public float AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
-    protected float AttackSpeed { get => _attackSpeed; set => _attackSpeed = value; }
+    public float AttackSpeed { get => _attackSpeed; set => _attackSpeed = value; }
+    public float PersistTime { get => _persistTime; set => _persistTime = value; }
+    public float CriticalRate { get => _criticalRate; set => _criticalRate = value; }
+    public float ProjectileSpeed { get => _projectileSpeed; set => _projectileSpeed = value; }
 
 
     public Enemy CurrentEnemyTarget { get; set; }
-
     protected List<Enemy> _enemies = new List<Enemy>();
-
     protected float _nextAttackTime;
+    protected CardSO _cardAsset;
+    protected GameObject _projectile;
     // Start is called before the first frame update
 
     protected void Update()
@@ -60,10 +64,6 @@ public abstract class Turret : ReusableObject
         _rotTrans.rotation = Quaternion.Lerp(_rotTrans.rotation, look_Rotation, _rotSpeed * Time.deltaTime);
     }
 
-    protected virtual void LoadProjectile()
-    {
-
-    }
 
     protected virtual void FireProjectile()
     {
@@ -74,8 +74,7 @@ public abstract class Turret : ReusableObject
                 Vector3 dirToTarget = CurrentEnemyTarget.transform.position - transform.position;
                 GameObject newProjectile = ObjectPool.Instance.Spawn(_projectile);
                 newProjectile.transform.position = _projectileSpawnPos.transform.position;
-                newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget,AttackDamage);
-                //setProjectile
+                newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget,_cardAsset);
             }
             else
             {
@@ -86,11 +85,16 @@ public abstract class Turret : ReusableObject
         }
     }
 
-    public virtual void SetAttribute(CardSO cardSO)
+    public virtual void ReadCardAsset(CardSO cardSO)
     {
-        AttackDamage = cardSO.AttackDamage;
-        AttackRange = cardSO.AttackRange;
-        AttackSpeed = cardSO.AttackSpeed;
+        _cardAsset = cardSO;
+        _projectile = Resources.Load<GameObject>("Prefabs/Projectile/BasicProjectile");
+        AttackDamage = _cardAsset.Damage;
+        AttackRange = _cardAsset.Range;
+        AttackSpeed = _cardAsset.Speed;
+        PersistTime = _cardAsset.PersistTime;
+        CriticalRate = _cardAsset.CriticalRate;
+        ProjectileSpeed = _cardAsset.ProjectileSpeed;
         this.GetComponent<CircleCollider2D>().radius = AttackRange;
     }
 
