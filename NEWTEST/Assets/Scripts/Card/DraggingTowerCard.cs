@@ -6,13 +6,7 @@ using DBGTD.Cells;
 public class DraggingTowerCard : DraggingActions
 {
     private GameObject GhostTurret;
-    public LayerMask GridLayer;
 
-
-    private void Start()
-    {
-        GridLayer = LayerMask.GetMask("Grid");
-    }
     public override void OnDraggingInUpdate()
     {
         base.OnDraggingInUpdate();
@@ -23,26 +17,24 @@ public class DraggingTowerCard : DraggingActions
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        Vector2 pos;
-        if (!WheatherEndAtCell(out pos))
+        if (!endDragSuccessful)
+            return;
+        if (endCell.IsRoad)
         {
-            ObjectPool.Instance.UnSpawn(GhostTurret);
-            _card.ShowCard();
+            UnsuccessfulDrag();
+            return;
+        }
+        if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
+        {
+            MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
+            GhostTurret.transform.position = endCell.GetPosofCell();
+            GhostTurret.GetComponent<Collider2D>().enabled = true;
+            Turret turret = GhostTurret.GetComponent<Turret>();
+            turret.LandTurret(endCell);
         }
         else
         {
-            if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
-            {
-                MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
-                GhostTurret.transform.position = pos;
-                GhostTurret.GetComponent<Collider2D>().enabled = true;
-            }
-            else
-            {
-                ObjectPool.Instance.UnSpawn(GhostTurret);
-                _card.ShowCard();
-            }
-
+            UnsuccessfulDrag();
         }
         GhostTurret = null;
     }
@@ -56,15 +48,18 @@ public class DraggingTowerCard : DraggingActions
     private GameObject CreateGhostTower(GameObject prefab)
     {
         GameObject turret = ObjectPool.Instance.Spawn(prefab);
-        turret.GetComponent<Turret>().ReadCardAsset(_card.CardAsset);
+        CardSO tempCardAsset = Instantiate(_card.CardAsset);
+        turret.GetComponent<Turret>().ReadCardAsset(tempCardAsset);
         turret.GetComponent<Collider2D>().enabled = false;
         return turret;
     }
 
-    protected override bool DragSuccessful()
+
+    public override void UnsuccessfulDrag()
     {
-        return true;
+        base.UnsuccessfulDrag();
+        if (GhostTurret != null)
+            ObjectPool.Instance.UnSpawn(GhostTurret);
+       
     }
-
-
 }

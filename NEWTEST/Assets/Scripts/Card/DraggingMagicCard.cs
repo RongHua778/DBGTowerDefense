@@ -5,14 +5,11 @@ using DBGTD.Cells;
 
 public class DraggingMagicCard : DraggingActions
 {
-    private MagicCircle _magicCircle;
-    public LayerMask GridLayer;
+    [SerializeField] private MagicCircle _magicCircle;
 
     protected override void Awake()
     {
         base.Awake();
-        GameObject magicCicleObj = Instantiate(Resources.Load<GameObject>("Prefabs/MagicCircle"));
-        magicCicleObj.transform.SetParent(this.transform);
     }
 
     public override void OnDraggingInUpdate()
@@ -23,29 +20,22 @@ public class DraggingMagicCard : DraggingActions
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        Vector2 pos;
+        if (!endDragSuccessful)
+            return;
+        //deal damage
+        switch (_card.CardAsset.MagicType)
+        {
+            case MagicType.Target:
+                if (_card.CardAsset.MagicDamage > 0)
+                    DealAOEDamage();
+                else
+                    ApplyEffect();
+                break;
+            case MagicType.NoTarget:
+                break;
+        }
         _magicCircle.Hide();
-        //if (!WheatherEndAtCell(out pos))
-        //{
-        //    ObjectPool.Instance.UnSpawn(GhostTurret);
-        //    _card.ShowCard();
-        //}
-        //else
-        //{
-        //    if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
-        //    {
-        //        MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
-        //        GhostTurret.transform.position = pos;
-        //        GhostTurret.GetComponent<Collider2D>().enabled = true;
-        //    }
-        //    else
-        //    {
-        //        ObjectPool.Instance.UnSpawn(GhostTurret);
-        //        _card.ShowCard();
-        //    }
-
-        //}
-        //GhostTurret = null;
+        _card.HideCard();
     }
 
     public override void OnStartDrag()
@@ -57,12 +47,42 @@ public class DraggingMagicCard : DraggingActions
     private void ShowMagicCircle()
     {
         _magicCircle.Show();
+        _magicCircle.SetCircleRange(_card.CardAsset.MagicRange);
     }
 
-    protected override bool DragSuccessful()
+    private void DealAOEDamage()
     {
-        return true;
+        IDamageable idamage;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
+        foreach (var item in colliders)
+        {
+            idamage = item.GetComponent<IDamageable>();
+            if (idamage != null)
+            {
+                idamage.TakeDamage(_card.CardAsset.MagicDamage);
+            }
+        }
+    }
+
+    private void ApplyEffect()
+    {
+        IAffectable affectable;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
+        foreach (var item in colliders)
+        {
+            affectable = item.GetComponent<IAffectable>();
+            if (affectable != null)
+            {
+                affectable.Affect(_card.CardAsset.EffectList);
+            }
+        }
     }
 
 
+    public override void UnsuccessfulDrag()
+    {
+        base.UnsuccessfulDrag();
+        _magicCircle.Hide();
+        
+    }
 }

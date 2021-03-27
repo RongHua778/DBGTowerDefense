@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6341352828723188415}
   - component: {fileID: 309403257790612250}
   - component: {fileID: -3489594824268163648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Road
   m_TagString: Cell
   m_Icon: {fileID: 0}

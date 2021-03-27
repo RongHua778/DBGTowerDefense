@@ -59,8 +59,12 @@ public class Card : ReusableObject
 
     public override void OnUnSpawn()
     {
+        //basic
         GameEvents.Instance.DiscardCard(CardAsset);
-        ShowCard();
         HandleNode = null;
+
+        //拖动状态下移出传送带时
+        DraggingActions da = this.GetComponent<DraggingActions>();
+        da.UnsuccessfulDrag();
     }
 }

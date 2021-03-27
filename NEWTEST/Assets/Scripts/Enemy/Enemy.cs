@@ -15,13 +15,15 @@ public abstract class Enemy : ReusableObject
     protected int _currentWayPointIndex;
     public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
 
+ 
+
     protected Vector3 _lastPointPosition;
     protected SpriteRenderer _spriteRenderer;
 
     protected const float _reachAccuracy = .1f;
 
     protected EnemyHealth _enemyHealth;
-
+    public bool IsDie { get { return _enemyHealth.IsDie; } }
 
 
     // Start is called before the first frame update

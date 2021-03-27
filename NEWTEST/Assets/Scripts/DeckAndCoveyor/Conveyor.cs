@@ -5,20 +5,19 @@ using UnityEngine;
 public class Conveyor : MonoBehaviour
 {
     private Deck _deck;
-
-    [SerializeField]
-    private float _spawnNodeInterval = 1f;
     private float _spawnTimer;
 
-    [SerializeField]
-    Transform _spawnPos;
-    [SerializeField]
-    Transform _unSpawnPos;
+    [Header("Conveyor Setting")]
+    [SerializeField] private float _nodeMoveSpeed = 1f;
+    [SerializeField] private float _spawnNodeInterval = 1f;
 
-    [SerializeField]
-    private GameObject _nodePrefab;
-    [SerializeField]
-    private GameObject _cardPrefab;
+    [SerializeField] Transform _spawnPos;
+    [SerializeField] Transform _unSpawnPos;
+
+    [Header("Prefab Setting")]
+    [SerializeField] private GameObject _nodePrefab;
+    [SerializeField] private GameObject _turretCardPrefab;
+    [SerializeField] private GameObject _magicCardPrefab;
 
     private void Awake()
     {
@@ -35,25 +34,26 @@ public class Conveyor : MonoBehaviour
         {
             cardObj = SpawnCard(nodeObj);
         }
-        node.SetNode(_unSpawnPos.position,cardObj);
+        node.SetNode(_unSpawnPos.position, _nodeMoveSpeed, cardObj);
     }
 
     private GameObject SpawnCard(GameObject nodeObj)
     {
-        GameObject cardObj = ObjectPool.Instance.Spawn(_cardPrefab);
+        CardSO cardAsset = _deck.DrawCard();
+        GameObject cardObj = null;
+        switch (cardAsset.CardType)
+        {
+            case CardType.Tower:
+                cardObj = ObjectPool.Instance.Spawn(_turretCardPrefab);
+                break;
+            case CardType.Magic:
+                cardObj = ObjectPool.Instance.Spawn(_magicCardPrefab);
+                break;
+        }
         cardObj.transform.position = nodeObj.transform.position;
         Card card = cardObj.GetComponent<Card>();
         card.HandleNode = nodeObj;
-        card.CardAsset = _deck.DrawCard();
-        switch (card.CardAsset.CardType)
-        {
-            case CardType.Tower:
-                cardObj.AddComponent<DraggingTowerCard>();
-                break;
-            case CardType.Magic:
-                cardObj.AddComponent<DraggingMagicCard>();
-                break;
-        }
+        card.CardAsset = cardAsset;
         card.ReadCardFromAsset();
         return cardObj;
     }

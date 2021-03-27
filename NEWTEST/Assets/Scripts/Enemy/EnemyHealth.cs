@@ -30,9 +30,6 @@ public class EnemyHealth : MonoBehaviour,IDamageable
     }
 
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
         ResetHealth();

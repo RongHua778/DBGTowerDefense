@@ -26,10 +26,6 @@ public class LevelManager : Singleton<LevelManager>
         TotalLives -= live;
     }
 
-    public void GameSpeedControl(float amount)
-    {
-        Time.timeScale = amount;
-    }
     private void OnEnable()
     {
         

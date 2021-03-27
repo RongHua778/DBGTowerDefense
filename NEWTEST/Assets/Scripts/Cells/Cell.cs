@@ -13,8 +13,9 @@ namespace DBGTD.Cells
 
         public Vector2 OffsetCoord { get => _offsetCoord; set => _offsetCoord = value; }
 
-        public bool IsTaken;
+        public bool HasTurret;
         public bool IsRoad;
+        public Turret CellTurret;
 
         public static Cell HighLightedCell;
 
@@ -98,6 +99,18 @@ namespace DBGTD.Cells
 
         public abstract void CopyFields(Cell newCell);
 
+
+        public void SetTurret(Turret turret)
+        {
+            HasTurret = true;
+            CellTurret = turret;
+        }
+
+        public void TurretDemolish()
+        {
+            HasTurret = false;
+            CellTurret = null;
+        }
     }
 }
 

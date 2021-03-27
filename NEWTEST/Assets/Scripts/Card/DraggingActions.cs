@@ -5,9 +5,12 @@ using DBGTD.Cells;
 
 public abstract class DraggingActions : MonoBehaviour
 {
+    public LayerMask GridLayer;
     private bool dragging = false;
     private Vector3 pointerOffset;
     private float zDisplacement;
+    protected Cell endCell;
+    protected bool endDragSuccessful = false;
 
     protected Camera _mainCam;
 
@@ -16,24 +19,10 @@ public abstract class DraggingActions : MonoBehaviour
     private static DraggingActions _draggingThis;
 
     public static DraggingActions DraggingThis { get => _draggingThis; }
-    public virtual void OnStartDrag()
-    {
-        _card.HideCard();
-    }
-
-    public virtual void OnEndDrag()
-    {
-        LevelManager.Instance.GameSpeedControl(1);
-    }
-
-    public virtual void OnDraggingInUpdate()
-    {
-        LevelManager.Instance.GameSpeedControl(0);
-    }
 
     public virtual bool CanDrag
     {
-        get 
+        get
         {
             if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
             {
@@ -45,14 +34,45 @@ public abstract class DraggingActions : MonoBehaviour
             }
         }
     }
-
-    protected abstract bool DragSuccessful();
-
     protected virtual void Awake()
     {
         _mainCam = Camera.main;
         _card = GetComponent<Card>();
     }
+
+
+    public virtual void OnStartDrag()
+    {
+        _card.HideCard();
+    }
+
+    public virtual void OnEndDrag()
+    {
+        StaticData.Instance.GameSpeedResume();
+        if (!WheatherEndAtCell(out endCell))
+        {
+            UnsuccessfulDrag();
+        }
+        else
+        {
+            endDragSuccessful = true;
+        }
+    }
+
+    public virtual void OnDraggingInUpdate()
+    {
+        StaticData.Instance.GameSlowDown();
+    }
+
+
+    public virtual void UnsuccessfulDrag()
+    {
+        dragging = false;
+        StaticData.Instance.GameSpeedResume();
+        _card.ShowCard();
+        endDragSuccessful = false;
+    }
+
 
     private void OnMouseDown()
     {
@@ -67,6 +87,17 @@ public abstract class DraggingActions : MonoBehaviour
         else
         {
             Debug.LogWarning("Not Enough Money");
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        if (dragging)
+        {
+            dragging = false;
+            HoverPreview.PreviewsAllowed = true;
+            _draggingThis = null;
+            OnEndDrag();
         }
     }
 
@@ -87,34 +118,25 @@ public abstract class DraggingActions : MonoBehaviour
         }
     }
 
-    private void OnMouseUp()
-    {
-        if (dragging)
-        {
-            dragging = false;
-            HoverPreview.PreviewsAllowed = true;
-            _draggingThis = null;
-            OnEndDrag();
-        }
-    }
     protected Vector3 MouseInWorldCoords()
     {
         var screenMousePos = Input.mousePosition;
-        screenMousePos.z = zDisplacement;
+        //screenMousePos.z = zDisplacement;
         return _mainCam.ScreenToWorldPoint(screenMousePos);
     }
 
-    protected bool WheatherEndAtCell(out Vector2 pos)
+    protected bool WheatherEndAtCell(out Cell inCell)
     {
-        pos = Vector2.zero;
+        inCell = null;
+
         RaycastHit2D hit;
-        hit = Physics2D.Raycast(MouseInWorldCoords(), Vector2.zero, Mathf.Infinity);
+        hit = Physics2D.Raycast(MouseInWorldCoords(), Vector3.forward, Mathf.Infinity, GridLayer);
         if (hit.collider == null)
             return false;
         Cell cell = hit.collider.GetComponent<Cell>();
         if (cell != null)
         {
-            pos = cell.GetPosofCell();
+            inCell = cell;
             return true;
         }
         return false;

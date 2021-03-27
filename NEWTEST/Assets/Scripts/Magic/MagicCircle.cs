@@ -5,6 +5,7 @@ using UnityEngine;
 public class MagicCircle : MonoBehaviour
 {
     [SerializeField] GameObject _circleRange;
+    [SerializeField] CircleCollider2D _cicleCollider;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,11 @@ public class MagicCircle : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetCircleRange(float range)
+    {
+        _circleRange.transform.localScale = Vector2.one * 2f * range;
     }
 
     public void Show()

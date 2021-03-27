@@ -5,8 +5,22 @@ using UnityEngine;
 
 public class StaticData : Singleton<StaticData>
 {
+    public float MaxPersistime = 10;
     public int BasicIncome = 1;
     public float BasicIncomeInterval = 2f;
+
+    public float GameSlowDownRate = 0.5f;
+
+
+    public void GameSlowDown()
+    {
+        Time.timeScale = GameSlowDownRate;
+    }
+
+    public void GameSpeedResume()
+    {
+        Time.timeScale = 1;
+    }
 
     public static int RandomNumber(float[] pros)
     {

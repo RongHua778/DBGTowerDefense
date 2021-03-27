@@ -12,6 +12,6 @@ public class TargetTurret : Turret
 
     public override void OnUnSpawn()
     {
-        
+        base.OnUnSpawn();
     }
 }

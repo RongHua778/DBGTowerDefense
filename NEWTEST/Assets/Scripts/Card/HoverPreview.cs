@@ -70,7 +70,7 @@ public class HoverPreview : MonoBehaviour
     private void PreviewThisObject()
     {
         StopAllPreviews();
-        LevelManager.Instance.GameSpeedControl(0);
+        StaticData.Instance.GameSlowDown();
         _currentlyViewing = this;
         PreviewGameObject.SetActive(true);
         ResetPreviewSize();
@@ -79,8 +79,10 @@ public class HoverPreview : MonoBehaviour
 
     private void PreviewDotween()
     {
-        PreviewGameObject.transform.DOLocalMove(TargetPosition, .5f).SetEase(Ease.OutQuint);
-        PreviewGameObject.transform.DOScale(TargetScale, .5f).SetEase(Ease.OutQuint);
+        Tween tween1 = PreviewGameObject.transform.DOLocalMove(TargetPosition, .5f).SetEase(Ease.OutQuint);
+        Tween tween2 = PreviewGameObject.transform.DOScale(TargetScale, .5f).SetEase(Ease.OutQuint);
+        tween1.SetUpdate(true);
+        tween2.SetUpdate(true);
     }
 
 
@@ -93,7 +95,7 @@ public class HoverPreview : MonoBehaviour
 
     public void StopThisPreview()
     {
-        Time.timeScale = 1;//test
+        StaticData.Instance.GameSpeedResume();
         PreviewGameObject.SetActive(false);
         ResetPreviewSize();
     }

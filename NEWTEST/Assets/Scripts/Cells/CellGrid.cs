@@ -64,7 +64,6 @@ namespace DBGTD.Cells
                 GameStarted.Invoke(this, new EventArgs());
 
             CellGridState = new CellGridStateNormalBase(this);
-            Debug.Log("Game started");
         }
 
         private void Initialize()

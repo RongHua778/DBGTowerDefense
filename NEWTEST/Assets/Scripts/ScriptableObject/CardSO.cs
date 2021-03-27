@@ -23,9 +23,9 @@ public enum MagicType
 
 public enum EffectType
 {
-    DamageIntensify,
-    RangeIntensify,
-    SpeedIntensify
+    Strength,
+    SpeedUp,
+    LongSighted
 }
 
 [System.Serializable]
