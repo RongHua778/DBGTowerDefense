@@ -2,7 +2,7 @@
 
 namespace TbsFramework.Example1
 {
-    public class AttackBuff : Buff
+    public class AttackBuff : Units.Buff
     {
         private int _factor;
 
@@ -23,7 +23,7 @@ namespace TbsFramework.Example1
             unit.AttackFactor -= _factor;
         }
 
-        public Buff Clone()
+        public Units.Buff Clone()
         {
             return new AttackBuff(Duration, _factor);
         }

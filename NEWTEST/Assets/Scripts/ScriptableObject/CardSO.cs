@@ -25,15 +25,19 @@ public enum EffectType
 {
     Strength,
     SpeedUp,
-    LongSighted
+    LongSighted,
+    SlowDown
 }
 
 [System.Serializable]
-public class MagicEffect
+public class MagicBuff
 {
     public EffectType EffectType;
-    public float Value;
+    public int Stacks;
+    public float Duration;
+
 }
+
 
 [CreateAssetMenu(fileName = "New Card", menuName = "DBGTD/CardSO")]
 public class CardSO : ScriptableObject
@@ -62,8 +66,7 @@ public class CardSO : ScriptableObject
     public MagicType MagicType;
     public float MagicDamage;
     public float MagicRange;
-    public List<MagicEffect> EffectList;
-    
+    public List<MagicBuff> BuffList;
 
     [Header("FunctionCard Info")]
     public float Temp;

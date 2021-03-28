@@ -11,6 +11,11 @@ public class StaticData : Singleton<StaticData>
 
     public float GameSlowDownRate = 0.5f;
 
+    [Header("BuffValue")]
+    public float SlowDownRate = default;
+
+    public Color TowerRangeColor;
+    public Color MagicRangeColor;
 
     public void GameSlowDown()
     {

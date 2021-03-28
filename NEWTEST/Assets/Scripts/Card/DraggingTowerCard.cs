@@ -11,7 +11,10 @@ public class DraggingTowerCard : DraggingActions
     {
         base.OnDraggingInUpdate();
         if (GhostTurret != null)
+        {
             GhostTurret.transform.position = transform.position;
+            GhostTurret.GetComponent<Turret>().ShowRange();
+        }
     }
 
     public override void OnEndDrag()

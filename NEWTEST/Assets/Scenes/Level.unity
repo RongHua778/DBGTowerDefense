@@ -1017,9 +1017,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxPersistime: 10
-  BasicIncome: 1
-  BasicIncomeInterval: 2
+  BasicIncome: 2
+  BasicIncomeInterval: 1
   GameSlowDownRate: 0.3
+  SlowDownRate: 0.5
+  TowerRangeColor: {r: 0.39999998, g: 0.8862969, b: 1, a: 1}
+  MagicRangeColor: {r: 1, g: 0.7745107, b: 0.29622638, a: 1}
 --- !u!4 &325858273 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3809425527993278098, guid: a38923dd0eb6f1746a052fdd4b8d45b4,
@@ -8070,6 +8073,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed274526d84ccd04db0e202e9c43f35c, type: 2}
   - {fileID: 11400000, guid: 4c377fa2a312aa4489a492f6fa0ffd52, type: 2}
   - {fileID: 11400000, guid: b194d0e48b99aea44a0cd8077d582a89, type: 2}
+  - {fileID: 11400000, guid: 4c377fa2a312aa4489a492f6fa0ffd52, type: 2}
   _drawPile: []
   _discardPile: []
   _tablePile: []
@@ -8085,8 +8089,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd0f0caaa8ac8a4c920bc5b26206a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodeMoveSpeed: 1.5
-  _spawnNodeInterval: 3
+  _nodeMoveSpeed: 3
+  _spawnNodeInterval: 2
   _spawnPos: {fileID: 1099467348}
   _unSpawnPos: {fileID: 584226856}
   _nodePrefab: {fileID: 5625516288503406847, guid: 19fe7ad48b3639a4c9c6c25032317047,

@@ -106,16 +106,16 @@ public class Projectile : ReusableObject
         }
         ObjectPool.Instance.UnSpawn(this.gameObject);
     }
-    public void SetProjectile(Enemy enemy,CardSO cardSO)
+    public void SetProjectile(Enemy enemy,Turret turret)
     {
-        _projectileType = cardSO.ProjectileType;
+        _projectileType = turret._cardAsset.ProjectileType;
         _enemyTarget = enemy;
         _targetGroundPos = enemy.transform.position;
-        _spriteRenderer.sprite = cardSO.ProjectileSprite;
-        _damage = cardSO.Damage;
-        _moveSpeed = cardSO.ProjectileSpeed;
-        _criticalRate = cardSO.CriticalRate;
-        _sputteringRange = cardSO.SputteringRange;
+        _spriteRenderer.sprite = turret._cardAsset.ProjectileSprite;
+        _damage = turret.AttackDamage;
+        _moveSpeed = turret._cardAsset.ProjectileSpeed;
+        _criticalRate = turret._cardAsset.CriticalRate;
+        _sputteringRange = turret._cardAsset.SputteringRange;
 
     }
 

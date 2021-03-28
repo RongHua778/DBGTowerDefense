@@ -30,5 +30,8 @@ MonoBehaviour:
   MagicType: 0
   MagicDamage: 5
   MagicRange: 1
-  EffectList: []
+  BuffList:
+  - EffectType: 3
+    Stacks: 1
+    Duration: 5
   Temp: 0

@@ -4,33 +4,31 @@ using UnityEngine;
 
 public abstract class Enemy : ReusableObject
 {
+    [HideInInspector] public WayPoint WayPoint;
     [SerializeField] protected float _initSpeed = 3f;
-    protected float _moveSpeed;
-
-    public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
-
-    [HideInInspector]
-    public WayPoint WayPoint;
+    [SerializeField] protected float _moveSpeed;
+    public bool SlowDown = false;
+    public float MoveSpeed
+    {
+        get { return _moveSpeed * (SlowDown ? StaticData.Instance.SlowDownRate : 1); }
+        set => _moveSpeed = value;
+    }
 
     protected int _currentWayPointIndex;
     public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
 
- 
-
     protected Vector3 _lastPointPosition;
     protected SpriteRenderer _spriteRenderer;
-
     protected const float _reachAccuracy = .1f;
-
     protected EnemyHealth _enemyHealth;
     public bool IsDie { get { return _enemyHealth.IsDie; } }
 
 
-    // Start is called before the first frame update
     void Awake()
     {
         _enemyHealth = GetComponent<EnemyHealth>();
         InitSetUp();
+        Debug.Assert(gameObject.layer == 9, "Target point on wrong layer", this);
     }
 
     protected void InitSetUp()
@@ -41,10 +39,9 @@ public abstract class Enemy : ReusableObject
         _lastPointPosition = transform.position;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _enemyHealth.ResetHealth();
-
+        GetComponent<Collider2D>().enabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         Move();
@@ -53,6 +50,8 @@ public abstract class Enemy : ReusableObject
             UpdateCurrentPointIndex();
         }
     }
+
+
 
     protected void Move()
     {
@@ -112,6 +111,8 @@ public abstract class Enemy : ReusableObject
 
     public override void OnUnSpawn()
     {
-       
+        GetComponent<Collider2D>().enabled = false;
+        SlowDown = false;
     }
+
 }

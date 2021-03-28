@@ -5,10 +5,25 @@ using UnityEngine.UI;
 using DBGTD.Cells;
 using System;
 
-public abstract class Turret : ReusableObject, IAffectable
+public abstract class Turret : ReusableObject
 {
+    [Header("SupportField")]
+    static Collider2D[] targetsBuffer = new Collider2D[1];
+    protected GameObject _projectile;
+    protected Cell _landedCell;
+    public Enemy CurrentEnemyTarget { get; set; }
+    public List<Enemy> _enemies = new List<Enemy>();
+    public const int enemyLayerMask = 1 << 9;
+    private float nextAttackTime;
+    public CardSO _cardAsset;
+    protected float _rotSpeed = 15f;
 
-    protected CardSO _cardAsset;
+    [SerializeField] protected Transform _rotTrans;
+    [SerializeField] protected Transform _projectileSpawnPos;
+    [SerializeField] protected GameObject _persistCanvas;
+    [SerializeField] protected Image _persistProgress;
+    [SerializeField] protected BuffableEntity _effectableEntity;
+
     protected bool _turretLanded = false;
     public bool TurretLanded
     {
@@ -23,31 +38,6 @@ public abstract class Turret : ReusableObject, IAffectable
 
         }
     }
-    public Enemy CurrentEnemyTarget { get; set; }
-    public List<Enemy> _enemies = new List<Enemy>();
-
-    private float nextAttackTime;
-    public float NextAttackTime { get => nextAttackTime; set => nextAttackTime = value; }
-
-    protected GameObject _projectile;
-    protected Cell _landedCell;
-
-
-    [SerializeField] protected float _rotSpeed = 5f;
-    [SerializeField] protected Transform _rotTrans;
-    [SerializeField] protected Transform _projectileSpawnPos;
-    [SerializeField] protected GameObject _persistCanvas;
-    [SerializeField] protected AttackCollider _attackCollider;
-
-    public void LandTurret(Cell endCell)
-    {
-        TurretLanded = true;
-        _landedCell = endCell;
-        endCell.SetTurret(this);
-    }
-
-    [SerializeField] protected Image _persistProgress;
-
 
     [Header("TowerAttribute")]
     [SerializeField] protected float _attackRange = 0f;
@@ -60,31 +50,18 @@ public abstract class Turret : ReusableObject, IAffectable
 
     public float AttackRange
     {
-        get { return _attackRange; }
-        set
-        {
-            _attackRange = value;
-            _cardAsset.Range = value;
-            _attackCollider.SetAttackRange(value);
-        }
+        get => _attackRange * (1 + RangeIntensify);
+        set => _attackRange = value;
     }
     public float AttackDamage
     {
-        get { return _attackDamage; }
-        set
-        {
-            _attackDamage = value;
-            _cardAsset.Damage = value;
-        }
+        get => _attackDamage * (1 + AttackIntensify);
+        set => _attackDamage = value;
     }
     public float AttackSpeed
     {
-        get => _attackSpeed;
-        set
-        {
-            _attackSpeed = value;
-            _cardAsset.Speed = value;
-        }
+        get => _attackSpeed * (1 + SpeedIntensify);
+        set => _attackSpeed = value;
     }
     public float PersistTime
     {
@@ -94,7 +71,6 @@ public abstract class Turret : ReusableObject, IAffectable
             if (value > MaxPersistTime)
                 MaxPersistTime = value;
             _persistTime = value;
-            //_persistTime = Mathf.Min(MaxPersistTime, value);
             _persistProgress.fillAmount = _persistTime / MaxPersistTime;
             if (_persistTime <= 0)
                 ObjectPool.Instance.UnSpawn(this.gameObject);
@@ -103,46 +79,62 @@ public abstract class Turret : ReusableObject, IAffectable
     public float CriticalRate
     {
         get => _criticalRate;
-        set
-        {
-            _criticalRate = value;
-            _cardAsset.CriticalRate = value;
-        }
+        set => _criticalRate = value;
     }
     public float ProjectileSpeed
     {
         get => _projectileSpeed;
-        set
-        {
-            _projectileSpeed = value;
-            _cardAsset.ProjectileSpeed = value;
-        }
+        set => _projectileSpeed = value;
     }
 
     public float MaxPersistTime
     {
-        // get { return StaticData.Instance.MaxPersistime; }
         get { return _maxPersistTime; }
         set { _maxPersistTime = value; }
     }
 
 
 
-    // Start is called before the first frame update
+    [Header("Intensify")]
+    [SerializeField] private float _attackIntensify = 0f;
+    [SerializeField] private float _speedIntensify = 0f;
+    [SerializeField] private float _rangeIntensify = 0f;
 
+    public float AttackIntensify { get => _attackIntensify; set => _attackIntensify = value; }
+    public float SpeedIntensify { get => _speedIntensify; set => _speedIntensify = value; }
+    public float RangeIntensify { get => _rangeIntensify; set => _rangeIntensify = value; }
 
     protected void Update()
     {
-        GetCurrentEnemyTarget();
-        RotateTowardsEnemy();
-        FireProjectile();
+        if (!TurretLanded)
+            return;
+        if (TrackTarget() || AcquireTarget())
+        {
+            RotateTowardsEnemy();
+            FireProjectile();
+        }
         PersistimeCountDown();
+    }
+
+    public void ShowRange()
+    {
+        gameObject.DrawCircle(AttackRange, 0.04f, StaticData.Instance.TowerRangeColor);
+    }
+    public void HideRange()
+    {
+        gameObject.HideCircle();
+    }
+
+    public void LandTurret(Cell endCell)
+    {
+        TurretLanded = true;
+        _landedCell = endCell;
+        endCell.SetTurret(this);
     }
 
     protected void PersistimeCountDown()
     {
-        if (TurretLanded)
-            PersistTime -= Time.deltaTime;
+        PersistTime -= Time.deltaTime;
     }
 
     protected void SetCollider()
@@ -150,21 +142,39 @@ public abstract class Turret : ReusableObject, IAffectable
         this.GetComponent<CircleCollider2D>().radius = AttackRange;
     }
 
-    protected void GetCurrentEnemyTarget()
+    protected bool AcquireTarget()
     {
-        if (_enemies.Count <= 0)
+        int hits = Physics2D.OverlapCircleNonAlloc(transform.position, AttackRange, targetsBuffer, enemyLayerMask);
+        if (hits > 0)
+        {
+            CurrentEnemyTarget = targetsBuffer[0].GetComponent<Enemy>();
+            return true;
+        }
+
+        CurrentEnemyTarget = null;
+        return false;
+    }
+
+    private bool TrackTarget()
+    {
+
+        if (CurrentEnemyTarget == null)
+        {
+            return false;
+        }
+        if (CurrentEnemyTarget.IsDie)
         {
             CurrentEnemyTarget = null;
-            return;
+            return false;
         }
-        if (_enemies[0].IsDie)
+        Vector2 a = transform.position;
+        Vector2 b = CurrentEnemyTarget.transform.position;
+        if ((a - b).magnitude > AttackRange + 0.2f)//enemyµÄscale±ØÐëÎª1
         {
-            _enemies.RemoveAt(0);
+            CurrentEnemyTarget = null;
+            return false;
         }
-        else
-        {
-            CurrentEnemyTarget = _enemies[0];
-        }
+        return true;
     }
 
     protected void RotateTowardsEnemy()
@@ -180,21 +190,21 @@ public abstract class Turret : ReusableObject, IAffectable
 
     protected virtual void FireProjectile()
     {
-        if (Time.time - NextAttackTime > 1 / AttackSpeed)
+        if (Time.time - nextAttackTime > 1 / AttackSpeed)
         {
             if (CurrentEnemyTarget != null)
             {
                 Vector3 dirToTarget = CurrentEnemyTarget.transform.position - transform.position;
                 GameObject newProjectile = ObjectPool.Instance.Spawn(_projectile);
                 newProjectile.transform.position = _projectileSpawnPos.transform.position;
-                newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget, _cardAsset);
+                newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget, this);
             }
             else
             {
                 return;
             }
 
-            NextAttackTime = Time.time;
+            nextAttackTime = Time.time;
         }
     }
 
@@ -209,9 +219,18 @@ public abstract class Turret : ReusableObject, IAffectable
         MaxPersistTime = _cardAsset.PersistTime;
         CriticalRate = _cardAsset.CriticalRate;
         ProjectileSpeed = _cardAsset.ProjectileSpeed;
-        _attackCollider.SetAttackRange(AttackRange);
     }
 
+
+    private void OnMouseOver()
+    {
+        ShowRange();
+    }
+
+    private void OnMouseExit()
+    {
+        HideRange();
+    }
 
     // Update is called once per frame
 
@@ -225,17 +244,15 @@ public abstract class Turret : ReusableObject, IAffectable
         _enemies.Clear();
         _landedCell = null;
         CurrentEnemyTarget = null;
-        NextAttackTime = 0;
+        nextAttackTime = 0;
         _rotTrans.localRotation = Quaternion.Euler(Vector3.zero);
+        AttackIntensify = 0;
+        RangeIntensify = 0;
+        SpeedIntensify = 0;
+        HideRange();
+        _effectableEntity.ClearEffects();
     }
 
 
-    public virtual void Affect(IEnumerable<MagicEffect> effectList)
-    {
-        foreach (var effectItem in effectList)
-        {
-            Effect effect = EffectFactory.GetEffect(effectItem.EffectType);
-            effect.Affect(this.gameObject, effectItem.Value);
-        }
-    }
+
 }

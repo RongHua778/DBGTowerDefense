@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TbsFramework.Example1
 {
-    class HealingBuff : Buff
+    class HealingBuff : Units.Buff
     {
         private int _healingFactor;
 
@@ -23,7 +23,7 @@ namespace TbsFramework.Example1
             //Note that healing buff has empty Undo method implementation.
         }
 
-        public Buff Clone()
+        public Units.Buff Clone()
         {
             return new HealingBuff(Duration, _healingFactor);
         }

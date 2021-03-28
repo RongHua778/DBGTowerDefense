@@ -35,7 +35,7 @@ namespace TbsFramework.Example1
         /// <param name="self">
         /// Indicates if buff should be applied to its caster.
         /// </param>
-        public void SpawnBuff(Buff buff, Cell center, Unit buffer, int range, bool self)
+        public void SpawnBuff(Units.Buff buff, Cell center, Unit buffer, int range, bool self)
         {
             foreach (var unit in unitsList.FindAll(u => u.PlayerNumber.Equals(buffer.PlayerNumber) && u.Cell.GetDistance(center) <= range))
             {

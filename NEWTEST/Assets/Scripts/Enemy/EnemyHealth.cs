@@ -46,6 +46,7 @@ public class EnemyHealth : MonoBehaviour,IDamageable
 
     public IEnumerator PlayDieCor()
     {
+        GetComponent<Collider2D>().enabled = false;
         IsDie = true;
         _enemyAnim.PlayDie();
         _enemy.StopMovement();

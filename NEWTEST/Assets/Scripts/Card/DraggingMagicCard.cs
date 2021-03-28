@@ -5,8 +5,6 @@ using DBGTD.Cells;
 
 public class DraggingMagicCard : DraggingActions
 {
-    [SerializeField] private MagicCircle _magicCircle;
-
     protected override void Awake()
     {
         base.Awake();
@@ -28,27 +26,23 @@ public class DraggingMagicCard : DraggingActions
             case MagicType.Target:
                 if (_card.CardAsset.MagicDamage > 0)
                     DealAOEDamage();
-                else
+                if (_card.CardAsset.BuffList.Count > 0)
                     ApplyEffect();
                 break;
             case MagicType.NoTarget:
                 break;
         }
-        _magicCircle.Hide();
+        gameObject.HideCircle();
         _card.HideCard();
     }
 
     public override void OnStartDrag()
     {
         base.OnStartDrag();
-        ShowMagicCircle();
+        gameObject.DrawCircle(_card.CardAsset.MagicRange, 0.04f, StaticData.Instance.MagicRangeColor);
     }
 
-    private void ShowMagicCircle()
-    {
-        _magicCircle.Show();
-        _magicCircle.SetCircleRange(_card.CardAsset.MagicRange);
-    }
+
 
     private void DealAOEDamage()
     {
@@ -66,14 +60,14 @@ public class DraggingMagicCard : DraggingActions
 
     private void ApplyEffect()
     {
-        IAffectable affectable;
+        BuffableEntity affectable;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
         foreach (var item in colliders)
         {
-            affectable = item.GetComponent<IAffectable>();
+            affectable = item.GetComponent<BuffableEntity>();
             if (affectable != null)
             {
-                affectable.Affect(_card.CardAsset.EffectList);
+                affectable.ApplyEffects(_card.CardAsset.BuffList);
             }
         }
     }
@@ -82,7 +76,6 @@ public class DraggingMagicCard : DraggingActions
     public override void UnsuccessfulDrag()
     {
         base.UnsuccessfulDrag();
-        _magicCircle.Hide();
-        
+        gameObject.HideCircle();
     }
 }
