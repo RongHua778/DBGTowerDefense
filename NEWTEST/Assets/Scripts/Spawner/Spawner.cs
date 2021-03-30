@@ -11,6 +11,10 @@ public enum SpawnModes
 public class Spawner : MonoBehaviour
 {
     [Header("Settings")]
+    [SerializeField] private EnemyFactory enemyFactory = default;
+    [SerializeField] private GameScenario scenario = default;
+    GameScenario.State activeScenario;
+
     [SerializeField] private SpawnModes spawnMode = SpawnModes.Fixed;
     [SerializeField] private int enemyCount = 10;
     [SerializeField] private float delayBtwWaves = 1f;
@@ -22,26 +26,34 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float minRandomDelay;
     [SerializeField] private float maxRandomDelay;
 
-    private WayPoint _waypoint;
+    //private WayPoint _waypoint;
 
     private float _spawnTimer;
     private int _enemiesSpawned;
     private int _enemiesRemaining;
+
+
+    private float _waveTimer;
+    [SerializeField]
+    private float _waveInterval = default;
     // Start is called before the first frame update
     void Start()
     {
-        _waypoint = GetComponent<WayPoint>();
+        //_waypoint = GetComponent<WayPoint>();
 
         _enemiesRemaining = enemyCount;
 
         GameEvents.Instance.onEnemyDie += RecordEnemy;
         GameEvents.Instance.onEnemyReach += RecordEnemy;
+        activeScenario = scenario.Begin();
     }
 
     // Update is called once per frame
     void Update()
     {
-        SpawnCounter();
+        activeScenario.Progress();
+        //SpawnCounter();
+        //WaveCounter();
     }
 
     private void SpawnCounter()
@@ -53,8 +65,18 @@ public class Spawner : MonoBehaviour
             if (_enemiesSpawned < enemyCount)
             {
                 _enemiesSpawned++;
-                SpawnEnemy();
+                //SpawnEnemy();
             }
+        }
+    }
+
+    private void WaveCounter()
+    {
+        _waveTimer -= Time.deltaTime;
+        if (_waveTimer < 0)
+        {
+            _waveTimer = _waveInterval;
+            StartCoroutine(NextWave());
         }
     }
 
@@ -77,20 +99,13 @@ public class Spawner : MonoBehaviour
         return randomTimer;
     }
 
-    private void SpawnEnemy()
-    {
-        GameObject newInstance = ObjectPool.Instance.Spawn("Enemy/Enemy_Red");
-        Enemy enemy = newInstance.GetComponent<Enemy>();
-        enemy.WayPoint = _waypoint;
-        enemy.transform.localPosition = _waypoint.GetWaypointPosition(0);
-    }
 
     private void RecordEnemy()
     {
         _enemiesRemaining--;
         if (_enemiesRemaining <= 0)
         {
-            StartCoroutine(NextWave());
+            //StartCoroutine(NextWave());
         }
     }
 

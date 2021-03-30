@@ -232,8 +232,6 @@ public abstract class Turret : ReusableObject
         HideRange();
     }
 
-    // Update is called once per frame
-
     public override void OnSpawn()
     {
         TurretLanded = false;

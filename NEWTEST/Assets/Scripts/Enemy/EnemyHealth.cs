@@ -7,8 +7,8 @@ public class EnemyHealth : MonoBehaviour,IDamageable
 {
 
     [SerializeField] private Image _healthBar;
-    [SerializeField] private float _initialHealth = 10f;
-    [SerializeField] private float _maxHealth = 10f;
+    public float _initialHealth = default;
+    [SerializeField] private float _maxHealth = default;
 
     private bool isDie = false;
     public bool IsDie { get => isDie; set => isDie = value; }

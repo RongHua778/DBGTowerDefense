@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,50 +6,52 @@ using UnityEngine;
 public abstract class Enemy : ReusableObject
 {
     [HideInInspector] public WayPoint WayPoint;
-    [SerializeField] protected float _initSpeed = 3f;
-    [SerializeField] protected float _moveSpeed;
-    public bool SlowDown = false;
+    [SerializeField] protected float _initSpeed = default;
+    [SerializeField] protected float _moveSpeed = default;
+    protected Vector3 _lastPointPosition;
+    protected SpriteRenderer _spriteRenderer;
+    protected const float _reachAccuracy = .1f;
+    protected EnemyHealth _enemyHealth;
+    protected int _currentWayPointIndex;
+    public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
+
     public float MoveSpeed
     {
         get { return _moveSpeed * (SlowDown ? StaticData.Instance.SlowDownRate : 1); }
         set => _moveSpeed = value;
     }
 
-    protected int _currentWayPointIndex;
-    public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
-
-    protected Vector3 _lastPointPosition;
-    protected SpriteRenderer _spriteRenderer;
-    protected const float _reachAccuracy = .1f;
-    protected EnemyHealth _enemyHealth;
     public bool IsDie { get { return _enemyHealth.IsDie; } }
 
+    [Header("Debuff")]
+    public bool SlowDown = false;//ÊÇ·ñ±»¼õËÙBUFF
 
-    void Awake()
+    public void InitSetUp(float speed,float health)
     {
         _enemyHealth = GetComponent<EnemyHealth>();
-        InitSetUp();
-        Debug.Assert(gameObject.layer == 9, "Target point on wrong layer", this);
+
+        _initSpeed = speed;
+        _enemyHealth._initialHealth = health;
+        _enemyHealth.MaxHealth = health;
+        ResetEnemy();
     }
 
-    protected void InitSetUp()
+    protected void ResetEnemy()
     {
         _enemyHealth.IsDie = false;
+
         MoveSpeed = _initSpeed;
         _currentWayPointIndex = 0;
         _lastPointPosition = transform.position;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _enemyHealth.ResetHealth();
         GetComponent<Collider2D>().enabled = true;
+        Debug.Assert(gameObject.layer == 9, "Target point on wrong layer", this);
     }
 
     void Update()
     {
         Move();
-        if (CurrentPointPositionReach())
-        {
-            UpdateCurrentPointIndex();
-        }
     }
 
 
@@ -56,6 +59,10 @@ public abstract class Enemy : ReusableObject
     protected void Move()
     {
         transform.position = Vector3.MoveTowards(transform.position, CurrentPointPosition, MoveSpeed * Time.deltaTime);
+        if (CurrentPointPositionReach())
+        {
+            UpdateCurrentPointIndex();
+        }
     }
 
     protected bool CurrentPointPositionReach()
@@ -78,7 +85,8 @@ public abstract class Enemy : ReusableObject
         }
         else
         {
-            EndPointReach();
+            _currentWayPointIndex = 0;
+            //EndPointReach();
         }
     }
 
@@ -106,11 +114,12 @@ public abstract class Enemy : ReusableObject
 
     public override void OnSpawn()
     {
-        InitSetUp();
+        
     }
 
     public override void OnUnSpawn()
     {
+        ResetEnemy();
         GetComponent<Collider2D>().enabled = false;
         SlowDown = false;
     }

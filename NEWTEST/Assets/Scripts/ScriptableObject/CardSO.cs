@@ -38,7 +38,6 @@ public class MagicBuff
 
 }
 
-
 [CreateAssetMenu(fileName = "New Card", menuName = "DBGTD/CardSO")]
 public class CardSO : ScriptableObject
 {
