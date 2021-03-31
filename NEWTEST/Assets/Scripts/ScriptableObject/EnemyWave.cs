@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "New Wave", menuName = "DBGTD/WaveAsset")]
 public class EnemyWave : ScriptableObject
 {
     [SerializeField]

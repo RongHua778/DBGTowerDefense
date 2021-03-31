@@ -4,71 +4,53 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Projectile : ReusableObject
+public abstract class Projectile : ReusableObject
 {
-    [SerializeField] private ProjectileType _projectileType;
-    [SerializeField] private float _moveSpeed = 0f;
-    [SerializeField] private float _sputteringRange = 0f;
-    [SerializeField] private float _criticalRate = 0f;
-
-    private readonly float minDistanceToDealDamage = .1f;
-    [SerializeField] private float _damage;
+    public ProjectileType ProjectileType = default;
+    [SerializeField] protected float _moveSpeed = default;
+    [SerializeField] protected float _sputteringRange = default;
+    [SerializeField] protected float _criticalRate = default;
+    [SerializeField] protected float _damage = default;
     public float Damage { get => _damage; set => _damage = value; }
 
-    [SerializeField] private Enemy _enemyTarget;
-    [SerializeField] private Vector2 _targetGroundPos;
+    protected readonly float minDistanceToDealDamage = .1f;
 
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    protected Enemy _enemyTarget;
+    protected Vector2 _targetGroundPos;
+    protected SpriteRenderer _spriteRenderer;
+    protected Turret _turretOwner;
 
+    private void Awake()
+    {
+        _spriteRenderer = this.transform.Find("GFX").GetComponent<SpriteRenderer>();
+    }
     private void Update()
     {
         MoveProjectile();
         RotateProjectile();
     }
 
-    private void RotateProjectile()
+    protected virtual void RotateProjectile()
     {
-        switch (_projectileType)
-        {
-            case ProjectileType.Target:
-                if (_enemyTarget != null)
-                {
-                    RotateTowards(_enemyTarget.transform.position);
-                }
-                break;
-            case ProjectileType.Ground:
-                RotateTowards(_targetGroundPos);
-                break;
-        }
+        
     }
-    private void RotateTowards(Vector3 pos)
+    protected void RotateTowards(Vector3 pos)
     {
         Vector3 targetPos = pos - transform.position;
         float angle = Vector3.SignedAngle(transform.up, targetPos, transform.forward);
         transform.Rotate(0f, 0f, angle);
     }
 
-    private void MoveProjectile()
+    protected virtual void MoveProjectile()
     {
-        switch (_projectileType)
-        {
-            case ProjectileType.Target:
-                if (_enemyTarget != null)
-                {
-                    MoveTowards(_enemyTarget.transform.position);
-                }
-                break;
-            case ProjectileType.Ground:
-                MoveTowards(_targetGroundPos);
-                break;
-        }
+        
     }
 
-    private void MoveTowards(Vector2 targetPos)
+    protected void MoveTowards(Vector2 targetPos)
     {
         transform.position = Vector2.MoveTowards(transform.position,
             targetPos, _moveSpeed * Time.deltaTime);
-        float distanceToTarget = (targetPos - (Vector2)transform.position).magnitude;
+        float distanceToTarget = GetTargetDistance();
         if (distanceToTarget < minDistanceToDealDamage)
         {
             DealDamage();
@@ -78,37 +60,31 @@ public class Projectile : ReusableObject
 
 
 
-    private void DealDamage()
+    protected virtual void DealDamage()
     {
-        IDamageable idamage;
-        switch (_projectileType)
-        {
-            case ProjectileType.Target:
-                idamage = _enemyTarget.GetComponent<IDamageable>();
-                if (idamage != null)
-                {
-                    idamage.TakeDamage(Damage);
-                }
-                break;
-            case ProjectileType.Ground:
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _sputteringRange);
-                foreach (var item in colliders)
-                {
-                    idamage = item.GetComponent<IDamageable>();
-                    if (idamage != null)
-                    {
-                        idamage.TakeDamage(Damage);
-                    }
-                }
-                break;
-            case ProjectileType.Fly:
-                break;
-        }
-        ObjectPool.Instance.UnSpawn(this.gameObject);
+       
     }
-    public void SetProjectile(Enemy enemy,Turret turret)
+
+    protected void TriggerShootEffect()
     {
-        _projectileType = turret._cardAsset.ProjectileType;
+        foreach (var effect in _turretOwner.attackEffects)
+        {
+            if (effect.AttackEffectTiming == AttackEffectTiming.Shoot)
+                effect.Affect(this, _turretOwner);
+        }
+    }
+    protected void TriggerDamageEffect(object receiver)
+    {
+        foreach (var effect in _turretOwner.attackEffects)
+        {
+            if (effect.AttackEffectTiming == AttackEffectTiming.Damage)
+                effect.Affect(receiver, _turretOwner);
+        }
+    }
+    public void SetProjectile(Enemy enemy, Turret turret)
+    {
+        _turretOwner = turret;
+        ProjectileType = turret._cardAsset.ProjectileType;
         _enemyTarget = enemy;
         _targetGroundPos = enemy.transform.position;
         _spriteRenderer.sprite = turret._cardAsset.ProjectileSprite;
@@ -116,16 +92,22 @@ public class Projectile : ReusableObject
         _moveSpeed = turret._cardAsset.ProjectileSpeed;
         _criticalRate = turret._cardAsset.CriticalRate;
         _sputteringRange = turret._cardAsset.SputteringRange;
+        TriggerShootEffect();
 
+    }
+
+    public virtual float GetTargetDistance()
+    {
+        return 0;
     }
 
     public override void OnSpawn()
     {
-       
+
     }
 
     public override void OnUnSpawn()
     {
-        
+
     }
 }

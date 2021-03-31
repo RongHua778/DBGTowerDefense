@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6049666102749421875}
-  - component: {fileID: 8877266686819046768}
+  - component: {fileID: 8928547858214217185}
   m_Layer: 0
-  m_Name: BasicProjectile
+  m_Name: GroundProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8877266686819046768
+--- !u!114 &8928547858214217185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,17 +41,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2529153047708045323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ad8aee42f50ca8488c2af953962c736, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bd60ae98905a0a498a811eb2daddea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectileType: 0
+  ProjectileType: 1
   _moveSpeed: 0
   _sputteringRange: 0
   _criticalRate: 0
   _damage: 0
-  _enemyTarget: {fileID: 0}
-  _targetGroundPos: {x: 0, y: 0}
-  _spriteRenderer: {fileID: 195274974322712594}
 --- !u!1 &5388451381575430627
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +60,7 @@ GameObject:
   - component: {fileID: 3884397247362701891}
   - component: {fileID: 195274974322712594}
   m_Layer: 0
-  m_Name: Projectile_GFX
+  m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

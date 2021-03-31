@@ -11,7 +11,6 @@ public enum SpawnModes
 public class Spawner : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private EnemyFactory enemyFactory = default;
     [SerializeField] private GameScenario scenario = default;
     GameScenario.State activeScenario;
 

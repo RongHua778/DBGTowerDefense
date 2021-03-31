@@ -100,6 +100,9 @@ public abstract class Turret : ReusableObject
     [SerializeField] private float _speedIntensify = 0f;
     [SerializeField] private float _rangeIntensify = 0f;
 
+    [Header("AttackEffect")]
+    public List<AttackEffect> attackEffects = new List<AttackEffect>();
+
     public float AttackIntensify { get => _attackIntensify; set => _attackIntensify = value; }
     public float SpeedIntensify { get => _speedIntensify; set => _speedIntensify = value; }
     public float RangeIntensify { get => _rangeIntensify; set => _rangeIntensify = value; }
@@ -194,8 +197,7 @@ public abstract class Turret : ReusableObject
         {
             if (CurrentEnemyTarget != null)
             {
-                Vector3 dirToTarget = CurrentEnemyTarget.transform.position - transform.position;
-                GameObject newProjectile = ObjectPool.Instance.Spawn(_projectile);
+                Projectile newProjectile = LevelManager.Instance.SpawnProjectile(_cardAsset.ProjectileType);
                 newProjectile.transform.position = _projectileSpawnPos.transform.position;
                 newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget, this);
             }
@@ -212,6 +214,12 @@ public abstract class Turret : ReusableObject
     {
         _cardAsset = cardSO;
         _projectile = Resources.Load<GameObject>("Prefabs/Projectile/BasicProjectile");
+        ReadBasicAttribute();
+        ReadTurretEffects();
+    }
+
+    private void ReadBasicAttribute()
+    {
         AttackDamage = _cardAsset.Damage;
         AttackRange = _cardAsset.Range;
         AttackSpeed = _cardAsset.Speed;
@@ -219,6 +227,17 @@ public abstract class Turret : ReusableObject
         MaxPersistTime = _cardAsset.PersistTime;
         CriticalRate = _cardAsset.CriticalRate;
         ProjectileSpeed = _cardAsset.ProjectileSpeed;
+    }
+
+    private void ReadTurretEffects()
+    {
+        //attackeffect
+        foreach (var attackEffect in _cardAsset.AttackEffectBuffList)
+        {
+            AttackEffect effect = AttackEffectFactory.GetEffect(attackEffect.AttackEffectType);
+            effect.KeyValue = attackEffect.Value;
+            attackEffects.Add(effect);
+        }
     }
 
 
@@ -249,6 +268,7 @@ public abstract class Turret : ReusableObject
         SpeedIntensify = 0;
         HideRange();
         _effectableEntity.ClearEffects();
+        attackEffects.Clear();
     }
 
 

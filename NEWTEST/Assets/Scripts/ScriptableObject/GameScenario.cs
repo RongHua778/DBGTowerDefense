@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "New GameScenario", menuName = "DBGTD/WaveAsset")]
 public class GameScenario : ScriptableObject
 {
     [SerializeField]

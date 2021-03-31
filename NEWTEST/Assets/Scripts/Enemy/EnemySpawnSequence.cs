@@ -6,9 +6,6 @@ using UnityEngine;
 public class EnemySpawnSequence
 {
     [SerializeField]
-    EnemyFactory factory = default;
-
-    [SerializeField]
     EnemyType type = EnemyType.normal;
 
     [SerializeField, Range(1, 100)]
@@ -44,7 +41,7 @@ public class EnemySpawnSequence
                     return cooldown;
                 }
                 count += 1;
-                LevelManager.Instance.SpawnEnemy(sequence.factory, sequence.type);
+                LevelManager.Instance.SpawnEnemy(sequence.type);
             }
             return -1f;
         }

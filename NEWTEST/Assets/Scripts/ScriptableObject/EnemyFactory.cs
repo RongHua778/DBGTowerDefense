@@ -6,7 +6,7 @@ public enum EnemyType
 {
     easy, normal, hard
 }
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "New EnemyFactory", menuName = "DBGTD/Factory")]
 public class EnemyFactory : ScriptableObject
 {
     [System.Serializable]

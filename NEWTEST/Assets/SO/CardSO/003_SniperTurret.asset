@@ -28,6 +28,9 @@ MonoBehaviour:
   ProjectileSprite: {fileID: 21300000, guid: ee2e2cded0c6786438ed4e598f236b00, type: 3}
   SputteringRange: 0
   ProjectileSpeed: 10
+  AttackEffectBuffList:
+  - AttackEffectType: 0
+    Value: 0.5
   MagicType: 0
   MagicDamage: 0
   MagicRange: 0

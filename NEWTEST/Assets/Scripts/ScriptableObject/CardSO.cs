@@ -35,8 +35,15 @@ public class MagicBuff
     public EffectType EffectType;
     public int Stacks;
     public float Duration;
-
 }
+
+[System.Serializable]
+public class AttackEffectBuff
+{
+    public AttackEffectType AttackEffectType;
+    public float Value;
+}
+
 
 [CreateAssetMenu(fileName = "New Card", menuName = "DBGTD/CardSO")]
 public class CardSO : ScriptableObject
@@ -60,6 +67,7 @@ public class CardSO : ScriptableObject
     public Sprite ProjectileSprite;
     public float SputteringRange;
     public float ProjectileSpeed;
+    public List<AttackEffectBuff> AttackEffectBuffList;
 
     [Header("MagicCard Info")]
     public MagicType MagicType;
