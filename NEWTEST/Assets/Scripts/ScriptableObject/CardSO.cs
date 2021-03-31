@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public enum CardType
 {
     Tower,
-    Magic
+    Magic,
+    NoTargetMagic
 }
 
 public enum ProjectileType
@@ -13,12 +14,6 @@ public enum ProjectileType
     Target,
     Ground,
     Fly
-}
-
-public enum MagicType
-{
-    Target,
-    NoTarget
 }
 
 public enum EffectType
@@ -29,8 +24,13 @@ public enum EffectType
     SlowDown
 }
 
+public enum NoTargetEffectType
+{
+    Overload
+}
+
 [System.Serializable]
-public class MagicBuff
+public class TargetEffectConfig
 {
     public EffectType EffectType;
     public int Stacks;
@@ -38,10 +38,18 @@ public class MagicBuff
 }
 
 [System.Serializable]
-public class AttackEffectBuff
+public class AttackEffectConfig
 {
     public AttackEffectType AttackEffectType;
     public float Value;
+}
+
+[System.Serializable]
+public class NoTargetEffectConfig
+{
+    public NoTargetEffectType NoTargetEffectType;
+    public float Duration;
+    public float KeyValue;
 }
 
 
@@ -67,16 +75,15 @@ public class CardSO : ScriptableObject
     public Sprite ProjectileSprite;
     public float SputteringRange;
     public float ProjectileSpeed;
-    public List<AttackEffectBuff> AttackEffectBuffList;
+    public List<AttackEffectConfig> AttackEffectBuffList;
 
     [Header("MagicCard Info")]
-    public MagicType MagicType;
     public float MagicDamage;
     public float MagicRange;
-    public List<MagicBuff> BuffList;
+    public List<TargetEffectConfig> TargetEffectList;
 
-    [Header("FunctionCard Info")]
-    public float Temp;
+    [Header("NoTargetMagicCard Info")]
+    public List<NoTargetEffectConfig> NoTargetEffectList;
 
     //public CardSO CreateNewInstance()
     //{

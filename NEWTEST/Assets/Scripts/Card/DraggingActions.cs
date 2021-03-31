@@ -11,7 +11,6 @@ public abstract class DraggingActions : MonoBehaviour
     private float zDisplacement;
     protected Cell endCell;
     protected bool endDragSuccessful = false;
-
     protected Camera _mainCam;
 
     protected Card _card;
@@ -49,19 +48,16 @@ public abstract class DraggingActions : MonoBehaviour
     public virtual void OnEndDrag()
     {
         StaticData.Instance.GameSpeedResume();
-        if (!WheatherEndAtCell(out endCell))
-        {
-            UnsuccessfulDrag();
-        }
-        else
-        {
-            endDragSuccessful = true;
-        }
     }
 
     public virtual void OnDraggingInUpdate()
     {
         StaticData.Instance.GameSlowDown();
+        WheatherEndAtCell(out endCell);
+        if (endCell == null)
+            _card.ShowCard();
+        else
+            _card.HideCard();
     }
 
 
@@ -121,14 +117,12 @@ public abstract class DraggingActions : MonoBehaviour
     protected Vector3 MouseInWorldCoords()
     {
         var screenMousePos = Input.mousePosition;
-        //screenMousePos.z = zDisplacement;
         return _mainCam.ScreenToWorldPoint(screenMousePos);
     }
 
     protected bool WheatherEndAtCell(out Cell inCell)
     {
         inCell = null;
-
         RaycastHit2D hit;
         hit = Physics2D.Raycast(MouseInWorldCoords(), Vector3.forward, Mathf.Infinity, GridLayer);
         if (hit.collider == null)

@@ -10,19 +10,24 @@ public class DraggingTowerCard : DraggingActions
     public override void OnDraggingInUpdate()
     {
         base.OnDraggingInUpdate();
-        if (GhostTurret != null)
+        if (GhostTurret == null)
+            return;
+        if (endCell!=null)
         {
-            GhostTurret.transform.position = transform.position;
+            GhostTurret.SetActive(true);
+            GhostTurret.transform.position = endCell.GetPosofCell();
             GhostTurret.GetComponent<Turret>().ShowRange();
+        }
+        else
+        {
+            GhostTurret.SetActive(false);
         }
     }
 
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        if (!endDragSuccessful)
-            return;
-        if (endCell.IsRoad)
+        if (endCell == null|| endCell.IsRoad)
         {
             UnsuccessfulDrag();
             return;

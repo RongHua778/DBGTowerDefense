@@ -5,9 +5,9 @@ using System;
 using System.Linq;
 
 
-public class BuffableEntity : MonoBehaviour
+public class TargetEffectableEntity : MonoBehaviour
 {
-    public Dictionary<EffectType, Buff> _effects = new Dictionary<EffectType, Buff>();
+    public Dictionary<EffectType, TargetEffect> _effects = new Dictionary<EffectType, TargetEffect>();
     public BuffTargetType BuffTargetType;
     // Update is called once per frame
     void Update()
@@ -22,11 +22,11 @@ public class BuffableEntity : MonoBehaviour
         }
     }
 
-    public void AddBuff(Buff effect, int stacks, float duration)
+    public void AddBuff(TargetEffect effect, int stacks, float duration)
     {
         if (_effects.ContainsKey(effect.EffectType))
         {
-            Buff effectItem = _effects[effect.EffectType];
+            TargetEffect effectItem = _effects[effect.EffectType];
 
             if (effect.IsStackable)
             {
@@ -47,11 +47,11 @@ public class BuffableEntity : MonoBehaviour
         }
     }
 
-    public void ApplyEffects(IEnumerable<MagicBuff> effectList)
+    public void ApplyEffects(IEnumerable<TargetEffectConfig> effectList)
     {
         foreach (var effectItem in effectList)
         {
-            Buff effect = BuffFactory.GetEffect(effectItem.EffectType);
+            TargetEffect effect = TargetEffectFactory.GetEffect(effectItem.EffectType);
             if (effect.BuffTargetType != this.BuffTargetType)
                 return;
             AddBuff(effect, effectItem.Stacks, effectItem.Duration);

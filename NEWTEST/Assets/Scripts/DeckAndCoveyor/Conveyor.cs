@@ -6,10 +6,8 @@ public class Conveyor : MonoBehaviour
 {
     private Deck _deck;
     private float _spawnTimer;
-
-    [Header("Conveyor Setting")]
-    [SerializeField] private float _nodeMoveSpeed = 1f;
-    [SerializeField] private float _spawnNodeInterval = 1f;
+    public float NodeSpeed => StaticData.Instance.NodeSpeed;
+    public float NodeSpawnInterval => StaticData.Instance.NodeSpawnInterval;
 
     [SerializeField] Transform _spawnPos;
     [SerializeField] Transform _unSpawnPos;
@@ -18,6 +16,7 @@ public class Conveyor : MonoBehaviour
     [SerializeField] private GameObject _nodePrefab;
     [SerializeField] private GameObject _turretCardPrefab;
     [SerializeField] private GameObject _magicCardPrefab;
+    [SerializeField] private GameObject _noTargetMagicCardPrefab;
 
     private void Awake()
     {
@@ -34,7 +33,7 @@ public class Conveyor : MonoBehaviour
         {
             cardObj = SpawnCard(nodeObj);
         }
-        node.SetNode(_unSpawnPos.position, _nodeMoveSpeed, cardObj);
+        node.SetNode(_unSpawnPos.position, NodeSpeed, cardObj);
     }
 
     private GameObject SpawnCard(GameObject nodeObj)
@@ -49,6 +48,9 @@ public class Conveyor : MonoBehaviour
             case CardType.Magic:
                 cardObj = ObjectPool.Instance.Spawn(_magicCardPrefab);
                 break;
+            case CardType.NoTargetMagic:
+                cardObj = ObjectPool.Instance.Spawn(_noTargetMagicCardPrefab);
+                break;
         }
         cardObj.transform.position = nodeObj.transform.position;
         Card card = cardObj.GetComponent<Card>();
@@ -61,7 +63,7 @@ public class Conveyor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - _spawnTimer >= _spawnNodeInterval)
+        if (Time.time - _spawnTimer >= NodeSpawnInterval)
         {
             SpawnNode();
             _spawnTimer = Time.time;

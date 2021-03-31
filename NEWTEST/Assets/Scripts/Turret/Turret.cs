@@ -22,7 +22,7 @@ public abstract class Turret : ReusableObject
     [SerializeField] protected Transform _projectileSpawnPos;
     [SerializeField] protected GameObject _persistCanvas;
     [SerializeField] protected Image _persistProgress;
-    [SerializeField] protected BuffableEntity _effectableEntity;
+    [SerializeField] protected TargetEffectableEntity _effectableEntity;
 
     protected bool _turretLanded = false;
     public bool TurretLanded

@@ -7,7 +7,7 @@ public enum BuffTargetType
     Turret,
     Enemy
 }
-public abstract class Buff
+public abstract class TargetEffect
 {
     public abstract EffectType EffectType { get; }
     public abstract BuffTargetType BuffTargetType { get; }
@@ -33,7 +33,7 @@ public abstract class Buff
     public abstract void End();
 }
 
-public class Strength : Buff
+public class Strength : TargetEffect
 {
     public override EffectType EffectType { get { return EffectType.Strength; } }
     public override BuffTargetType BuffTargetType => BuffTargetType.Turret;
@@ -55,7 +55,7 @@ public class Strength : Buff
     }
 }
 
-public class SpeedUp : Buff
+public class SpeedUp : TargetEffect
 {
     public override EffectType EffectType { get { return EffectType.SpeedUp; } }
     public override BuffTargetType BuffTargetType => BuffTargetType.Turret;
@@ -77,7 +77,7 @@ public class SpeedUp : Buff
     }
 }
 
-public class LongSighted : Buff
+public class LongSighted : TargetEffect
 {
     public override EffectType EffectType { get { return EffectType.LongSighted; } }
     public override BuffTargetType BuffTargetType => BuffTargetType.Turret;
@@ -99,7 +99,7 @@ public class LongSighted : Buff
     }
 }
 
-public class SlowDown : Buff
+public class SlowDown : TargetEffect
 {
     public override EffectType EffectType { get { return EffectType.SlowDown; } }
     public override BuffTargetType BuffTargetType => BuffTargetType.Enemy;

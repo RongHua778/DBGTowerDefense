@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class StaticData : Singleton<StaticData>
 {
-    public float MaxPersistime = 10;
-    public int BasicIncome = 1;
-    public float BasicIncomeInterval = 2f;
+    [Header("LevelSetting")]
+    public float MaxPersistime = default;
+    public int BasicIncome = default;
+    public float BasicIncomeInterval = default;
+    public float NodeSpeed = default;
+    public float NodeSpawnInterval = default;
+    public GameObject NoTargetEffect = default;
 
-    public float GameSlowDownRate = 0.5f;
+    [Header("GameSetting")]
+    public float GameSlowDownRate = default;
 
     [Header("BuffValue")]
     public float SlowDownRate = default;
-
     public Color TowerRangeColor;
     public Color MagicRangeColor;
 

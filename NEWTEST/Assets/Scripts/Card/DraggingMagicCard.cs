@@ -13,25 +13,24 @@ public class DraggingMagicCard : DraggingActions
     public override void OnDraggingInUpdate()
     {
         base.OnDraggingInUpdate();
+        if (endCell == null)
+            HideMagicCircle();
+        else
+            DrawMagicCicle();
     }
 
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        if (!endDragSuccessful)
-            return;
-        //deal damage
-        switch (_card.CardAsset.MagicType)
+        if (endCell == null)
         {
-            case MagicType.Target:
-                if (_card.CardAsset.MagicDamage > 0)
-                    DealAOEDamage();
-                if (_card.CardAsset.BuffList.Count > 0)
-                    ApplyEffect();
-                break;
-            case MagicType.NoTarget:
-                break;
+            UnsuccessfulDrag();
+            return;
         }
+        if (_card.CardAsset.MagicDamage > 0)
+            DealAOEDamage();
+        if (_card.CardAsset.TargetEffectList.Count > 0)
+            ApplyEffect();
         gameObject.HideCircle();
         _card.HideCard();
     }
@@ -39,9 +38,17 @@ public class DraggingMagicCard : DraggingActions
     public override void OnStartDrag()
     {
         base.OnStartDrag();
-        gameObject.DrawCircle(_card.CardAsset.MagicRange, 0.04f, StaticData.Instance.MagicRangeColor);
     }
 
+    private void DrawMagicCicle()
+    {
+        gameObject.DrawCircle(_card.CardAsset.MagicRange, 0.04f, StaticData.Instance.MagicRangeColor);
+
+    }
+    private void HideMagicCircle()
+    {
+        gameObject.HideCircle();
+    }
 
 
     private void DealAOEDamage()
@@ -60,14 +67,14 @@ public class DraggingMagicCard : DraggingActions
 
     private void ApplyEffect()
     {
-        BuffableEntity affectable;
+        TargetEffectableEntity affectable;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
         foreach (var item in colliders)
         {
-            affectable = item.GetComponent<BuffableEntity>();
+            affectable = item.GetComponent<TargetEffectableEntity>();
             if (affectable != null)
             {
-                affectable.ApplyEffects(_card.CardAsset.BuffList);
+                affectable.ApplyEffects(_card.CardAsset.TargetEffectList);
             }
         }
     }
@@ -76,6 +83,6 @@ public class DraggingMagicCard : DraggingActions
     public override void UnsuccessfulDrag()
     {
         base.UnsuccessfulDrag();
-        gameObject.HideCircle();
+        HideMagicCircle();
     }
 }

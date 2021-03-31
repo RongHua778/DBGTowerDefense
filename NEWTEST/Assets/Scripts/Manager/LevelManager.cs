@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -13,6 +14,9 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private WayPoint _wayPoint = default;
     [SerializeField] private ProjectileFactory _projectileFactory = default;
     [SerializeField] private EnemyFactory _enemyFactory = default;
+
+    public Dictionary<NoTargetEffectType, NoTargetEffect> _noTargetEffects = new Dictionary<NoTargetEffectType, NoTargetEffect>();
+
     private int _maxLive = 10;
     public int TotalLives
     {
@@ -36,8 +40,53 @@ public class LevelManager : Singleton<LevelManager>
     void Update()
     {
         activeScenario.Progress();
+        NoTargetEffectCounter();
     }
 
+    private void NoTargetEffectCounter()
+    {
+        foreach (var effect in _noTargetEffects.Values.ToList())
+        {
+            effect.Tick(Time.deltaTime);
+            if (effect.IsFinished)
+            {
+                _noTargetEffects.Remove(effect.NoTargetEffectType);
+            }
+        }
+    }
+
+    public void AddEffect(NoTargetEffect effect, float keyValue, float duration)
+    {
+        if (_noTargetEffects.ContainsKey(effect.NoTargetEffectType))
+        {
+            NoTargetEffect effectItem = _noTargetEffects[effect.NoTargetEffectType];
+            if (effect.IsStackable)
+            {
+
+            }
+            if (effectItem.Duration < duration)
+            {
+                effectItem.Duration = duration;
+            }
+            effectItem.Affect();
+        }
+        else
+        {
+            effect.Duration += duration;
+            effect.KeyValue = keyValue;
+            _noTargetEffects.Add(effect.NoTargetEffectType, effect);
+            effect.Affect();
+        }
+    }
+
+    public void ApplyNoTargetEffects(IEnumerable<NoTargetEffectConfig> effectList)
+    {
+        foreach (var effectItem in effectList)
+        {
+            NoTargetEffect effect = NoTargetEffectFactory.GetEffect(effectItem.NoTargetEffectType);
+            AddEffect(effect, effectItem.KeyValue, effectItem.Duration);
+        }
+    }
 
     public void SpawnEnemy(EnemyType type)
     {
