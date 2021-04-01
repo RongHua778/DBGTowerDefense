@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "New ProjectileFactory", menuName = "DBGTD/Factory")]
 public class ProjectileFactory : ScriptableObject
@@ -11,10 +12,8 @@ public class ProjectileFactory : ScriptableObject
 
     private bool IsInitialized => projectileDic != null;
 
-    private void Initialize()
+    public void Initialize()
     {
-        if (IsInitialized)
-            return;
         projectileDic = new Dictionary<ProjectileType, Projectile>();
         foreach(var projectile in ProjectilsPrefabs)
         {
@@ -24,7 +23,6 @@ public class ProjectileFactory : ScriptableObject
 
     public Projectile GetProjectile(ProjectileType type=ProjectileType.Target)
     {
-        Initialize();
         Projectile instance = ObjectPool.Instance.Spawn(projectileDic[type].gameObject).GetComponent<Projectile>();
         return instance;
     }

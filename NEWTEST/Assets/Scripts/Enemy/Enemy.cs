@@ -13,6 +13,7 @@ public abstract class Enemy : ReusableObject
     protected const float _reachAccuracy = .1f;
     protected EnemyHealth _enemyHealth;
     protected int _currentWayPointIndex;
+    public int CurrentWayPointIndex => _currentWayPointIndex;
     public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
 
     public float MoveSpeed
@@ -90,6 +91,11 @@ public abstract class Enemy : ReusableObject
         }
     }
 
+    public float GetDistanceToNextPoint()
+    {
+        float distance = ((Vector2)transform.position - (Vector2)CurrentPointPosition).magnitude;
+        return distance;
+    }
     protected void EndPointReach()
     {
         GameEvents.Instance.EnemyReach();

@@ -27,10 +27,8 @@ public class DraggingMagicCard : DraggingActions
             UnsuccessfulDrag();
             return;
         }
-        if (_card.CardAsset.MagicDamage > 0)
-            DealAOEDamage();
-        if (_card.CardAsset.TargetEffectList.Count > 0)
-            ApplyEffect();
+        if (_card.CardAsset.MagicDamage > 0||_card.CardAsset.TurretBuffList.Count > 0 || _card.CardAsset.EnemyBuffList.Count > 0)
+            DealDamageOrEffect();
         gameObject.HideCircle();
         _card.HideCard();
     }
@@ -51,30 +49,45 @@ public class DraggingMagicCard : DraggingActions
     }
 
 
-    private void DealAOEDamage()
+    private void DealDamageOrEffect()
     {
-        IDamageable idamage;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
         foreach (var item in colliders)
         {
-            idamage = item.GetComponent<IDamageable>();
+            IDamageable idamage = item.GetComponent<IDamageable>();
             if (idamage != null)
             {
                 idamage.TakeDamage(_card.CardAsset.MagicDamage);
             }
+            BuffableEnemy affectable = item.GetComponent<BuffableEnemy>();
+            if (affectable != null)
+            {
+                affectable.ApplyEffects(_card.CardAsset.EnemyBuffList);
+            }
+            BuffableTurret affectable2 = item.GetComponent<BuffableTurret>();
+            if (affectable2 != null)
+            {
+                affectable2.ApplyEffects(_card.CardAsset.TurretBuffList);
+            }
+
         }
     }
 
     private void ApplyEffect()
     {
-        TargetEffectableEntity affectable;
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
         foreach (var item in colliders)
         {
-            affectable = item.GetComponent<TargetEffectableEntity>();
+            BuffableEnemy affectable = item.GetComponent<BuffableEnemy>();
             if (affectable != null)
             {
-                affectable.ApplyEffects(_card.CardAsset.TargetEffectList);
+                affectable.ApplyEffects(_card.CardAsset.EnemyBuffList);
+            }
+            BuffableTurret affectable2 = item.GetComponent<BuffableTurret>();
+            if (affectable2 != null)
+            {
+                affectable2.ApplyEffects(_card.CardAsset.TurretBuffList);
             }
         }
     }

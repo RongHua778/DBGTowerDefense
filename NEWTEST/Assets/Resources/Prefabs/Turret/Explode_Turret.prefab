@@ -375,8 +375,8 @@ GameObject:
   - component: {fileID: 8005339885002978380}
   - component: {fileID: 8005339885002978381}
   - component: {fileID: 8005339885002978378}
-  - component: {fileID: 1020416985579508633}
   - component: {fileID: 7592890341802534915}
+  - component: {fileID: 6915859984882986581}
   m_Layer: 0
   m_Name: Explode_Turret
   m_TagString: Untagged
@@ -416,13 +416,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemies: []
   _cardAsset: {fileID: 0}
-  _rotSpeed: 5
   _rotTrans: {fileID: 8005339885030405820}
   _projectileSpawnPos: {fileID: 8005339886081336497}
   _persistCanvas: {fileID: 2322992484156440757}
-  _attackCollider: {fileID: 8118115347706010517}
   _persistProgress: {fileID: 1389900109994511448}
-  _effectableEntity: {fileID: 1020416985579508633}
+  _effectableEntity: {fileID: 0}
   _attackRange: 3
   _attackDamage: 2
   _attackSpeed: 1
@@ -449,19 +447,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &1020416985579508633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8005339885002978379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea1028d6069afa4d879e65035938048, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BuffTargetType: 0
 --- !u!120 &7592890341802534915
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -560,6 +545,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &6915859984882986581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8005339885002978379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c320741381a82664b893292d77ca22de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8005339885030405821
 GameObject:
   m_ObjectHideFlags: 0

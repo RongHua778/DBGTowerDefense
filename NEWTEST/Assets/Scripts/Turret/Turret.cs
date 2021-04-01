@@ -8,7 +8,7 @@ using System;
 public abstract class Turret : ReusableObject
 {
     [Header("SupportField")]
-    static Collider2D[] targetsBuffer = new Collider2D[1];
+    static Collider2D[] targetsBuffer = new Collider2D[50];
     protected GameObject _projectile;
     protected Cell _landedCell;
     public Enemy CurrentEnemyTarget { get; set; }
@@ -16,13 +16,16 @@ public abstract class Turret : ReusableObject
     public const int enemyLayerMask = 1 << 9;
     private float nextAttackTime;
     public CardSO _cardAsset;
+    public bool _ShootFirst = true;
     protected float _rotSpeed = 15f;
+
 
     [SerializeField] protected Transform _rotTrans;
     [SerializeField] protected Transform _projectileSpawnPos;
     [SerializeField] protected GameObject _persistCanvas;
     [SerializeField] protected Image _persistProgress;
-    [SerializeField] protected TargetEffectableEntity _effectableEntity;
+
+    protected BuffableTurret _effectableEntity;
 
     protected bool _turretLanded = false;
     public bool TurretLanded
@@ -107,6 +110,11 @@ public abstract class Turret : ReusableObject
     public float SpeedIntensify { get => _speedIntensify; set => _speedIntensify = value; }
     public float RangeIntensify { get => _rangeIntensify; set => _rangeIntensify = value; }
 
+
+    private void Start()
+    {
+        _effectableEntity = this.GetComponent<BuffableTurret>();
+    }
     protected void Update()
     {
         if (!TurretLanded)
@@ -150,8 +158,32 @@ public abstract class Turret : ReusableObject
         int hits = Physics2D.OverlapCircleNonAlloc(transform.position, AttackRange, targetsBuffer, enemyLayerMask);
         if (hits > 0)
         {
-            CurrentEnemyTarget = targetsBuffer[0].GetComponent<Enemy>();
-            return true;
+            if (_ShootFirst)//攻击第一个敌人
+            {
+                int maxIndex = -1;
+                for (int i = 0; i < hits; i++)
+                {
+                    Enemy enemy = targetsBuffer[i].GetComponent<Enemy>();
+                    if (enemy.CurrentWayPointIndex > maxIndex)
+                    {
+                        maxIndex = enemy.CurrentWayPointIndex;
+                        CurrentEnemyTarget = enemy;
+                    }
+                    else if (enemy.CurrentWayPointIndex == maxIndex)
+                    {
+                        if (enemy.GetDistanceToNextPoint() < CurrentEnemyTarget.GetDistanceToNextPoint())
+                            CurrentEnemyTarget = enemy;
+
+                    }
+                }
+                return true;
+            }
+            else
+            {
+
+                CurrentEnemyTarget = targetsBuffer[UnityEngine.Random.Range(0, hits)].GetComponent<Enemy>();
+                return true;
+            }
         }
 
         CurrentEnemyTarget = null;

@@ -30,11 +30,11 @@ MonoBehaviour:
   AttackEffectBuffList: []
   MagicDamage: 5
   MagicRange: 1
-  TargetEffectList:
-  - EffectType: 3
+  TurretBuffList: []
+  EnemyBuffList:
+  - EffectType: 0
+    Stackable: 0
     Stacks: 0
-    Duration: 3
-  NoTargetEffectBuffList:
-  - NoTargetEffectType: 0
+    IsInfinity: 0
     Duration: 5
-    KeyValue: 1
+  NoTargetEffectList: []

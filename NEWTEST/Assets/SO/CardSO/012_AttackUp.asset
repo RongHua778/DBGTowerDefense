@@ -27,17 +27,14 @@ MonoBehaviour:
   ProjectileSprite: {fileID: 0}
   SputteringRange: 0
   ProjectileSpeed: 0
-  MagicType: 0
+  AttackEffectBuffList: []
   MagicDamage: 0
   MagicRange: 1
-  BuffList:
+  TurretBuffList:
   - EffectType: 0
+    Stackable: 1
     Stacks: 1
-    Duration: 5
-  - EffectType: 1
-    Stacks: 1
-    Duration: 5
-  - EffectType: 2
-    Stacks: 1
-    Duration: 5
-  Temp: 0
+    IsInfinity: 1
+    Duration: 0
+  EnemyBuffList: []
+  NoTargetEffectList: []

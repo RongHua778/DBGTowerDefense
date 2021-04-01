@@ -22,7 +22,8 @@ public class DraggingNoTargetMagicCard : DraggingActions
     {
         base.OnEndDrag();
         StaticData.Instance.NoTargetEffect.SetActive(false);
-        LevelManager.Instance.ApplyNoTargetEffects(_card.CardAsset.NoTargetEffectList);
+        if (endCell != null)
+            LevelManager.Instance.ApplyNoTargetEffects(_card.CardAsset.NoTargetEffectList);
     }
 
     public override void OnStartDrag()

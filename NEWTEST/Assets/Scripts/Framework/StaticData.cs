@@ -7,6 +7,7 @@ public class StaticData : Singleton<StaticData>
 {
     [Header("LevelSetting")]
     public float MaxPersistime = default;
+    public int StartMoney = default;
     public int BasicIncome = default;
     public float BasicIncomeInterval = default;
     public float NodeSpeed = default;
@@ -20,6 +21,7 @@ public class StaticData : Singleton<StaticData>
     public float SlowDownRate = default;
     public Color TowerRangeColor;
     public Color MagicRangeColor;
+
 
     public void GameSlowDown()
     {

@@ -8,10 +8,12 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     [Header("Settings")]
-    [SerializeField] private GameScenario scenario = default;
-    GameScenario.State activeScenario;
     [SerializeField] private int lives = 10;
     [SerializeField] private WayPoint _wayPoint = default;
+
+    [Header("Factories")]
+    [SerializeField] private GameScenario scenario = default;
+    GameScenario.State activeScenario;
     [SerializeField] private ProjectileFactory _projectileFactory = default;
     [SerializeField] private EnemyFactory _enemyFactory = default;
 
@@ -34,6 +36,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
+        _projectileFactory.Initialize();
         activeScenario = scenario.Begin();
     }
 

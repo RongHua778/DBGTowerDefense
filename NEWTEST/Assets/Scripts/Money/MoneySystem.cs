@@ -6,19 +6,20 @@ public class MoneySystem : MonoBehaviour
 {
     private float _incomeTimer;
 
-    private int _startMoney;
     private static int _currentMoney;
-    public static int CurrentMoney { get => _currentMoney; 
-        set 
+    public static int CurrentMoney
+    {
+        get => _currentMoney;
+        set
         {
             _currentMoney = value;
-            LevelUIManager.Instance.UpdateMoneyTxt(value); 
-        } 
+            LevelUIManager.Instance.UpdateMoneyTxt(value);
+        }
     }
 
     private void Start()
     {
-        CurrentMoney = _startMoney;
+        CurrentMoney = StaticData.Instance.StartMoney;
     }
 
     public static void ReduceMoney(int amount)

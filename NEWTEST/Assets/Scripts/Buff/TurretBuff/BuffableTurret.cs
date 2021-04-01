@@ -4,11 +4,15 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-
-public class TargetEffectableEntity : MonoBehaviour
+public class BuffableTurret : BuffableEntity
 {
-    public Dictionary<EffectType, TargetEffect> _effects = new Dictionary<EffectType, TargetEffect>();
-    public BuffTargetType BuffTargetType;
+    public Dictionary<TurretBuffType, TurretBuff> _effects = new Dictionary<TurretBuffType, TurretBuff>();
+    Turret _turret;
+
+    private void Start()
+    {
+        _turret = this.GetComponent<Turret>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -22,11 +26,11 @@ public class TargetEffectableEntity : MonoBehaviour
         }
     }
 
-    public void AddBuff(TargetEffect effect, int stacks, float duration)
+    public void AddBuff(TurretBuff effect, bool stackable, int stacks, bool isInfinity, float duration)
     {
         if (_effects.ContainsKey(effect.EffectType))
         {
-            TargetEffect effectItem = _effects[effect.EffectType];
+            TurretBuff effectItem = _effects[effect.EffectType];
 
             if (effect.IsStackable)
             {
@@ -36,25 +40,25 @@ public class TargetEffectableEntity : MonoBehaviour
             {
                 effectItem.Duration = duration;
             }
-            effectItem.Affect(this.gameObject);
+            effectItem.Affect(_turret);
         }
         else
         {
+            effect.IsInfinity = isInfinity;
+            effect.IsStackable = stackable;
             effect.EffectStacks += stacks;
             effect.Duration += duration;
             _effects.Add(effect.EffectType, effect);
-            effect.Affect(this.gameObject);
+            effect.Affect(_turret);
         }
     }
 
-    public void ApplyEffects(IEnumerable<TargetEffectConfig> effectList)
+    public void ApplyEffects(IEnumerable<TurretBuffConfig> effectList)
     {
         foreach (var effectItem in effectList)
         {
-            TargetEffect effect = TargetEffectFactory.GetEffect(effectItem.EffectType);
-            if (effect.BuffTargetType != this.BuffTargetType)
-                return;
-            AddBuff(effect, effectItem.Stacks, effectItem.Duration);
+            TurretBuff effect = TurretBuffFactory.GetEffect(effectItem.EffectType);
+            AddBuff(effect, effectItem.Stackable, effectItem.Stacks, effectItem.IsInfinity, effectItem.Duration);
         }
     }
 
@@ -62,4 +66,6 @@ public class TargetEffectableEntity : MonoBehaviour
     {
         _effects.Clear();
     }
+
+
 }

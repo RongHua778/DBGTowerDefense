@@ -1475,6 +1475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxPersistime: 10
+  StartMoney: 10
   BasicIncome: 1
   BasicIncomeInterval: 3
   NodeSpeed: 1.5
@@ -11591,9 +11592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ad97ededef92340b45891e770b6d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenario: {fileID: 11400000, guid: c4707b1ce1b43ac438256f9ea29c2218, type: 2}
   lives: 10
   _wayPoint: {fileID: 1621615087}
+  scenario: {fileID: 11400000, guid: c4707b1ce1b43ac438256f9ea29c2218, type: 2}
   _projectileFactory: {fileID: 11400000, guid: cb1b8fc8ac4ad1e43bda5b700708cb9c, type: 2}
   _enemyFactory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
 --- !u!4 &1854792878

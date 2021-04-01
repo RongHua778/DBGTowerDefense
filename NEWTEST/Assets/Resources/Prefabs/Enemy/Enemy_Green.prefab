@@ -112,9 +112,9 @@ GameObject:
   - component: {fileID: 5670848673963377418}
   - component: {fileID: 5670848673963377416}
   - component: {fileID: 5670848673963377423}
-  - component: {fileID: -8469839225735315258}
   - component: {fileID: 6797906973240547131}
   - component: {fileID: 987495110657815256}
+  - component: {fileID: 7643184405795424033}
   m_Layer: 9
   m_Name: Enemy_Green
   m_TagString: Enemy
@@ -182,19 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 5670848674272527750}
---- !u!114 &-8469839225735315258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5670848673963377419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea1028d6069afa4d879e65035938048, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BuffTargetType: 1
 --- !u!50 &6797906973240547131
 Rigidbody2D:
   serializedVersion: 4
@@ -232,6 +219,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &7643184405795424033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5670848673963377419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bef4f22db3f0244bda06849595e22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5670848674091124136
 GameObject:
   m_ObjectHideFlags: 0
