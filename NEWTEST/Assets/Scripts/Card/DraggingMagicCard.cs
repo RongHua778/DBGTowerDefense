@@ -28,7 +28,7 @@ public class DraggingMagicCard : DraggingActions
             return;
         }
         if (_card.CardAsset.MagicDamage > 0||_card.CardAsset.TurretBuffList.Count > 0 || _card.CardAsset.EnemyBuffList.Count > 0)
-            DealDamageOrEffect();
+            DealDamageAndBuff();
         gameObject.HideCircle();
         _card.HideCard();
     }
@@ -49,7 +49,7 @@ public class DraggingMagicCard : DraggingActions
     }
 
 
-    private void DealDamageOrEffect()
+    private void DealDamageAndBuff()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
         foreach (var item in colliders)

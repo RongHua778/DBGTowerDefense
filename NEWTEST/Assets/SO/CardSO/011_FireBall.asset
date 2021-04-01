@@ -32,7 +32,7 @@ MonoBehaviour:
   MagicRange: 1
   TurretBuffList: []
   EnemyBuffList:
-  - EffectType: 0
+  - BuffName: 3
     Stackable: 0
     Stacks: 0
     IsInfinity: 0

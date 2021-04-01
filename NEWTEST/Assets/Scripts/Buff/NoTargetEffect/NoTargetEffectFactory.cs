@@ -5,38 +5,19 @@ using System;
 using System.Reflection;
 using System.Linq;
 
-public static class NoTargetEffectFactory
+public class NoTargetEffectFactory:TypeFactory
 {
-    private static Dictionary<NoTargetEffectType, Type> effectByType;
-    private static bool IsInitialized => effectByType != null;
+    private Dictionary<int, Type> effectByType;
 
-    public static void InitializeFactory()
+    public override Type baseType => typeof(NoTargetBuff);
+
+
+    public override void GenerateDIC(IEnumerable<Type> types)
     {
-        if (IsInitialized)
-            return;
-
-        var effectTypes = Assembly.GetAssembly(typeof(NoTargetEffect)).GetTypes().
-            Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(NoTargetEffect)));
-
-        effectByType = new Dictionary<NoTargetEffectType, Type>();
-
-        foreach (var type in effectTypes)
+        foreach (Type type in types)
         {
-            var tempEffect = Activator.CreateInstance(type) as NoTargetEffect;
-            effectByType.Add(tempEffect.NoTargetEffectType, type);
+            var buff = Activator.CreateInstance(type) as NoTargetBuff;
+            TypeDic.Add((int)buff.NoTargetBuffName, type);
         }
-    }
-
-    public static NoTargetEffect GetEffect(NoTargetEffectType effectType)
-    {
-        InitializeFactory();
-
-        if (effectByType.ContainsKey(effectType))
-        {
-            Type type = effectByType[effectType];
-            var effect = Activator.CreateInstance(type) as NoTargetEffect;
-            return effect;
-        }
-        return null;
     }
 }

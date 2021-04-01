@@ -25,7 +25,7 @@ public abstract class Turret : ReusableObject
     [SerializeField] protected GameObject _persistCanvas;
     [SerializeField] protected Image _persistProgress;
 
-    protected BuffableTurret _effectableEntity;
+    protected BuffableTurret _buffableEntity;
 
     protected bool _turretLanded = false;
     public bool TurretLanded
@@ -113,7 +113,7 @@ public abstract class Turret : ReusableObject
 
     private void Start()
     {
-        _effectableEntity = this.GetComponent<BuffableTurret>();
+        _buffableEntity = this.GetComponent<BuffableTurret>();
     }
     protected void Update()
     {
@@ -266,7 +266,7 @@ public abstract class Turret : ReusableObject
         //attackeffect
         foreach (var attackEffect in _cardAsset.AttackEffectBuffList)
         {
-            AttackEffect effect = AttackEffectFactory.GetEffect(attackEffect.AttackEffectType);
+            AttackEffect effect = LevelManager.Instance.GetAttackEffect((int)attackEffect.AttackEffectType);
             effect.KeyValue = attackEffect.Value;
             attackEffects.Add(effect);
         }
@@ -299,7 +299,7 @@ public abstract class Turret : ReusableObject
         RangeIntensify = 0;
         SpeedIntensify = 0;
         HideRange();
-        _effectableEntity.ClearEffects();
+        _buffableEntity.ClearBuffs();
         attackEffects.Clear();
     }
 

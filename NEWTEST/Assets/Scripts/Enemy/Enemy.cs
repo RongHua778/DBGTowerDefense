@@ -13,6 +13,7 @@ public abstract class Enemy : ReusableObject
     protected const float _reachAccuracy = .1f;
     protected EnemyHealth _enemyHealth;
     protected int _currentWayPointIndex;
+    protected BuffableEntity _buffableEntity;
     public int CurrentWayPointIndex => _currentWayPointIndex;
     public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
 
@@ -30,7 +31,7 @@ public abstract class Enemy : ReusableObject
     public void InitSetUp(float speed,float health)
     {
         _enemyHealth = GetComponent<EnemyHealth>();
-
+        _buffableEntity = GetComponent<BuffableEntity>();
         _initSpeed = speed;
         _enemyHealth._initialHealth = health;
         _enemyHealth.MaxHealth = health;
@@ -128,6 +129,7 @@ public abstract class Enemy : ReusableObject
         ResetEnemy();
         GetComponent<Collider2D>().enabled = false;
         SlowDown = false;
+        _buffableEntity.ClearBuffs();
     }
 
 }

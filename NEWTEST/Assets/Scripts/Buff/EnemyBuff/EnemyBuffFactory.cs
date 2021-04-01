@@ -5,37 +5,16 @@ using System;
 using System.Reflection;
 using System.Linq;
 
-public class EnemyBuffFactory : MonoBehaviour
+public class EnemyBuffFactory : TypeFactory
 {
-    private static Dictionary<EnemyBuffType, Type> effectByType;
-    private static bool IsInitialized => effectByType != null;
-    public static void InitializeFactory()
+    public override Type baseType => typeof(EnemyBuff);
+
+    public override void GenerateDIC(IEnumerable<Type> types)
     {
-        if (IsInitialized)
-            return;
-
-        var effectTypes = Assembly.GetAssembly(typeof(EnemyBuff)).GetTypes().
-            Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(EnemyBuff)));
-
-        effectByType = new Dictionary<EnemyBuffType, Type>();
-
-        foreach (var type in effectTypes)
+        foreach (Type type in types)
         {
-            var tempEffect = Activator.CreateInstance(type) as EnemyBuff;
-            effectByType.Add(tempEffect.BuffType, type);
+            var buff = Activator.CreateInstance(type) as EnemyBuff;
+            TypeDic.Add((int)buff.buffName, type);
         }
-    }
-
-    public static EnemyBuff GetEffect(EnemyBuffType effectType)
-    {
-        InitializeFactory();
-
-        if (effectByType.ContainsKey(effectType))
-        {
-            Type type = effectByType[effectType];
-            var effect = Activator.CreateInstance(type) as EnemyBuff;
-            return effect;
-        }
-        return null;
     }
 }

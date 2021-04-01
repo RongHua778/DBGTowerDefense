@@ -16,43 +16,41 @@ public enum ProjectileType
     Fly
 }
 
-public enum TurretBuffType
+public enum BuffName
 {
     Strength,
     SpeedUp,
-    LongSighted
+    LongSighted,
+
+    SlowDown,
+    None
  
 }
 
-public enum EnemyBuffType
-{
-    SlowDown
-}
-
-public enum NoTargetEffectType
+public enum NoTargetBuffName
 {
     Overload
 }
 
 [System.Serializable]
-public struct TurretBuffConfig
+public struct BuffConfig
 {
-    public TurretBuffType EffectType;
+    public BuffName BuffName;
     public bool Stackable;
     public int Stacks;
     public bool IsInfinity;
     public float Duration;
 }
 
-[System.Serializable]
-public struct EnemyBuffConfig
-{
-    public EnemyBuffType EffectType;
-    public bool Stackable;
-    public int Stacks;
-    public bool IsInfinity;
-    public float Duration;
-}
+//[System.Serializable]
+//public struct EnemyBuffConfig
+//{
+//    public BuffName EnemyBuffName;
+//    public bool Stackable;
+//    public int Stacks;
+//    public bool IsInfinity;
+//    public float Duration;
+//}
 
 [System.Serializable]
 public struct AttackEffectConfig
@@ -64,7 +62,7 @@ public struct AttackEffectConfig
 [System.Serializable]
 public struct NoTargetEffectConfig
 {
-    public NoTargetEffectType NoTargetEffectType;
+    public NoTargetBuffName NoTargetBuffName;
     public float Duration;
     public float KeyValue;
 }
@@ -97,8 +95,8 @@ public class CardSO : ScriptableObject
     [Header("MagicCard Info")]
     public float MagicDamage;
     public float MagicRange;
-    public List<TurretBuffConfig> TurretBuffList;
-    public List<EnemyBuffConfig> EnemyBuffList;
+    public List<BuffConfig> TurretBuffList;
+    public List<BuffConfig> EnemyBuffList;
 
     [Header("NoTargetMagicCard Info")]
     public List<NoTargetEffectConfig> NoTargetEffectList;

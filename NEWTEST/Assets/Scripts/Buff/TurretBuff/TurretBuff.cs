@@ -3,42 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TurretBuff
+public abstract class TurretBuff:Buff
 {
-    public abstract TurretBuffType EffectType { get; }
-    public bool IsFinished { get; internal set; }
-    public bool IsStackable { get; set; }
-    public bool IsInfinity { get; set; }
-    public float Duration;
-    public int EffectStacks;
-    public object Target;
+    public Turret Target;
 
-    public abstract void Affect(object target);
-
-    public void Tick(float delta)
-    {
-        if (IsInfinity)
-            return;
-        Duration -= delta;
-        if (Duration <= 0)
-        {
-            End();
-            IsFinished = true;
-        }
-    }
-
-    public abstract void End();
 }
 
 public class Strength : TurretBuff
 {
-    public override TurretBuffType EffectType { get { return TurretBuffType.Strength; } }
-    public override void Affect(object target)
+    public override BuffName buffName => BuffName.Strength;
+    public override void Affect(GameObject target)
     {
-        Turret turret = target as Turret;
-        if (turret != null)
+        Target = target.GetComponent<Turret>();
+        if (Target != null)
         {
-            turret.AttackIntensify = 5f * EffectStacks;
+            Target.AttackIntensify = 5f * Stacks;
         }
     }
 
@@ -50,13 +29,13 @@ public class Strength : TurretBuff
 
 public class SpeedUp : TurretBuff
 {
-    public override TurretBuffType EffectType { get { return TurretBuffType.SpeedUp; } }
-    public override void Affect(object target)
+    public override BuffName buffName => BuffName.SpeedUp;
+    public override void Affect(GameObject target)
     {
-        Turret turret = target as Turret;
-        if (turret != null)
+        Target = target.GetComponent<Turret>();
+        if (Target != null)
         {
-            turret.SpeedIntensify = 5f * EffectStacks;
+            Target.SpeedIntensify = 5f * Stacks;
         }
     }
 
@@ -68,13 +47,13 @@ public class SpeedUp : TurretBuff
 
 public class LongSighted : TurretBuff
 {
-    public override TurretBuffType EffectType { get { return TurretBuffType.LongSighted; } }
-    public override void Affect(object target)
+    public override BuffName buffName => BuffName.LongSighted; 
+    public override void Affect(GameObject target)
     {
-        Turret turret = target as Turret;
-        if (turret != null)
+        Target = target.GetComponent<Turret>();
+        if (Target != null)
         {
-            turret.RangeIntensify = 5f * EffectStacks;
+            Target.RangeIntensify = 5f * Stacks;
         }
     }
 

@@ -5,38 +5,17 @@ using System;
 using System.Reflection;
 using System.Linq;
 
-public static class TurretBuffFactory
+public class TurretBuffFactory : TypeFactory
 {
-    private static Dictionary<TurretBuffType, Type> effectByType;
-    private static bool IsInitialized => effectByType != null;
-    public static void InitializeFactory()
+    public override Type baseType => typeof(TurretBuff);
+
+    public override void GenerateDIC(IEnumerable<Type> types)
     {
-        if (IsInitialized)
-            return;
-
-        var effectTypes = Assembly.GetAssembly(typeof(TurretBuff)).GetTypes().
-            Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(TurretBuff)));
-
-        effectByType = new Dictionary<TurretBuffType, Type>();
-
-        foreach(var type in effectTypes)
+        foreach (Type type in types)
         {
-            var tempEffect = Activator.CreateInstance(type) as TurretBuff;
-            effectByType.Add(tempEffect.EffectType, type);
+            var buff = Activator.CreateInstance(type) as TurretBuff;
+            TypeDic.Add((int)buff.buffName, type);
         }
-    }
-
-    public static TurretBuff GetEffect(TurretBuffType effectType)
-    {
-        InitializeFactory();
-
-        if (effectByType.ContainsKey(effectType))
-        {
-            Type type = effectByType[effectType];
-            var effect = Activator.CreateInstance(type) as TurretBuff;
-            return effect;
-        }
-        return null;
     }
 
 }

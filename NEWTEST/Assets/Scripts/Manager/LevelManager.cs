@@ -17,7 +17,12 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private ProjectileFactory _projectileFactory = default;
     [SerializeField] private EnemyFactory _enemyFactory = default;
 
-    public Dictionary<NoTargetEffectType, NoTargetEffect> _noTargetEffects = new Dictionary<NoTargetEffectType, NoTargetEffect>();
+    public Dictionary<NoTargetBuffName, NoTargetBuff> _noTargetEffects = new Dictionary<NoTargetBuffName, NoTargetBuff>();
+
+    private TypeFactory _turretBuffFactory;
+    private TypeFactory _enemyBuffFactory;
+    private TypeFactory _attackEffectFactory;
+    private TypeFactory _noTargetBuffFactory;
 
     private int _maxLive = 10;
     public int TotalLives
@@ -36,6 +41,15 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
+        _turretBuffFactory = new TurretBuffFactory();
+        _turretBuffFactory.Initialize();
+        _enemyBuffFactory = new EnemyBuffFactory();
+        _enemyBuffFactory.Initialize();
+        _attackEffectFactory = new AttackEffectFactory();
+        _attackEffectFactory.Initialize();
+        _noTargetBuffFactory = new NoTargetEffectFactory();
+        _noTargetBuffFactory.Initialize();
+
         _projectileFactory.Initialize();
         activeScenario = scenario.Begin();
     }
@@ -46,6 +60,26 @@ public class LevelManager : Singleton<LevelManager>
         NoTargetEffectCounter();
     }
 
+    public TurretBuff GetTurretBuff(int buffID)
+    {
+        return _turretBuffFactory.GetType(buffID) as TurretBuff;
+    }
+
+    public EnemyBuff GetEnemyBuff(int buffID)
+    {
+        return _enemyBuffFactory.GetType(buffID) as EnemyBuff;
+    }
+
+    public AttackEffect GetAttackEffect(int effecID)
+    {
+        return _attackEffectFactory.GetType(effecID) as AttackEffect;
+    }
+
+    public NoTargetBuff GetNoTargetBuff(int noTargetBuffId)
+    {
+        return _noTargetBuffFactory.GetType(noTargetBuffId) as NoTargetBuff;
+    }
+
     private void NoTargetEffectCounter()
     {
         foreach (var effect in _noTargetEffects.Values.ToList())
@@ -53,16 +87,16 @@ public class LevelManager : Singleton<LevelManager>
             effect.Tick(Time.deltaTime);
             if (effect.IsFinished)
             {
-                _noTargetEffects.Remove(effect.NoTargetEffectType);
+                _noTargetEffects.Remove(effect.NoTargetBuffName);
             }
         }
     }
 
-    public void AddEffect(NoTargetEffect effect, float keyValue, float duration)
+    public void AddEffect(NoTargetBuff effect, float keyValue, float duration)
     {
-        if (_noTargetEffects.ContainsKey(effect.NoTargetEffectType))
+        if (_noTargetEffects.ContainsKey(effect.NoTargetBuffName))
         {
-            NoTargetEffect effectItem = _noTargetEffects[effect.NoTargetEffectType];
+            NoTargetBuff effectItem = _noTargetEffects[effect.NoTargetBuffName];
             if (effect.IsStackable)
             {
 
@@ -71,14 +105,14 @@ public class LevelManager : Singleton<LevelManager>
             {
                 effectItem.Duration = duration;
             }
-            effectItem.Affect();
+            effectItem.Affect(this.gameObject);
         }
         else
         {
             effect.Duration += duration;
             effect.KeyValue = keyValue;
-            _noTargetEffects.Add(effect.NoTargetEffectType, effect);
-            effect.Affect();
+            _noTargetEffects.Add(effect.NoTargetBuffName, effect);
+            effect.Affect(this.gameObject);
         }
     }
 
@@ -86,8 +120,10 @@ public class LevelManager : Singleton<LevelManager>
     {
         foreach (var effectItem in effectList)
         {
-            NoTargetEffect effect = NoTargetEffectFactory.GetEffect(effectItem.NoTargetEffectType);
-            AddEffect(effect, effectItem.KeyValue, effectItem.Duration);
+            NoTargetBuff effect = GetNoTargetBuff((int)effectItem.NoTargetBuffName);
+            if(effect!=null)
+                AddEffect(effect, effectItem.KeyValue, effectItem.Duration);
+            Debug.Assert(effect != null, "≈‰÷√¡À¥ÌŒÛµƒNotargetBuff:" + effect.NoTargetBuffName.ToString());
         }
     }
 
