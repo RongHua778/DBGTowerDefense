@@ -65,20 +65,20 @@ public abstract class Projectile : ReusableObject
        
     }
 
-    protected void TriggerShootEffect()
-    {
-        foreach (var effect in _turretOwner.attackEffects)
-        {
-            if (effect.AttackEffectTiming == AttackEffectTiming.Shoot)
-                effect.Affect(this, _turretOwner);
-        }
-    }
-    protected void TriggerDamageEffect(object receiver)
+    //protected void TriggerShootEffect()
+    //{
+    //    foreach (var effect in _turretOwner.attackEffects)
+    //    {
+    //        if (effect.AttackEffectTiming == AttackEffectTiming.Shoot)
+    //            effect.Affect(this, _turretOwner);
+    //    }
+    //}
+    protected void TriggerDamageEffect(Enemy target)
     {
         foreach (var effect in _turretOwner.attackEffects)
         {
             if (effect.AttackEffectTiming == AttackEffectTiming.Damage)
-                effect.Affect(receiver, _turretOwner);
+                effect.Affect(this, target);
         }
     }
     public void SetProjectile(Enemy enemy, Turret turret)
@@ -92,7 +92,7 @@ public abstract class Projectile : ReusableObject
         _moveSpeed = turret._cardAsset.ProjectileSpeed;
         _criticalRate = turret._cardAsset.CriticalRate;
         _sputteringRange = turret._cardAsset.SputteringRange;
-        TriggerShootEffect();
+        //TriggerShootEffect();
 
     }
 

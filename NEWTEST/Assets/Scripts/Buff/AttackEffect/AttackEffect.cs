@@ -17,18 +17,16 @@ public abstract class AttackEffect
     public float KeyValue;
     public abstract AttackEffectTiming AttackEffectTiming { get; }
     public abstract AttackEffectType AttackEffectType { get; }
-    public abstract void Affect(object receiver, object giver);
+    public abstract void Affect(Projectile projectile, Enemy target);
 }
 
 public class RangeBaseDamage : AttackEffect
 {
     
-    public override AttackEffectTiming AttackEffectTiming => AttackEffectTiming.Shoot;
+    public override AttackEffectTiming AttackEffectTiming => AttackEffectTiming.Damage;
     public override AttackEffectType AttackEffectType => AttackEffectType.RangeBaseDamage;
-    public override void Affect(object receiver, object giver)
+    public override void Affect(Projectile projectile, Enemy target)
     {
-        Projectile projectile = receiver as Projectile;
-        Turret turret = giver as Turret;
         float distance = projectile.GetTargetDistance();
         projectile.Damage = projectile.Damage * (1 + KeyValue * distance);
     }
