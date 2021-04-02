@@ -21,6 +21,7 @@ public enum BuffName
     Strength,
     SpeedUp,
     LongSighted,
+    Persist,
 
     SlowDown,
     None
@@ -29,28 +30,20 @@ public enum BuffName
 
 public enum NoTargetBuffName
 {
-    Overload
+    Overload,
+    Investment,
+    MagicMaster
 }
 
 [System.Serializable]
 public struct BuffConfig
 {
     public BuffName BuffName;
-    public bool Stackable;
     public int Stacks;
     public bool IsInfinity;
     public float Duration;
 }
 
-//[System.Serializable]
-//public struct EnemyBuffConfig
-//{
-//    public BuffName EnemyBuffName;
-//    public bool Stackable;
-//    public int Stacks;
-//    public bool IsInfinity;
-//    public float Duration;
-//}
 
 [System.Serializable]
 public struct AttackEffectConfig

@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1a2f2e623281b429039f4ac16487b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turret: {fileID: 8005339885002978381}
+  turret: {fileID: 0}
 --- !u!1 &4928271426160012073
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8005339885002978380}
-  - component: {fileID: 8005339885002978381}
+  - component: {fileID: 8913282404201220154}
   - component: {fileID: 8005339885002978378}
   - component: {fileID: 7592890341802534915}
   - component: {fileID: 6915859984882986581}
@@ -402,7 +402,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8005339885002978381
+--- !u!114 &8913282404201220154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -411,19 +411,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8005339885002978379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6335035da0dbb3149b31baa228acf34b, type: 3}
+  m_Script: {fileID: 11500000, guid: a3807d9c78c5c4d43b13c2cb375e2682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _enemies: []
   _cardAsset: {fileID: 0}
+  _ShootFirst: 1
   _rotTrans: {fileID: 8005339885030405820}
   _projectileSpawnPos: {fileID: 8005339886081336497}
   _persistCanvas: {fileID: 2322992484156440757}
   _persistProgress: {fileID: 1389900109994511448}
-  _effectableEntity: {fileID: 0}
-  _attackRange: 3
-  _attackDamage: 2
-  _attackSpeed: 1
+  _attackRange: 0
+  _attackDamage: 0
+  _attackSpeed: 0
   _persistTime: 0
   _maxPersistTime: 0
   _criticalRate: 0
@@ -431,6 +431,7 @@ MonoBehaviour:
   _attackIntensify: 0
   _speedIntensify: 0
   _rangeIntensify: 0
+  sputteringRange: 0
 --- !u!58 &8005339885002978378
 CircleCollider2D:
   m_ObjectHideFlags: 0

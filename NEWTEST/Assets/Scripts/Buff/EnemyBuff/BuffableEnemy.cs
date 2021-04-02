@@ -14,7 +14,7 @@ public class BuffableEnemy : BuffableEntity
         {
             EnemyBuff effect = LevelManager.Instance.GetEnemyBuff((int)effectItem.BuffName);
             if (effect != null)
-                AddBuff(effect, effectItem.Stackable, effectItem.Stacks, effectItem.IsInfinity, effectItem.Duration);
+                AddBuff(effect, effectItem.Stacks, effectItem.IsInfinity, effectItem.Duration);
             Debug.Assert(effect != null, "EnemyBuff÷–≈‰÷√¡À¥ÌŒÛBuff:" + effectItem.BuffName.ToString());
         }
     }

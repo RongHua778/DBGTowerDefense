@@ -13,7 +13,7 @@ public class BuffableTurret : BuffableEntity
         {
             TurretBuff effect = LevelManager.Instance.GetTurretBuff((int)effectItem.BuffName);
             if (effect != null)
-                AddBuff(effect, effectItem.Stackable, effectItem.Stacks, effectItem.IsInfinity, effectItem.Duration);
+                AddBuff(effect,effectItem.Stacks, effectItem.IsInfinity, effectItem.Duration);
             Debug.Assert(effect != null, "TurretBuff÷–≈‰÷√¡À¥ÌŒÛBuff:" + effectItem.BuffName.ToString());
         }
     }

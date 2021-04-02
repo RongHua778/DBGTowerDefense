@@ -13,27 +13,21 @@ MonoBehaviour:
   m_Name: EnemyWave_Demo
   m_EditorClassIdentifier: 
   spawnSequence:
-  - factory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
-    type: 0
+  - type: 0
     amount: 5
     coolDown: 1
-  - factory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
-    type: 0
+  - type: 0
     amount: 1
     coolDown: 20
-  - factory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
-    type: 1
-    amount: 3
+  - type: 1
+    amount: 4
     coolDown: 2
-  - factory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
-    type: 1
+  - type: 1
     amount: 1
     coolDown: 20
-  - factory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
-    type: 2
-    amount: 2
-    coolDown: 3
-  - factory: {fileID: 11400000, guid: 51be303dc25158a47be52e0cd9162f0e, type: 2}
-    type: 2
+  - type: 2
+    amount: 8
+    coolDown: 2
+  - type: 2
     amount: 1
     coolDown: 20

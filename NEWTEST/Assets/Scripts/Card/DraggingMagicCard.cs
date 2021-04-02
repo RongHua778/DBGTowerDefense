@@ -22,13 +22,16 @@ public class DraggingMagicCard : DraggingActions
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        if (endCell == null)
+        if (endDragSuccessful)
+        {
+            MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
+            if (_card.CardAsset.MagicDamage > 0 || _card.CardAsset.TurretBuffList.Count > 0 || _card.CardAsset.EnemyBuffList.Count > 0)
+                DealDamageAndBuff();
+        }
+        else
         {
             UnsuccessfulDrag();
-            return;
         }
-        if (_card.CardAsset.MagicDamage > 0||_card.CardAsset.TurretBuffList.Count > 0 || _card.CardAsset.EnemyBuffList.Count > 0)
-            DealDamageAndBuff();
         gameObject.HideCircle();
         _card.HideCard();
     }
@@ -40,7 +43,7 @@ public class DraggingMagicCard : DraggingActions
 
     private void DrawMagicCicle()
     {
-        gameObject.DrawCircle(_card.CardAsset.MagicRange, 0.04f, StaticData.Instance.MagicRangeColor);
+        gameObject.DrawCircle(_card.CardAsset.MagicRange + StaticData.Instance.MagicRangeIntensify, 0.04f, StaticData.Instance.MagicRangeColor);
 
     }
     private void HideMagicCircle()
@@ -51,7 +54,7 @@ public class DraggingMagicCard : DraggingActions
 
     private void DealDamageAndBuff()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange + StaticData.Instance.MagicRangeIntensify);
         foreach (var item in colliders)
         {
             IDamageable idamage = item.GetComponent<IDamageable>();

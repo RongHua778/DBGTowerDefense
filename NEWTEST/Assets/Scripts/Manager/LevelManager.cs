@@ -99,13 +99,12 @@ public class LevelManager : Singleton<LevelManager>
             NoTargetBuff effectItem = _noTargetEffects[effect.NoTargetBuffName];
             if (effect.IsStackable)
             {
-
+                effectItem.Affect(this.gameObject);
             }
             if (effectItem.Duration < duration)
             {
                 effectItem.Duration = duration;
             }
-            effectItem.Affect(this.gameObject);
         }
         else
         {

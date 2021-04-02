@@ -19,6 +19,7 @@ public class StaticData : Singleton<StaticData>
 
     [Header("BuffValue")]
     public float SlowDownRate = default;
+    public float MagicRangeIntensify = default;
     public Color TowerRangeColor;
     public Color MagicRangeColor;
 

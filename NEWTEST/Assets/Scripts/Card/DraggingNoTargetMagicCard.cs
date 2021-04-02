@@ -22,8 +22,16 @@ public class DraggingNoTargetMagicCard : DraggingActions
     {
         base.OnEndDrag();
         StaticData.Instance.NoTargetEffect.SetActive(false);
-        if (endCell != null)
+        if (endDragSuccessful)
+        {
+            MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
             LevelManager.Instance.ApplyNoTargetEffects(_card.CardAsset.NoTargetEffectList);
+        }
+        else
+        {
+            UnsuccessfulDrag();
+        }
+
     }
 
     public override void OnStartDrag()

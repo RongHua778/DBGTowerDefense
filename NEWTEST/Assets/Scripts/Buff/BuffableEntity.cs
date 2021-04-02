@@ -20,7 +20,7 @@ public abstract class BuffableEntity : MonoBehaviour
         }
     }
 
-    public void AddBuff(Buff effect, bool stackable, int stacks, bool isInfinity, float duration)
+    public void AddBuff(Buff effect, int stacks, bool isInfinity, float duration)
     {
 
         if (_buffs.ContainsKey((int)effect.buffName))
@@ -40,7 +40,6 @@ public abstract class BuffableEntity : MonoBehaviour
         else
         {
             effect.IsInfinity = isInfinity;
-            effect.IsStackable = stackable;
             effect.Stacks += stacks;
             effect.Duration += duration;
             _buffs.Add((int)effect.buffName, effect);

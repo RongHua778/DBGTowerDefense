@@ -1475,14 +1475,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxPersistime: 10
-  StartMoney: 10
+  StartMoney: 2
   BasicIncome: 1
   BasicIncomeInterval: 3
   NodeSpeed: 1.5
   NodeSpawnInterval: 3
   NoTargetEffect: {fileID: 875156543}
-  GameSlowDownRate: 0.3
+  GameSlowDownRate: 0.2
   SlowDownRate: 0.5
+  MagicRangeIntensify: 0
   TowerRangeColor: {r: 0.39999998, g: 0.8862969, b: 1, a: 1}
   MagicRangeColor: {r: 1, g: 0.7745107, b: 0.29622638, a: 1}
 --- !u!1001 &303892954
@@ -10646,12 +10647,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startDeck:
-  - {fileID: 11400000, guid: 792e246191a9f24448328cf1d0ab08af, type: 2}
-  - {fileID: 11400000, guid: 8bda560995701294f82651910a63e4cc, type: 2}
-  - {fileID: 11400000, guid: ed274526d84ccd04db0e202e9c43f35c, type: 2}
-  - {fileID: 11400000, guid: 4c377fa2a312aa4489a492f6fa0ffd52, type: 2}
-  - {fileID: 11400000, guid: b194d0e48b99aea44a0cd8077d582a89, type: 2}
-  - {fileID: 11400000, guid: a27d6f4b685eefa40a3f53e96a974b1a, type: 2}
+  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
+  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
+  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
+  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
+  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
+  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
+  - {fileID: 11400000, guid: f7d7f6ddfd379f44988557f63602e18b, type: 2}
+  - {fileID: 11400000, guid: f7d7f6ddfd379f44988557f63602e18b, type: 2}
+  - {fileID: 11400000, guid: 5a9028193f706ff4c8d80a0b655de08d, type: 2}
+  - {fileID: 11400000, guid: e2c53db67f74c5843b7f8a67ff4d713a, type: 2}
+  - {fileID: 11400000, guid: f3bad3b56f092514d8cb538b81620e56, type: 2}
+  - {fileID: 11400000, guid: 9790279487fad0c45a5ee94e6274b35c, type: 2}
+  - {fileID: 11400000, guid: 1d264888b6f5d594ba877eea2c3550d7, type: 2}
+  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
   _drawPile: []
   _discardPile: []
   _tablePile: []

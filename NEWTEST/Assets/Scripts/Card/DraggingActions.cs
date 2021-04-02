@@ -10,7 +10,7 @@ public abstract class DraggingActions : MonoBehaviour
     private Vector3 pointerOffset;
     private float zDisplacement;
     protected Cell endCell;
-    protected bool endDragSuccessful = false;
+    protected bool endDragSuccessful = true;
     protected Camera _mainCam;
 
     protected Card _card;
@@ -48,6 +48,18 @@ public abstract class DraggingActions : MonoBehaviour
     public virtual void OnEndDrag()
     {
         StaticData.Instance.GameSpeedResume();
+        if (endCell == null)
+        {
+            UnsuccessfulDrag();
+        }
+        else if (!MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
+        {
+            UnsuccessfulDrag();
+        }
+        else
+        {
+            endDragSuccessful = true;
+        }
     }
 
     public virtual void OnDraggingInUpdate()

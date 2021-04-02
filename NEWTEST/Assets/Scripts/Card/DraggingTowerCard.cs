@@ -27,12 +27,12 @@ public class DraggingTowerCard : DraggingActions
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        if (endCell == null|| endCell.IsRoad)
+        if (endCell.IsRoad)
         {
             UnsuccessfulDrag();
             return;
         }
-        if (MoneySystem.CanOfferCost(_card.CardAsset.CardCost))
+        if (endDragSuccessful)
         {
             MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
             GhostTurret.transform.position = endCell.GetPosofCell();

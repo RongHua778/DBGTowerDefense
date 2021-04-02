@@ -6,7 +6,7 @@ public abstract class Buff
 {
     public abstract BuffName buffName { get; }
     public bool IsFinished { get; internal set; }
-    public bool IsStackable { get; set; }
+    public abstract bool IsStackable { get;}
     public int Stacks;
     public bool IsInfinity { get; set; }
     public float Duration;

@@ -11,6 +11,7 @@ public abstract class EnemyBuff:Buff
 public class SlowDown : EnemyBuff
 {
     public override BuffName buffName => BuffName.SlowDown;
+    public override bool IsStackable => false;
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Enemy>();
