@@ -50,6 +50,8 @@ public class LevelManager : Singleton<LevelManager>
         _noTargetBuffFactory = new NoTargetEffectFactory();
         _noTargetBuffFactory.Initialize();
 
+        _enemyBuffFactory.Initialize();
+
         _projectileFactory.Initialize();
         activeScenario = scenario.Begin();
     }
@@ -126,9 +128,9 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-    public void SpawnEnemy(EnemyType type)
+    public void SpawnEnemy(EnemyRace race,int level)
     {
-        Enemy enemy = _enemyFactory.GetEnemy(type);
+        Enemy enemy = _enemyFactory.GetEnemy(race,level);
         enemy.WayPoint = _wayPoint;
         enemy.transform.localPosition = _wayPoint.GetWaypointPosition(0);
     }

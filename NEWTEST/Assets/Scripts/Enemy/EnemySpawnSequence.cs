@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemySpawnSequence
 {
     [SerializeField]
-    EnemyType type = EnemyType.normal;
+    EnemyRace enemyRace = EnemyRace.Orc;
 
     [SerializeField, Range(1, 100)]
     int amount = 1;
@@ -41,7 +41,7 @@ public class EnemySpawnSequence
                     return cooldown;
                 }
                 count += 1;
-                LevelManager.Instance.SpawnEnemy(sequence.type);
+                LevelManager.Instance.SpawnEnemy(sequence.enemyRace,1);
             }
             return -1f;
         }

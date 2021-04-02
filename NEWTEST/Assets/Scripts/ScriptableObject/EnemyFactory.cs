@@ -2,44 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyType
-{
-    easy, normal, hard
-}
 [CreateAssetMenu(fileName = "New EnemyFactory", menuName = "DBGTD/Factory")]
 public class EnemyFactory : ScriptableObject
 {
-    [System.Serializable]
-    class EnemyConfig
+
+    private Dictionary<int, EnemySO> OrcDic = new Dictionary<int, EnemySO>();
+    private Dictionary<int, EnemySO> UndeadDic = new Dictionary<int, EnemySO>();
+
+    [Header("Orc")]
+    [SerializeField] EnemySO[] OrcEnemies;
+
+    [Header("Undead")]
+    [SerializeField] EnemySO[] UndeadEnemies;
+
+    public void Initialize()
     {
-        public GameObject prefab = default;
-
-        [Range(0.5f, 3f)]
-        public float speed = default;
-        [Range(1, 100)]
-        public int health = default;
-
+        foreach(var enemySO in OrcEnemies)
+        {
+            OrcDic.Add(enemySO.Level, enemySO);
+        }
+        foreach (var enemySO in UndeadEnemies)
+        {
+            UndeadDic.Add(enemySO.Level, enemySO);
+        }
     }
 
-    [SerializeField]
-    EnemyConfig easy = default, normal = default, hard = default;
-
-    EnemyConfig GetConfig(EnemyType type)
+    public Dictionary<int,EnemySO> GetEnemyDIC(EnemyRace race)
     {
-        switch (type)
+        switch (race)
         {
-            case EnemyType.easy:return easy;
-            case EnemyType.normal:return normal;
-            case EnemyType.hard:return hard;
+            case EnemyRace.Orc:
+                return OrcDic;
+            case EnemyRace.Undead:
+                return UndeadDic;
         }
+        Debug.LogError("没有对应的种族敌人");
         return null;
     }
 
-    public Enemy GetEnemy(EnemyType type=EnemyType.normal)
+    public Enemy GetEnemy(EnemyRace race,int level)
     {
-        EnemyConfig config = GetConfig(type);
-        Enemy instance = ObjectPool.Instance.Spawn(config.prefab).GetComponent<Enemy>();
-        instance.InitSetUp(config.speed,config.health);
-        return instance;
+        EnemySO enemySO = GetEnemyDIC(race)[level];
+        Enemy enemyInstance = ObjectPool.Instance.Spawn(enemySO.Prefab).GetComponent<Enemy>();
+        enemyInstance.InitSetUp(enemySO);
+        return enemyInstance;
     }
 }

@@ -8,6 +8,7 @@ public abstract class Enemy : ReusableObject
     [HideInInspector] public WayPoint WayPoint;
     [SerializeField] protected float _initSpeed = default;
     [SerializeField] protected float _moveSpeed = default;
+    protected EnemySO _enemySO;
     protected Vector3 _lastPointPosition;
     protected SpriteRenderer _spriteRenderer;
     protected const float _reachAccuracy = .1f;
@@ -28,20 +29,20 @@ public abstract class Enemy : ReusableObject
     [Header("Debuff")]
     public bool SlowDown = false;//ÊÇ·ñ±»¼õËÙBUFF
 
-    public void InitSetUp(float speed,float health)
+    public void InitSetUp(EnemySO enemySO)
     {
+        _enemySO = enemySO;
         _enemyHealth = GetComponent<EnemyHealth>();
         _buffableEntity = GetComponent<BuffableEntity>();
-        _initSpeed = speed;
-        _enemyHealth._initialHealth = health;
-        _enemyHealth.MaxHealth = health;
+        _initSpeed = _enemySO.MoveSpeed;
+        _enemyHealth._initialHealth = _enemySO.Health;
+        _enemyHealth.MaxHealth = _enemySO.Health;
         ResetEnemy();
     }
 
     protected void ResetEnemy()
     {
         _enemyHealth.IsDie = false;
-
         MoveSpeed = _initSpeed;
         _currentWayPointIndex = 0;
         _lastPointPosition = transform.position;
