@@ -26,6 +26,7 @@ public class DraggingNoTargetMagicCard : DraggingActions
         {
             MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
             LevelManager.Instance.ApplyNoTargetEffects(_card.CardAsset.NoTargetEffectList);
+            ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
         else
         {

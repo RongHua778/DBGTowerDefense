@@ -22,14 +22,15 @@ MonoBehaviour:
   Damage: 1
   Range: 2
   Speed: 2
-  PersistTime: 40
+  PersistTime: 999
   CriticalRate: 0
   ProjectileType: 0
   ProjectileSprite: {fileID: 21300000, guid: ee2e2cded0c6786438ed4e598f236b00, type: 3}
   SputteringRange: 0
   ProjectileSpeed: 5
-  MagicType: 0
+  AttackEffectBuffList: []
   MagicDamage: 0
   MagicRange: 0
-  BuffList: []
-  Temp: 0
+  TurretBuffList: []
+  EnemyBuffList: []
+  NoTargetEffectList: []

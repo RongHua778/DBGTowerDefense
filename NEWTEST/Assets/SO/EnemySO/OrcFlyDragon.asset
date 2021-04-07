@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f419812fcc8b084f8fc2d067f7be22b, type: 3}
+  m_Name: OrcFlyDragon
+  m_EditorClassIdentifier: 
+  EnemyRace: 0
+  Prefab: {fileID: 5670848673963377419, guid: 772f53a1263b5244bb28bf641d2f8b84, type: 3}
+  Level: 2
+  Health: 10
+  MoveSpeed: 1.2
+  Shell: 0
+  MagicShell: 0

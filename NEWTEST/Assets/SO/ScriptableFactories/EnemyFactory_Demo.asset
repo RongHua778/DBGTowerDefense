@@ -12,18 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911d907de93f572439058eee35e7eb27, type: 3}
   m_Name: EnemyFactory_Demo
   m_EditorClassIdentifier: 
-  easy:
-    prefab: {fileID: 5670848673963377419, guid: d539695e8fed6b14ca984fcc407ed4e7,
-      type: 3}
-    speed: 0.6
-    health: 15
-  normal:
-    prefab: {fileID: 5670848673963377419, guid: 772f53a1263b5244bb28bf641d2f8b84,
-      type: 3}
-    speed: 0.6
-    health: 25
-  hard:
-    prefab: {fileID: 5670848673963377419, guid: 6f300d6fc23f17f458245d5a4c8c10ed,
-      type: 3}
-    speed: 0.5
-    health: 70
+  OrcEnemies:
+  - {fileID: 11400000, guid: 5213d2b686a1b274a9357307698f84e3, type: 2}
+  - {fileID: 11400000, guid: 33654f4ef6db9824d9b1660c3d1e4c43, type: 2}
+  - {fileID: 11400000, guid: 664990289c03e304c94a9474c953abb7, type: 2}
+  UndeadEnemies:
+  - {fileID: 11400000, guid: 5213d2b686a1b274a9357307698f84e3, type: 2}
+  - {fileID: 11400000, guid: 33654f4ef6db9824d9b1660c3d1e4c43, type: 2}
+  - {fileID: 11400000, guid: 664990289c03e304c94a9474c953abb7, type: 2}

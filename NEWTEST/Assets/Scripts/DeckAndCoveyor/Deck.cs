@@ -13,6 +13,8 @@ public class Deck : MonoBehaviour
     private void Start()
     {
         GameEvents.Instance.onDiscardCard += AddToDiscardPile;
+        GameEvents.Instance.onRemoveCard += RemoveCardFromDeck;
+        GameEvents.Instance.onAddCard += AddToDrawPile;
         InitDeck();
     }
 
@@ -35,7 +37,7 @@ public class Deck : MonoBehaviour
     {
         CardSO cardToReturn;
         if (_drawPile.Count > 0)
-        {
+        {   
             cardToReturn = _drawPile[0];
             _drawPile.RemoveAt(0);
             _tablePile.Add(cardToReturn);
@@ -52,7 +54,10 @@ public class Deck : MonoBehaviour
         }
     }
 
-
+    public void AddToDrawPile(CardSO cardSO)
+    {
+        _drawPile.Add(cardSO);
+    }
     public void AddToDiscardPile(CardSO cardSO)
     {
         _tablePile.Remove(cardSO);
@@ -75,10 +80,26 @@ public class Deck : MonoBehaviour
     {
         foreach(var cardSO in _discardPile)
         {
-            _drawPile.Add(cardSO);
+            AddToDrawPile(cardSO);
         }
         _discardPile.Clear();
         DrawPileShuffle();
     }
 
+
+    private void RemoveCardFromDeck(CardSO cardSO)
+    {
+        if (_drawPile.Contains(cardSO))
+        {
+            _drawPile.Remove(cardSO);
+        }
+        if (_tablePile.Contains(cardSO))
+        {
+            _tablePile.Remove(cardSO);
+        }
+        if (_discardPile.Contains(cardSO))
+        {
+            _discardPile.Remove(cardSO);
+        }
+    }
 }

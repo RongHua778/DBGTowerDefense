@@ -5,18 +5,16 @@ using UnityEngine;
 public class Conveyor : MonoBehaviour
 {
     private Deck _deck;
-    private float _spawnTimer;
-    public float NodeSpeed => StaticData.Instance.NodeSpeed;
-    public float NodeSpawnInterval => StaticData.Instance.NodeSpawnInterval;
+    public static float _spawnTimer;
 
-    [SerializeField] Transform _spawnPos;
-    [SerializeField] Transform _unSpawnPos;
+    [SerializeField] Transform _spawnPos = default;
+    [SerializeField] Transform _unSpawnPos = default;
 
     [Header("Prefab Setting")]
-    [SerializeField] private GameObject _nodePrefab;
-    [SerializeField] private GameObject _turretCardPrefab;
-    [SerializeField] private GameObject _magicCardPrefab;
-    [SerializeField] private GameObject _noTargetMagicCardPrefab;
+    [SerializeField] private GameObject _nodePrefab = default;
+    [SerializeField] private GameObject _turretCardPrefab = default;
+    [SerializeField] private GameObject _magicCardPrefab = default;
+    [SerializeField] private GameObject _noTargetMagicCardPrefab = default;
 
     private void Awake()
     {
@@ -33,7 +31,7 @@ public class Conveyor : MonoBehaviour
         {
             cardObj = SpawnCard(nodeObj);
         }
-        node.SetNode(_unSpawnPos.position, NodeSpeed, cardObj);
+        node.SetNode(_unSpawnPos.position, cardObj);
     }
 
     private GameObject SpawnCard(GameObject nodeObj)
@@ -60,10 +58,9 @@ public class Conveyor : MonoBehaviour
         return cardObj;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Time.time - _spawnTimer >= NodeSpawnInterval)
+        if (Time.time - _spawnTimer >= StaticData.Instance.NodeSpawnInterval)
         {
             SpawnNode();
             _spawnTimer = Time.time;

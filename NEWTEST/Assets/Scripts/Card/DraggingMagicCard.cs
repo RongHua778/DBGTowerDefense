@@ -27,6 +27,7 @@ public class DraggingMagicCard : DraggingActions
             MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
             if (_card.CardAsset.MagicDamage > 0 || _card.CardAsset.TurretBuffList.Count > 0 || _card.CardAsset.EnemyBuffList.Count > 0)
                 DealDamageAndBuff();
+            ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
         else
         {

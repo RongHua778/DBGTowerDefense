@@ -54,15 +54,16 @@ public class Card : ReusableObject
 
     public override void OnSpawn()
     {
-        
+
     }
 
     public override void OnUnSpawn()
     {
-        //basic
-        GameEvents.Instance.DiscardCard(CardAsset);
-        HandleNode = null;
+        //进入弃牌堆
+        if (CardAsset != null)
+            GameEvents.Instance.DiscardCard(CardAsset);
 
+        HandleNode = null;
         //拖动状态下移出传送带时
         DraggingActions da = this.GetComponent<DraggingActions>();
         da.UnsuccessfulDrag();

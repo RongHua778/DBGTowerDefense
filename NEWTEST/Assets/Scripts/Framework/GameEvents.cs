@@ -11,6 +11,11 @@ public class GameEvents : Singleton<GameEvents>
     //     if (onEventName != null)
     //         onEventName(para);
     // }
+    public event Action<CardSO> onAddCard;
+    public void AddCard(CardSO cardSO)
+    {
+        onAddCard?.Invoke(cardSO);
+    }
 
     public event Action onEnemyReach;
     public void EnemyReach()
@@ -41,5 +46,11 @@ public class GameEvents : Singleton<GameEvents>
     public void MoneyIncrease(int amount)
     {
         onMoneyIncrease?.Invoke(amount);
+    }
+
+    public event Action<CardSO> onRemoveCard;
+    public void RemoveCard(CardSO cardSO)
+    {
+        onRemoveCard?.Invoke(cardSO);
     }
 }

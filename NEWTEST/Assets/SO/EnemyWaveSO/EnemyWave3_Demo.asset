@@ -10,22 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcbeddb443e2ede4d897695d1dd626a9, type: 3}
-  m_Name: EnemyWave_Demo
+  m_Name: EnemyWave3_Demo
   m_EditorClassIdentifier: 
   spawnSequence:
   - enemyRace: 0
     level: 1
-    amount: 5
+    amount: 10
     coolDown: 1
   - enemyRace: 0
     level: 1
     amount: 1
-    coolDown: 10
+    coolDown: 5
   - enemyRace: 0
-    level: 1
-    amount: 5
-    coolDown: 1
-  - enemyRace: 0
-    level: 1
-    amount: 1
-    coolDown: 15
+    level: 3
+    amount: 3
+    coolDown: 3

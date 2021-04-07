@@ -10,14 +10,19 @@ public abstract class Turret : ReusableObject
     [Header("SupportField")]
     static Collider2D[] targetsBuffer = new Collider2D[50];
     protected GameObject _projectile;
-    protected Cell _landedCell;
+    public Square LandedSquare;
     public Enemy CurrentEnemyTarget { get; set; }
     public List<Enemy> _enemies = new List<Enemy>();
     public const int enemyLayerMask = 1 << 9;
     private float nextAttackTime;
     public CardSO _cardAsset;
+    public Card _card;
     public bool _ShootFirst = true;
     protected float _rotSpeed = 15f;
+
+    //自动检测最前方敌人间隔
+    protected float autoCheckCounter;
+    private const float autoCheckInterval = 1f;
 
 
     [SerializeField] protected Transform _rotTrans;
@@ -106,16 +111,16 @@ public abstract class Turret : ReusableObject
     [Header("AttackEffect")]
     public List<AttackEffect> attackEffects = new List<AttackEffect>();
 
-    public float AttackIntensify { get => _attackIntensify; set => _attackIntensify = value; }
-    public float SpeedIntensify { get => _speedIntensify; set => _speedIntensify = value; }
-    public float RangeIntensify { get => _rangeIntensify; set => _rangeIntensify = value; }
+    public float AttackIntensify { get => LandedSquare.AttackIntensify; set => _attackIntensify = value; }
+    public float SpeedIntensify { get => LandedSquare.SpeedIntensify; set => _speedIntensify = value; }
+    public float RangeIntensify { get => LandedSquare.RangeIntensify; set => _rangeIntensify = value; }
 
 
     private void Start()
     {
         _buffableEntity = this.GetComponent<BuffableTurret>();
     }
-    protected void Update()
+    protected virtual void Update()
     {
         if (!TurretLanded)
             return;
@@ -136,11 +141,10 @@ public abstract class Turret : ReusableObject
         gameObject.HideCircle();
     }
 
-    public void LandTurret(Cell endCell)
+    public virtual void LandTurret()
     {
         TurretLanded = true;
-        _landedCell = endCell;
-        endCell.SetTurret(this);
+        LandedSquare.SetTurret(this);
     }
 
     protected void PersistimeCountDown()
@@ -173,7 +177,6 @@ public abstract class Turret : ReusableObject
                     {
                         if (enemy.GetDistanceToNextPoint() < CurrentEnemyTarget.GetDistanceToNextPoint())
                             CurrentEnemyTarget = enemy;
-
                     }
                 }
                 return true;
@@ -192,6 +195,12 @@ public abstract class Turret : ReusableObject
 
     private bool TrackTarget()
     {
+        if (Time.time - autoCheckCounter > autoCheckInterval)//自动重新索敌间隔
+        {
+            CurrentEnemyTarget = null;
+            autoCheckCounter = Time.time;
+            return true;
+        }
 
         if (CurrentEnemyTarget == null)
         {
@@ -207,12 +216,12 @@ public abstract class Turret : ReusableObject
         if ((a - b).magnitude > AttackRange + 0.2f)//enemy的scale必须为1
         {
             CurrentEnemyTarget = null;
-            return false;
+            return true;
         }
         return true;
     }
 
-    protected void RotateTowardsEnemy()
+    protected virtual void RotateTowardsEnemy()
     {
         if (CurrentEnemyTarget == null)
             return;
@@ -242,9 +251,10 @@ public abstract class Turret : ReusableObject
         }
     }
 
-    public virtual void ReadCardAsset(CardSO cardSO)
+    public virtual void ReadCardAsset(Card card)
     {
-        _cardAsset = cardSO;
+        _card = card;
+        _cardAsset = _card.CardAsset;
         _projectile = Resources.Load<GameObject>("Prefabs/Projectile/BasicProjectile");
         ReadBasicAttribute();
         ReadTurretEffects();
@@ -291,7 +301,7 @@ public abstract class Turret : ReusableObject
     public override void OnUnSpawn()
     {
         _enemies.Clear();
-        _landedCell = null;
+        //_landedGround = null;
         CurrentEnemyTarget = null;
         nextAttackTime = 0;
         _rotTrans.localRotation = Quaternion.Euler(Vector3.zero);
@@ -301,6 +311,8 @@ public abstract class Turret : ReusableObject
         HideRange();
         _buffableEntity.ClearBuffs();
         attackEffects.Clear();
+        GameEvents.Instance.AddCard(_cardAsset);
+        
     }
 
 

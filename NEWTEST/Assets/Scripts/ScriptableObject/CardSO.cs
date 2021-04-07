@@ -22,7 +22,6 @@ public enum BuffName
     SpeedUp,
     LongSighted,
     Persist,
-
     SlowDown,
     None
  
@@ -32,7 +31,8 @@ public enum NoTargetBuffName
 {
     Overload,
     Investment,
-    MagicMaster
+    MagicMaster,
+    FastConveyor
 }
 
 [System.Serializable]
@@ -58,6 +58,13 @@ public struct NoTargetEffectConfig
     public NoTargetBuffName NoTargetBuffName;
     public float Duration;
     public float KeyValue;
+
+    public NoTargetEffectConfig(NoTargetBuffName name,float duration,float keyValue)
+    {
+        this.NoTargetBuffName = name;
+        this.Duration = duration;
+        this.KeyValue = keyValue;
+    }
 }
 
 

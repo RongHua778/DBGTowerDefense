@@ -8,8 +8,10 @@ public class Node : ReusableObject
     private Vector2 _targetPos;
     private GameObject _holdingCard;
 
-    [SerializeField]
-    private float _moveSpeed = 0f;
+    public float NodeSpeed
+    {
+        get => StaticData.Instance.NodeSpeed;
+    }
 
     private float _minDistance = .1f;
     public override void OnSpawn()
@@ -21,18 +23,17 @@ public class Node : ReusableObject
         _holdingCard = null;
     }
 
-    public void SetNode(Vector2 targetPos, float moveSpeed, GameObject cardObj = null)
+    public void SetNode(Vector2 targetPos, GameObject cardObj = null)
     {
         _targetPos = targetPos;
         _holdingCard = cardObj;
-        _moveSpeed = moveSpeed;
     }
 
     private void Update()
     {
         float distance = ((Vector2)transform.position - _targetPos).magnitude;
         if (distance > _minDistance)
-            transform.position = Vector2.MoveTowards(transform.position, _targetPos, _moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _targetPos, NodeSpeed * Time.deltaTime);
         else
         {
             if (_holdingCard != null)

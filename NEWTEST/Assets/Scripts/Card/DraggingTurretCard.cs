@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DBGTD.Cells;
 
-public class DraggingTowerCard : DraggingActions
+public class DraggingTurretCard : DraggingActions
 {
     private GameObject GhostTurret;
 
@@ -12,10 +12,11 @@ public class DraggingTowerCard : DraggingActions
         base.OnDraggingInUpdate();
         if (GhostTurret == null)
             return;
-        if (endCell!=null)
+        if (endCell != null)
         {
             GhostTurret.SetActive(true);
             GhostTurret.transform.position = endCell.GetPosofCell();
+            GhostTurret.GetComponent<Turret>().LandedSquare = endCell as Square;
             GhostTurret.GetComponent<Turret>().ShowRange();
         }
         else
@@ -27,7 +28,7 @@ public class DraggingTowerCard : DraggingActions
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        if (endCell.IsRoad)
+        if (endCell != null && endCell.IsRoad)
         {
             UnsuccessfulDrag();
             return;
@@ -38,7 +39,9 @@ public class DraggingTowerCard : DraggingActions
             GhostTurret.transform.position = endCell.GetPosofCell();
             GhostTurret.GetComponent<Collider2D>().enabled = true;
             Turret turret = GhostTurret.GetComponent<Turret>();
-            turret.LandTurret(endCell);
+            turret.LandTurret();
+            GameEvents.Instance.RemoveCard(_card.CardAsset);
+            ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
         else
         {
@@ -56,8 +59,7 @@ public class DraggingTowerCard : DraggingActions
     private GameObject CreateGhostTower(GameObject prefab)
     {
         GameObject turret = ObjectPool.Instance.Spawn(prefab);
-        CardSO tempCardAsset = Instantiate(_card.CardAsset);
-        turret.GetComponent<Turret>().ReadCardAsset(tempCardAsset);
+        turret.GetComponent<Turret>().ReadCardAsset(_card);
         turret.GetComponent<Collider2D>().enabled = false;
         return turret;
     }
@@ -68,6 +70,6 @@ public class DraggingTowerCard : DraggingActions
         base.UnsuccessfulDrag();
         if (GhostTurret != null)
             ObjectPool.Instance.UnSpawn(GhostTurret);
-       
+
     }
 }

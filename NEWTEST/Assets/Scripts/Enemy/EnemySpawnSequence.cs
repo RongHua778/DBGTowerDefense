@@ -8,6 +8,9 @@ public class EnemySpawnSequence
     [SerializeField]
     EnemyRace enemyRace = EnemyRace.Orc;
 
+    [SerializeField]
+    int level = 1;
+
     [SerializeField, Range(1, 100)]
     int amount = 1;
 
@@ -21,6 +24,7 @@ public class EnemySpawnSequence
     public struct State
     {
         EnemySpawnSequence sequence;
+        int level;
         int count;
         float cooldown;
         public State(EnemySpawnSequence sequence)
@@ -28,6 +32,7 @@ public class EnemySpawnSequence
             this.sequence = sequence;
             count = 0;
             cooldown = sequence.coolDown;
+            this.level = sequence.level;
         }
 
         public float Progress(float deltaTime)
@@ -41,7 +46,7 @@ public class EnemySpawnSequence
                     return cooldown;
                 }
                 count += 1;
-                LevelManager.Instance.SpawnEnemy(sequence.enemyRace,1);
+                LevelManager.Instance.SpawnEnemy(sequence.enemyRace, level);
             }
             return -1f;
         }

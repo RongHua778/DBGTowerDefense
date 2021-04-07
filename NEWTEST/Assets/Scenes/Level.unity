@@ -1477,7 +1477,7 @@ MonoBehaviour:
   MaxPersistime: 10
   StartMoney: 2
   BasicIncome: 1
-  BasicIncomeInterval: 3
+  BasicIncomeInterval: 2
   NodeSpeed: 1.5
   NodeSpawnInterval: 3
   NoTargetEffect: {fileID: 875156543}
@@ -5966,7 +5966,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[SPACE]'
+  m_Text: HeroPower[1]
 --- !u!222 &990271756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10651,19 +10651,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
   - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
   - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
-  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
-  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
-  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
-  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
-  - {fileID: 11400000, guid: f7d7f6ddfd379f44988557f63602e18b, type: 2}
-  - {fileID: 11400000, guid: f7d7f6ddfd379f44988557f63602e18b, type: 2}
-  - {fileID: 11400000, guid: 5a9028193f706ff4c8d80a0b655de08d, type: 2}
-  - {fileID: 11400000, guid: e2c53db67f74c5843b7f8a67ff4d713a, type: 2}
-  - {fileID: 11400000, guid: f3bad3b56f092514d8cb538b81620e56, type: 2}
-  - {fileID: 11400000, guid: 9790279487fad0c45a5ee94e6274b35c, type: 2}
-  - {fileID: 11400000, guid: 1d264888b6f5d594ba877eea2c3550d7, type: 2}
   - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
   - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
+  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
+  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
+  - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
+  - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
+  - {fileID: 11400000, guid: e2c53db67f74c5843b7f8a67ff4d713a, type: 2}
+  - {fileID: 11400000, guid: f3bad3b56f092514d8cb538b81620e56, type: 2}
+  - {fileID: 11400000, guid: 1d264888b6f5d594ba877eea2c3550d7, type: 2}
   _drawPile: []
   _discardPile: []
   _tablePile: []

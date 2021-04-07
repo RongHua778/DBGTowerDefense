@@ -12,13 +12,13 @@ public abstract class TurretBuff:Buff
 public class Strength : TurretBuff
 {
     public override BuffName buffName => BuffName.Strength;
-    public override bool IsStackable => false;
+    public override bool IsStackable => true;
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Turret>();
         if (Target != null)
         {
-            Target.AttackIntensify = 1f;
+            Target.AttackIntensify = 0.1f * Stacks;
         }
     }
 
@@ -35,13 +35,13 @@ public class SpeedUp : TurretBuff
 {
     public override BuffName buffName => BuffName.SpeedUp;
 
-    public override bool IsStackable => false;
+    public override bool IsStackable => true;
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Turret>();
         if (Target != null)
         {
-            Target.SpeedIntensify = 5f * Stacks;
+            Target.SpeedIntensify = 0.1f * Stacks;
         }
     }
 
@@ -54,13 +54,13 @@ public class SpeedUp : TurretBuff
 public class LongSighted : TurretBuff
 {
     public override BuffName buffName => BuffName.LongSighted;
-    public override bool IsStackable => false;
+    public override bool IsStackable => true;
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Turret>();
         if (Target != null)
         {
-            Target.RangeIntensify = 1f;
+            Target.RangeIntensify = 0.1f * Stacks;
         }
     }
 

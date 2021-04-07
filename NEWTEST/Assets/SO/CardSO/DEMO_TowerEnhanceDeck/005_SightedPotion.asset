@@ -32,8 +32,8 @@ MonoBehaviour:
   MagicRange: 1
   TurretBuffList:
   - BuffName: 2
-    Stacks: 0
-    IsInfinity: 0
+    Stacks: 1
+    IsInfinity: 1
     Duration: 10
   EnemyBuffList: []
   NoTargetEffectList: []

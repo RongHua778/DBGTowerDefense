@@ -15,7 +15,18 @@ public abstract class Enemy : ReusableObject
     protected EnemyHealth _enemyHealth;
     protected int _currentWayPointIndex;
     protected BuffableEntity _buffableEntity;
-    public int CurrentWayPointIndex => _currentWayPointIndex;
+    public int CurrentWayPointIndex 
+    {
+        get 
+        { 
+            if (_currentWayPointIndex == 0) //ÓÃÀ´·ÀÓùËþË÷µÐ
+            {
+                return WayPoint.Points.Length;
+            }
+            return _currentWayPointIndex;
+        }
+        set { _currentWayPointIndex = value; }
+    }
     public Vector3 CurrentPointPosition => WayPoint.GetWaypointPosition(_currentWayPointIndex);
 
     public float MoveSpeed

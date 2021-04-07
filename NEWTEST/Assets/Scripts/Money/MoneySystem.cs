@@ -7,13 +7,21 @@ public class MoneySystem : MonoBehaviour
     private float _incomeTimer;
 
     private static int _currentMoney;
+
+    private static int _maxMoney = 10;
+
+    public static int MaxMoney
+    {
+        get => _maxMoney;
+        set => _maxMoney = value;
+    }
     public static int CurrentMoney
     {
         get => _currentMoney;
         set
         {
-            _currentMoney = value;
-            LevelUIManager.Instance.UpdateMoneyTxt(value);
+            _currentMoney = Mathf.Min(MaxMoney, value);
+            LevelUIManager.Instance.UpdateMoneyTxt(_currentMoney);
         }
     }
 

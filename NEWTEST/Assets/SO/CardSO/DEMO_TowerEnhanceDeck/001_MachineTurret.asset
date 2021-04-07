@@ -22,7 +22,7 @@ MonoBehaviour:
   Damage: 2
   Range: 2
   Speed: 2
-  PersistTime: 15
+  PersistTime: 20
   CriticalRate: 0
   ProjectileType: 0
   ProjectileSprite: {fileID: 21300000, guid: ee2e2cded0c6786438ed4e598f236b00, type: 3}

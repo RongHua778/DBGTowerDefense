@@ -50,8 +50,7 @@ public class LevelManager : Singleton<LevelManager>
         _noTargetBuffFactory = new NoTargetEffectFactory();
         _noTargetBuffFactory.Initialize();
 
-        _enemyBuffFactory.Initialize();
-
+        _enemyFactory.Initialize();
         _projectileFactory.Initialize();
         activeScenario = scenario.Begin();
     }

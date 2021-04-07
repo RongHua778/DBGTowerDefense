@@ -6,10 +6,15 @@ namespace DBGTD.Cells
 {
     public class Square : Cell
     {
-        List<Cell> neighbours = null;
+        public float AttackIntensify;
+        public float RangeIntensify;
+        public float SpeedIntensify;
+
+        public List<Cell> neighbours;
         protected static readonly Vector2[] _directions =
         {
-            new Vector2(1,0),new Vector2(-1,0),new Vector2(0,1),new Vector2(0,-1)
+            new Vector2(1,0),new Vector2(-1,0),new Vector2(0,1),new Vector2(0,-1),
+            new Vector2(1,1),new Vector2(-1,-1),new Vector2(1,-1),new Vector2(-1,1)
         };
 
         public void Start()
@@ -29,10 +34,10 @@ namespace DBGTD.Cells
 
         public override List<Cell> GetNeighbours(List<Cell> cells)
         {
-            if (neighbours == null)
+            if (neighbours.Count <= 0)
             {
-                neighbours = new List<Cell>(4);
-                foreach(var direction in _directions)
+                neighbours = new List<Cell>(8);
+                foreach (var direction in _directions)
                 {
                     var neighbour = cells.Find(c => c.OffsetCoord == OffsetCoord + direction);
                     if (neighbour == null) continue;

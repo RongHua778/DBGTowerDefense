@@ -28,13 +28,12 @@ public class Overload : NoTargetBuff
     {
         base.Affect(target);
         StaticData.Instance.NodeSpawnInterval /= KeyValue;
-        //StaticData.Instance.NodeSpeed *= KeyValue;
+
     }
 
     public override void End()
     {
         StaticData.Instance.NodeSpawnInterval *= KeyValue;
-        //StaticData.Instance.NodeSpeed /= KeyValue;
     }
 }
 
@@ -76,5 +75,26 @@ public class MagicMaster : NoTargetBuff
     public override void End()
     {
         StaticData.Instance.MagicRangeIntensify -= KeyValue;
+    }
+}
+
+public class FastConveyor : NoTargetBuff
+{
+    public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.FastConveyor;
+
+    public override BuffName buffName => BuffName.None;
+
+    public override bool IsStackable => false;
+
+    public override void Affect(GameObject target)
+    {
+        base.Affect(target);
+        StaticData.Instance.NodeSpeed += KeyValue;
+    }
+
+    public override void End()
+    {
+        StaticData.Instance.NodeSpeed -= KeyValue;
+        
     }
 }
