@@ -19,12 +19,12 @@ public class PoloTurret : Turret
 
     }
 
-    public override void LandTurret(Square landedSquare)
+    public override void LandTurret()
     {
-        base.LandTurret(landedSquare);
-        foreach (Square square in LandedSquare.GetRangeSquares(1))
+        base.LandTurret();
+        foreach (Square square in LandedSquare.neighbours)
         {
-            square.RangeIntensify += 1;
+            square.AttackIntensify += 1;
         }
     }
 
@@ -38,9 +38,9 @@ public class PoloTurret : Turret
         base.OnUnSpawn();
         if (LandedSquare != null)
         {
-            foreach (Square square in LandedSquare.GetRangeSquares(1))
+            foreach (Square square in LandedSquare.neighbours)
             {
-                square.RangeIntensify -= 1;
+                square.AttackIntensify -= 1;
             }
         }
     }

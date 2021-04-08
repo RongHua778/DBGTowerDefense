@@ -12,7 +12,7 @@ public class DraggingNoTargetMagicCard : DraggingActions
     public override void OnDraggingInUpdate()
     {
         base.OnDraggingInUpdate();
-        if (endSquare == null)
+        if (endCell == null)
             StaticData.Instance.NoTargetEffect.SetActive(false);
         else
             StaticData.Instance.NoTargetEffect.SetActive(true);

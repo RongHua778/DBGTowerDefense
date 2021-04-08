@@ -16,18 +16,18 @@ public class Strength : TurretBuff
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Turret>();
-        //if (Target != null)
-        //{
-        //    Target.AttackIntensify = 0.1f * Stacks;
-        //}
+        if (Target != null)
+        {
+            Target.AttackIntensify = 0.1f * Stacks;
+        }
     }
 
     public override void End()
     {
-        //if (Target != null)
-        //{
-        //    Target.AttackIntensify = 0f;
-        //}
+        if (Target != null)
+        {
+            Target.AttackIntensify = 0f;
+        }
     }
 }
 
@@ -39,10 +39,10 @@ public class SpeedUp : TurretBuff
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Turret>();
-        //if (Target != null)
-        //{
-        //    Target.SpeedIntensify = 0.1f * Stacks;
-        //}
+        if (Target != null)
+        {
+            Target.SpeedIntensify = 0.1f * Stacks;
+        }
     }
 
     public override void End()
@@ -58,18 +58,18 @@ public class LongSighted : TurretBuff
     public override void Affect(GameObject target)
     {
         Target = target.GetComponent<Turret>();
-        //if (Target != null)
-        //{
-        //    Target.RangeIntensify = 1;
-        //}
+        if (Target != null)
+        {
+            Target.RangeIntensify = 0.1f * Stacks;
+        }
     }
 
     public override void End()
     {
-        //if (Target != null)
-        //{
-        //    Target.RangeIntensify = 0;
-        //}
+        if (Target != null)
+        {
+            Target.RangeIntensify = 0f;
+        }
     }
 }
 

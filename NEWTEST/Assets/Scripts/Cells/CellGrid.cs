@@ -63,7 +63,7 @@ namespace DBGTD.Cells
             if (GameStarted != null)
                 GameStarted.Invoke(this, new EventArgs());
 
-            CellGridState = new SquareNormalState(this);
+            CellGridState = new CellGridStateNormalBase(this);
         }
 
         private void Initialize()
@@ -87,7 +87,7 @@ namespace DBGTD.Cells
                 cell.CellClicked += OnCellClicked;
                 cell.CellHighlighted += OnCellHighlighted;
                 cell.CellDehighlighted += OnCellDehighlighted;
-                cell.GetComponent<Cell>().GetMap(Cells);
+                cell.GetComponent<Cell>().GetNeighbours(Cells);
             }
         }
 

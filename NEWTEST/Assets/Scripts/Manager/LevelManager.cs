@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using DBGTD.Cells;
 
 
 //玩家生命值计算，胜负条件判断
 public class LevelManager : Singleton<LevelManager>
 {
     [Header("Settings")]
-    public CellGrid CellGrid;
     [SerializeField] private int lives = 10;
     [SerializeField] private WayPoint _wayPoint = default;
 
@@ -25,8 +23,6 @@ public class LevelManager : Singleton<LevelManager>
     private TypeFactory _enemyBuffFactory;
     private TypeFactory _attackEffectFactory;
     private TypeFactory _noTargetBuffFactory;
-
-   
 
     private int _maxLive = 10;
     public int TotalLives

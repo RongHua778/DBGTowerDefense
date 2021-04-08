@@ -13,7 +13,7 @@ public class DraggingMagicCard : DraggingActions
     public override void OnDraggingInUpdate()
     {
         base.OnDraggingInUpdate();
-        if (endSquare == null)
+        if (endCell == null)
             HideMagicCircle();
         else
             DrawMagicCicle();
@@ -34,6 +34,7 @@ public class DraggingMagicCard : DraggingActions
             UnsuccessfulDrag();
         }
         gameObject.HideCircle();
+        _card.HideCard();
     }
 
     public override void OnStartDrag()

@@ -6,21 +6,16 @@ namespace DBGTD.Cells
 {
     public class Square : Cell
     {
-        public bool HasTurret;
-        public bool IsRoad;
-        public Turret SquareTurret;
-
         public float AttackIntensify;
-        public int RangeIntensify;
+        public float RangeIntensify;
         public float SpeedIntensify;
 
-        //public List<Cell> neighbours;
-        public static Turret PreviewingTurret = null;
-        //protected static readonly Vector2[] _directions =
-        //{
-        //    new Vector2(1,0),new Vector2(-1,0),new Vector2(0,1),new Vector2(0,-1),
-        //    new Vector2(1,1),new Vector2(-1,-1),new Vector2(1,-1),new Vector2(-1,1)
-        //};
+        public List<Cell> neighbours;
+        protected static readonly Vector2[] _directions =
+        {
+            new Vector2(1,0),new Vector2(-1,0),new Vector2(0,1),new Vector2(0,-1),
+            new Vector2(1,1),new Vector2(-1,-1),new Vector2(1,-1),new Vector2(-1,1)
+        };
 
         public void Start()
         {
@@ -37,37 +32,19 @@ namespace DBGTD.Cells
             return (int)(Mathf.Abs(OffsetCoord.x - other.OffsetCoord.x) + Mathf.Abs(OffsetCoord.y - other.OffsetCoord.y));
         }
 
-        public override void GetMap(List<Cell> cells)
+        public override List<Cell> GetNeighbours(List<Cell> cells)
         {
-            base.GetMap(cells);
-            //if (neighbours.Count <= 0)
-            //{
-            //    neighbours = new List<Cell>(8);
-            //    foreach (var direction in _directions)
-            //    {
-            //        var neighbour = cells.Find(c => c.OffsetCoord == OffsetCoord + direction);
-            //        if (neighbour == null) continue;
-            //        neighbours.Add(neighbour);
-            //    }
-            //}
-            //return neighbours;
-        }
-
-        public List<Square> GetRangeSquares(int range)
-        {
-            List<Square> squaresToReturn = new List<Square>();
-            for (int x = -range; x <= range; x++)
+            if (neighbours.Count <= 0)
             {
-                for (int y = -(range - Mathf.Abs(x)); y <= range - Mathf.Abs(x); y++)
+                neighbours = new List<Cell>(8);
+                foreach (var direction in _directions)
                 {
-                    if (x == 0 && y == 0)
-                        continue;
-                    var cell = cellMap.Find(c => c.OffsetCoord == OffsetCoord + new Vector2(x, y));
-                    if (cell != null)
-                        squaresToReturn.Add(cell as Square);
+                    var neighbour = cells.Find(c => c.OffsetCoord == OffsetCoord + direction);
+                    if (neighbour == null) continue;
+                    neighbours.Add(neighbour);
                 }
             }
-            return squaresToReturn;
+            return neighbours;
         }
 
         public override void CopyFields(Cell newCell)
@@ -103,18 +80,6 @@ namespace DBGTD.Cells
             {
                 spriteRenderer.color = color;
             }
-        }
-
-        public void SetTurret(Turret turret)
-        {
-            HasTurret = true;
-            SquareTurret = turret;
-        }
-
-        public void TurretDemolish()
-        {
-            HasTurret = false;
-            SquareTurret = null;
         }
     }
 }
