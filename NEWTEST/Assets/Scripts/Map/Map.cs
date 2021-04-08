@@ -52,6 +52,7 @@ public class Map
             drawNodes();
             drawRoad();
             Debug.Log(k);
+            if (k > 2000) break;
         }
     }
 
