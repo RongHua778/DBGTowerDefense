@@ -9,7 +9,7 @@ public abstract class DraggingActions : MonoBehaviour
     private bool dragging = false;
     private Vector3 pointerOffset;
     private float zDisplacement;
-    protected Cell endCell;
+    protected Square endSquare;
     protected bool endDragSuccessful = true;
     protected Camera _mainCam;
 
@@ -48,7 +48,7 @@ public abstract class DraggingActions : MonoBehaviour
     public virtual void OnEndDrag()
     {
         StaticData.Instance.GameSpeedResume();
-        if (endCell == null)
+        if (endSquare == null)
         {
             UnsuccessfulDrag();
         }
@@ -65,8 +65,8 @@ public abstract class DraggingActions : MonoBehaviour
     public virtual void OnDraggingInUpdate()
     {
         StaticData.Instance.GameSlowDown();
-        WheatherEndAtCell(out endCell);
-        if (endCell == null)
+        WheatherEndAtCell(out endSquare);
+        if (endSquare == null)
             _card.ShowCard();
         else
             _card.HideCard();
@@ -132,20 +132,28 @@ public abstract class DraggingActions : MonoBehaviour
         return _mainCam.ScreenToWorldPoint(screenMousePos);
     }
 
-    protected bool WheatherEndAtCell(out Cell inCell)
+    protected bool WheatherEndAtCell(out Square inSquare)
     {
-        inCell = null;
+        inSquare = null;
         RaycastHit2D hit;
         hit = Physics2D.Raycast(MouseInWorldCoords(), Vector3.forward, Mathf.Infinity, GridLayer);
         if (hit.collider == null)
             return false;
-        Cell cell = hit.collider.GetComponent<Cell>();
-        if (cell != null)
+        Square square = hit.collider.GetComponent<Square>();
+        if (square != null)
         {
-            inCell = cell;
+            inSquare = square;
             return true;
         }
         return false;
+
+        //inSquare = null;
+        //if (Cell.HighLightedCell != null)
+        //{
+        //    inSquare = Cell.HighLightedCell as Square;
+        //    return true;
+        //}
+        //return false;
     }
 
 
