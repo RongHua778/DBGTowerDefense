@@ -8,14 +8,11 @@ namespace DBGTD.Cells
 {
     public abstract class Cell : MonoBehaviour, IGraphNode, IEquatable<Cell>
     {
-
+        protected List<Cell> cellMap=new List<Cell>();
         private Vector2 _offsetCoord;
 
         public Vector2 OffsetCoord { get => _offsetCoord; set => _offsetCoord = value; }
 
-        public bool HasTurret;
-        public bool IsRoad;
-        public Turret CellTurret;
 
         public static Cell HighLightedCell;
 
@@ -23,6 +20,8 @@ namespace DBGTD.Cells
 
         public event EventHandler CellHighlighted;
         public event EventHandler CellDehighlighted;
+
+
 
         protected virtual void OnMouseEnter()
         {
@@ -95,22 +94,15 @@ namespace DBGTD.Cells
             return transform.position;
         }
 
-        public abstract List<Cell> GetNeighbours(List<Cell> cells);
+        public virtual void GetMap(List<Cell> cells)
+        {
+            cellMap = cells;
+        }
 
         public abstract void CopyFields(Cell newCell);
 
 
-        public void SetTurret(Turret turret)
-        {
-            HasTurret = true;
-            CellTurret = turret;
-        }
 
-        public void TurretDemolish()
-        {
-            HasTurret = false;
-            CellTurret = null;
-        }
     }
 }
 

@@ -19,11 +19,11 @@ public class TestController : Singleton<TestController>
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            List<Cell> cells = _cellGrid.Cells[13].GetNeighbours(_cellGrid.Cells);
-            foreach (Cell cell in cells)
-            {
-                Debug.Log(cell.OffsetCoord);
-            }
+            //List<Cell> cells = _cellGrid.Cells[13].GetNeighbours(_cellGrid.Cells);
+            //foreach (Cell cell in cells)
+            //{
+            //    Debug.Log(cell.OffsetCoord);
+            //}
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {

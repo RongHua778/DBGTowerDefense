@@ -20,7 +20,7 @@ MonoBehaviour:
   TurretPrefab: {fileID: 8005339885002978379, guid: 8e85b89edebb4d646801e0efecfc84eb,
     type: 3}
   Damage: 6
-  Range: 4
+  Range: 3
   Speed: 0.5
   PersistTime: 25
   CriticalRate: 0

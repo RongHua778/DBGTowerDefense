@@ -1,66 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1018314274568266303
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7103163172918139730}
-  - component: {fileID: 3305975293607843207}
-  - component: {fileID: 5222532387200502973}
-  m_Layer: 2
-  m_Name: AttackCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &7103163172918139730
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018314274568266303}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8005339885002978380}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &3305975293607843207
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018314274568266303}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
---- !u!114 &5222532387200502973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018314274568266303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1a2f2e623281b429039f4ac16487b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turret: {fileID: 8005339885002978381}
 --- !u!1 &5381410236099205375
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +412,6 @@ Transform:
   - {fileID: 8005339886195435602}
   - {fileID: 8005339885030405820}
   - {fileID: 2817897517205459832}
-  - {fileID: 7103163172918139730}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -489,13 +427,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6335035da0dbb3149b31baa228acf34b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemies: []
   _cardAsset: {fileID: 0}
+  _card: {fileID: 0}
+  ShootFirst: 1
+  LandedSquare: {fileID: 0}
   _rotTrans: {fileID: 8005339885030405820}
   _projectileSpawnPos: {fileID: 8005339886081336497}
   _persistCanvas: {fileID: 6027323918009331539}
   _persistProgress: {fileID: 6401892357012106256}
-  _effectableEntity: {fileID: 0}
   _attackRange: 3
   _attackDamage: 2
   _attackSpeed: 1
@@ -513,7 +452,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8005339885002978379}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
