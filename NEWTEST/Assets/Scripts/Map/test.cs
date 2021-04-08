@@ -13,14 +13,10 @@ public class test : MonoBehaviour
 
     void Start()
     {
-        if (width < 8)
-        {
-            width = 8;
-        }
-        if (height < 8)
-        {
-            height = 8;
-        }
+
+        if (width < 8) width = 8;
+        if (height < 8) height = 8;
+
         Map map = new Map(width, height,nodes);
         map.generateMap();
         for (int i = 0; i < width; i++)

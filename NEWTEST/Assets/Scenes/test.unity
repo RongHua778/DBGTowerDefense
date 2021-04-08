@@ -221,9 +221,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   square: {fileID: 359407417}
   node: {fileID: 1549996925}
-  width: 20
-  height: 15
-  nodes: 5
+  width: 12
+  height: 9
+  nodes: 3
 --- !u!1 &359407417
 GameObject:
   m_ObjectHideFlags: 0
