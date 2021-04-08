@@ -52,10 +52,6 @@ public class Map
             drawNodes();
             drawRoad();
             Debug.Log(k);
-            if (k > 100)
-            {
-                break;
-            }
         }
     }
 
@@ -78,7 +74,7 @@ public class Map
                 case 0:
                     tempX = Mathf.Min((int)Random.Range(gapW / 2, gapW)+tempX, _width-3);
                     nodes[i].X = tempX;
-                    nodes[i].Y = Random.Range(2, 4);
+                    nodes[i].Y = Random.Range(1, 3);
                     break;
                 case 1:
                     tempY = Mathf.Min((int)Random.Range(gapL / 2, gapL)+tempY, _height - 3);
@@ -94,7 +90,7 @@ public class Map
                     break;
                 case 3:
                     tempY = Mathf.Min((int)Random.Range(gapL / 2, gapL) + tempY, _height - 4);
-                    nodes[i].X = Random.Range(2, 4);
+                    nodes[i].X = Random.Range(1, 3);
                     nodes[i].Y = _height - tempY;
                     break;
             }
