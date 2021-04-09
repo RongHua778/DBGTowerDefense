@@ -126,11 +126,7 @@ public abstract class Turret : ReusableObject
 
     //自动检测最前方敌人间隔
     protected float autoCheckCounter;
-<<<<<<< HEAD
     private const float autoCheckInterval = .5f;
-=======
-    private const float autoCheckInterval = 1f;
->>>>>>> parent of e41f188 (Revert "Merge branch 'main' of https://github.com/RongHua778/DBGTowerDefense into main")
 
     private void Start()
     {
