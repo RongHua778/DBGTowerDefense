@@ -126,7 +126,7 @@ public abstract class Turret : ReusableObject
 
     //自动检测最前方敌人间隔
     protected float autoCheckCounter;
-    private const float autoCheckInterval = 1f;
+    private const float autoCheckInterval = .5f;
 
     private void Start()
     {
@@ -293,13 +293,13 @@ public abstract class Turret : ReusableObject
             CurrentEnemyTarget = null;
             return false;
         }
-        Vector2 a = transform.position;
-        Vector2 b = CurrentEnemyTarget.transform.position;
-        if ((a - b).magnitude > AttackRange + 0.2f)//enemy的scale必须为1
-        {
-            CurrentEnemyTarget = null;
-            return true;
-        }
+        //Vector2 a = transform.position;
+        //Vector2 b = CurrentEnemyTarget.transform.position;
+        //if ((a - b).magnitude > AttackRange + 0.2f)//enemy的scale必须为1
+        //{
+        //    CurrentEnemyTarget = null;
+        //    return true;
+        //}
         return true;
     }
 
