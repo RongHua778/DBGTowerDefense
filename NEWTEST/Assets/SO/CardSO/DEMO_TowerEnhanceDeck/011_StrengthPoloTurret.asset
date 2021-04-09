@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardType: 0
   CardName: PoloTurret
-  Description: Increase 1 attack for adjacent turrets.
+  Description: Increase 1 range for adjacent turrets.
   CardImage: {fileID: 21300000, guid: cc7fc7ba0af55fa4981c8423eb79d188, type: 3}
   CardCost: 3
   TurretPrefab: {fileID: 8005339885002978379, guid: fbfeee01a8b96ba4dab4df6390674c9d,
     type: 3}
   Damage: 0
-  Range: 1.5
+  Range: 1
   Speed: 0
   PersistTime: 25
   CriticalRate: 0

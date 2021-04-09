@@ -9,6 +9,7 @@ EditorUserSettings:
       value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
       flags: 0
     RecentlyUsedScenePath-1:
+<<<<<<< HEAD
       value: 224247031146466f2f3d4c040222521501180a21630d3e3120391136f1af1120e3ea26e5e268700f3a07e1391771323cf7040c45e305031f08
       flags: 0
     RecentlyUsedScenePath-2:
@@ -28,6 +29,27 @@ EditorUserSettings:
       flags: 0
     RecentlyUsedScenePath-7:
       value: 22424703114646680e0b0227036c4b150503563f22213229
+=======
+      value: 22424703114646680e0b0227036c4b150503563f22213229
+      flags: 0
+    RecentlyUsedScenePath-2:
+      value: 224247031146466f2f3d4c040222521501180a21630d3e3120391136f1af1120e3ea26e5e268700f3a07e1391771323cf7040c45e305031f08
+      flags: 0
+    RecentlyUsedScenePath-3:
+      value: 224247031146466f2f3d4c040222521501180a21630d3e3120391136f1af1120e3ea26e5e26b700f3a07e1391771323cf7040c45e305031f08
+      flags: 0
+    RecentlyUsedScenePath-4:
+      value: 224247031146466f2f3d4c040222521501180a21630d3e3120391136f1af1120e3ea26e5e26e700f3a07e1391771323cf7040c45e305031f08
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 224247031146466f2f3d4c040222521501180a21630d3e3120391136f1af1120e3ea26e5e269700f3a07e1391771323cf7040c45e305031f08
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646680e0b0227036c6b1505032a02623d28393930
+      flags: 0
+    RecentlyUsedScenePath-7:
+      value: 22424703114646680e0b0227036c73150012146439262f2434
+>>>>>>> parent of e41f188 (Revert "Merge branch 'main' of https://github.com/RongHua778/DBGTowerDefense into main")
       flags: 0
     vcSharedLogLevel:
       value: 0d5e400f0650

@@ -82,7 +82,7 @@ public class CardSO : ScriptableObject
     [Header("TowerCard Info")]
     public GameObject TurretPrefab;
     public float Damage;
-    public float Range;
+    public int Range;
     public float Speed;
     public float PersistTime;
     public float CriticalRate;

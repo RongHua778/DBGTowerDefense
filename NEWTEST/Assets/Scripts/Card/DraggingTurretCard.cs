@@ -12,12 +12,10 @@ public class DraggingTurretCard : DraggingActions
         base.OnDraggingInUpdate();
         if (GhostTurret == null)
             return;
-        if (endCell != null)
+        if (endSquare != null)
         {
             GhostTurret.SetActive(true);
-            GhostTurret.transform.position = endCell.GetPosofCell();
-            GhostTurret.GetComponent<Turret>().LandedSquare = endCell as Square;
-            GhostTurret.GetComponent<Turret>().ShowRange();
+            GhostTurret.transform.position = endSquare.GetPosofCell();
         }
         else
         {
@@ -28,7 +26,7 @@ public class DraggingTurretCard : DraggingActions
     public override void OnEndDrag()
     {
         base.OnEndDrag();
-        if (endCell != null && endCell.IsRoad)
+        if (endSquare != null && endSquare.IsRoad)
         {
             UnsuccessfulDrag();
             return;
@@ -36,11 +34,9 @@ public class DraggingTurretCard : DraggingActions
         if (endDragSuccessful)
         {
             MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
-            GhostTurret.transform.position = endCell.GetPosofCell();
-            GhostTurret.GetComponent<Collider2D>().enabled = true;
-            Turret turret = GhostTurret.GetComponent<Turret>();
-            turret.LandTurret();
-            GameEvents.Instance.RemoveCard(_card.CardAsset);
+            GhostTurret.transform.position = endSquare.GetPosofCell();
+            GhostTurret.GetComponent<Turret>().LandTurret(endSquare);
+            GameEvents.Instance.RemoveCard(_card.CardAsset);//暂时从卡组移除这张牌
             ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
         else
@@ -48,12 +44,14 @@ public class DraggingTurretCard : DraggingActions
             UnsuccessfulDrag();
         }
         GhostTurret = null;
+        Square.PreviewingTurret = null;
     }
 
     public override void OnStartDrag()
     {
         base.OnStartDrag();
         GhostTurret = CreateGhostTower(_card.CardAsset.TurretPrefab);
+        Square.PreviewingTurret = GhostTurret.GetComponent<Turret>();
     }
 
     private GameObject CreateGhostTower(GameObject prefab)
