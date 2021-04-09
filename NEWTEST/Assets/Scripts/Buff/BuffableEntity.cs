@@ -7,54 +7,37 @@ using System.Linq;
 
 public abstract class BuffableEntity : MonoBehaviour
 {
-    public Dictionary<int, Buff> _buffs = new Dictionary<int, Buff>();
-    void Update()
-    {
-        foreach (var effect in _buffs.Values.ToList())
-        {
-            effect.Tick(Time.deltaTime);
-            if (effect.IsFinished)
-            {
-                _buffs.Remove((int)effect.buffName);
-            }
-        }
-    }
 
-    public void AddBuff(Buff effect, int stacks, bool isInfinity, float duration)
-    {
 
-        if (_buffs.ContainsKey((int)effect.buffName))
-        {
-            Buff effectItem = _buffs[(int)effect.buffName];
+    //public void AddBuff(Buff newBuff)
+    //{
 
-            if (effect.IsStackable)
-            {
-                effectItem.Stacks += stacks;
-            }
-            if (effectItem.Duration < duration)
-            {
-                effectItem.Duration = duration;
-            }
-            effectItem.Affect(this.gameObject);
-        }
-        else
-        {
-            effect.IsInfinity = isInfinity;
-            effect.Stacks += stacks;
-            effect.Duration += duration;
-            _buffs.Add((int)effect.buffName, effect);
-            effect.Affect(this.gameObject);
-        }
-    }
+    //    if (_buffs.ContainsKey((int)newBuff.buffName))
+    //    {
+    //        Buff buff = _buffs[(int)newBuff.buffName];
 
-    public virtual void ApplyEffects(IEnumerable<BuffConfig> effectList)
-    {
+    //        if (buff.IsStackable)
+    //        {
+    //            buff.Stacks += newBuff.Stacks;
+    //        }
+    //        if (buff.Duration < newBuff.Duration)
+    //        {
+    //            buff.Duration = newBuff.Duration;
+    //        }
+    //        buff.Affect(this.gameObject);
+    //    }
+    //    else
+    //    {
+    //        _buffs.Add((int)newBuff.buffName, newBuff);
+    //        newBuff.Affect(this.gameObject);
+    //    }
+    //}
 
-    }
+    //public virtual void ApplyEffects(IEnumerable<object> effectList)
+    //{
 
-    public void ClearBuffs()
-    {
-        _buffs.Clear();
-    }
+    //}
+
+    
 
 }

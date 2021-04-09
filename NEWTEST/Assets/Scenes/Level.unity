@@ -4650,43 +4650,43 @@ Transform:
   - {fileID: 674209619}
   - {fileID: 1268572445}
   - {fileID: 1913426182}
+  - {fileID: 1068568026}
   - {fileID: 345878745}
+  - {fileID: 1766078940}
   - {fileID: 420497444}
   - {fileID: 313454117}
   - {fileID: 599165565}
   - {fileID: 1134403381}
-  - {fileID: 1068568026}
-  - {fileID: 1766078940}
-  - {fileID: 1457003883}
   - {fileID: 418664389}
-  - {fileID: 2034646983}
-  - {fileID: 1103810132}
-  - {fileID: 950871908}
-  - {fileID: 1176612882}
-  - {fileID: 1436914870}
-  - {fileID: 2003713264}
-  - {fileID: 1387930307}
-  - {fileID: 1528806293}
   - {fileID: 1832115647}
+  - {fileID: 1528806293}
   - {fileID: 396088863}
-  - {fileID: 663070880}
+  - {fileID: 1457003883}
+  - {fileID: 217185379}
   - {fileID: 475655475}
   - {fileID: 1139909730}
+  - {fileID: 663070880}
   - {fileID: 1097205219}
-  - {fileID: 217185379}
+  - {fileID: 1103810132}
+  - {fileID: 2034646983}
+  - {fileID: 1176612882}
   - {fileID: 987051621}
+  - {fileID: 950871908}
   - {fileID: 1041346633}
   - {fileID: 2049361521}
-  - {fileID: 1562595150}
+  - {fileID: 1436914870}
   - {fileID: 811217742}
+  - {fileID: 1562595150}
   - {fileID: 1976555093}
   - {fileID: 2090207789}
-  - {fileID: 887464798}
+  - {fileID: 2003713264}
   - {fileID: 941964277}
   - {fileID: 808925002}
+  - {fileID: 887464798}
   - {fileID: 44135230}
   - {fileID: 966066896}
   - {fileID: 779482700}
+  - {fileID: 1387930307}
   - {fileID: 2085573708}
   - {fileID: 2053000920}
   - {fileID: 1571400445}
@@ -5259,22 +5259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9091a99e44f627a4f822c692ab8930a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startDeck:
-  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
-  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
-  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
-  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
-  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
-  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
-  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
-  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
-  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
-  - {fileID: 11400000, guid: e10c04980e2e57d43a8b3a36ef392ee8, type: 2}
-  - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
-  - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
-  - {fileID: 11400000, guid: e2c53db67f74c5843b7f8a67ff4d713a, type: 2}
-  - {fileID: 11400000, guid: f3bad3b56f092514d8cb538b81620e56, type: 2}
-  - {fileID: 11400000, guid: 1d264888b6f5d594ba877eea2c3550d7, type: 2}
+  StartDeck: {fileID: 11400000, guid: f959a35e5cfe70e48adf8f2592f926d4, type: 2}
   _drawPile: []
   _discardPile: []
   _tablePile: []

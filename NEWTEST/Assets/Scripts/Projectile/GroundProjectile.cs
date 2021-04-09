@@ -17,6 +17,7 @@ public class GroundProjectile : Projectile
 
     protected override void DealDamage()
     {
+        base.DealDamage();
         IDamageable idamage;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _sputteringRange);
         foreach (var item in colliders)

@@ -19,9 +19,6 @@ public abstract class NoTargetBuff : Buff
 public class Overload : NoTargetBuff
 {
     public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.Overload;
-
-    public override BuffName buffName => BuffName.None;
-
     public override bool IsStackable => false;
 
     public override void Affect(GameObject target)
@@ -40,8 +37,6 @@ public class Overload : NoTargetBuff
 public class Inverstment : NoTargetBuff
 {
     public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.Investment;
-
-    public override BuffName buffName => BuffName.None;
 
     public override bool IsStackable => false;
 
@@ -62,7 +57,6 @@ public class MagicMaster : NoTargetBuff
 {
     public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.MagicMaster;
 
-    public override BuffName buffName => BuffName.None;
 
     public override bool IsStackable => false;
 
@@ -82,7 +76,6 @@ public class FastConveyor : NoTargetBuff
 {
     public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.FastConveyor;
 
-    public override BuffName buffName => BuffName.None;
 
     public override bool IsStackable => false;
 

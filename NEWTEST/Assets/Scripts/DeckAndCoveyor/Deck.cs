@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    public List<CardSO> _startDeck = new List<CardSO>();
+    public DeckSO StartDeck;
+    //public List<CardSO> _startDeck = new List<CardSO>();
 
     public List<CardSO> _drawPile = new List<CardSO>();
     public List<CardSO> _discardPile = new List<CardSO>();
@@ -25,7 +26,7 @@ public class Deck : MonoBehaviour
 
     private void InitDeck()
     {
-        foreach(var cardSO in _startDeck)
+        foreach(var cardSO in StartDeck.DeckCards)
         {
             CardSO newCard = Instantiate(cardSO);
             newCard.name = newCard.CardName;

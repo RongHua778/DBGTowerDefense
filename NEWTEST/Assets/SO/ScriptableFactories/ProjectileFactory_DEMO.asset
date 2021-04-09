@@ -15,3 +15,4 @@ MonoBehaviour:
   ProjectilsPrefabs:
   - {fileID: 6037897268092436281, guid: 751308a7e689b2a4a87cd01bdd376b92, type: 3}
   - {fileID: 8928547858214217185, guid: 8b4e2c65d39031a4589268eef74a4ec8, type: 3}
+  - {fileID: -6980644680660688275, guid: bebf681791185db46b1f1a83ec77e0f8, type: 3}

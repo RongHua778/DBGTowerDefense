@@ -26,8 +26,6 @@ public abstract class Turret : ReusableObject
     [SerializeField] protected GameObject _persistCanvas;
     [SerializeField] protected Image _persistProgress;
 
-    protected BuffableTurret _buffableEntity;
-
     protected bool _turretLanded = false;
     public bool TurretLanded
     {
@@ -114,8 +112,8 @@ public abstract class Turret : ReusableObject
         set { _maxPersistTime = value; }
     }
 
-    [Header("AttackEffect")]
-    public List<AttackEffect> attackEffects = new List<AttackEffect>();
+    //[Header("AttackEffect")]
+    //public List<AttackEffect> attackEffects = new List<AttackEffect>();
 
 
     //µ–»ÀºÏ≤‚œ‡πÿ
@@ -130,7 +128,6 @@ public abstract class Turret : ReusableObject
 
     private void Start()
     {
-        _buffableEntity = this.GetComponent<BuffableTurret>();
         LayerMask mask = enemyLayerMask;
         filter.SetLayerMask(mask);
         filter.useLayerMask = true;
@@ -320,9 +317,7 @@ public abstract class Turret : ReusableObject
         {
             if (CurrentEnemyTarget != null)
             {
-                Projectile newProjectile = LevelManager.Instance.SpawnProjectile(_cardAsset.ProjectileType);
-                newProjectile.transform.position = _projectileSpawnPos.transform.position;
-                newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget, this);
+                LocateTarget();
             }
             else
             {
@@ -333,13 +328,20 @@ public abstract class Turret : ReusableObject
         }
     }
 
+    protected virtual void LocateTarget()
+    {
+        Projectile newProjectile = LevelManager.Instance.SpawnProjectile(_cardAsset.ProjectileType);
+        newProjectile.transform.position = _projectileSpawnPos.transform.position;
+        newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget.transform, this);
+    }
+
     public virtual void ReadCardAsset(Card card)
     {
         _card = card;
         _cardAsset = _card.CardAsset;
         _projectile = Resources.Load<GameObject>("Prefabs/Projectile/BasicProjectile");
         ReadBasicAttribute();
-        ReadTurretEffects();
+        //ReadTurretEffects();
     }
 
     private void ReadBasicAttribute()
@@ -353,27 +355,18 @@ public abstract class Turret : ReusableObject
         ProjectileSpeed = _cardAsset.ProjectileSpeed;
     }
 
-    private void ReadTurretEffects()
-    {
-        //attackeffect
-        foreach (var attackEffect in _cardAsset.AttackEffectBuffList)
-        {
-            AttackEffect effect = LevelManager.Instance.GetAttackEffect((int)attackEffect.AttackEffectType);
-            effect.KeyValue = attackEffect.Value;
-            attackEffects.Add(effect);
-        }
-    }
+    //private void ReadTurretEffects()
+    //{
+    //    //attackeffect
+    //    foreach (var attackEffect in _cardAsset.PlayEffectList.AttackEffects)
+    //    {
+    //        AttackEffect effect = LevelManager.Instance.GetAttackEffect((int)attackEffect.ChangeAttackEffect);
+    //        effect.KeyValue = attackEffect.Value;
+    //        attackEffects.Add(effect);
+    //    }
+    //}
 
 
-    private void OnMouseOver()
-    {
-        //ShowRange();
-    }
-
-    private void OnMouseExit()
-    {
-        //HideRange();
-    }
 
     public override void OnSpawn()
     {
@@ -384,17 +377,19 @@ public abstract class Turret : ReusableObject
     {
         SquareColliders.Clear();
         potentialEnemyies.Clear();
-        //_landedGround = null;
         CurrentEnemyTarget = null;
         nextAttackTime = 0;
         _rotTrans.localRotation = Quaternion.Euler(Vector3.zero);
         HideRange();
-        _buffableEntity.ClearBuffs();
-        attackEffects.Clear();
+        //attackEffects.Clear();
         GameEvents.Instance.AddCard(_cardAsset);
 
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(this.transform.position, _cardAsset.SputteringRange);
+    }
 
 
 }

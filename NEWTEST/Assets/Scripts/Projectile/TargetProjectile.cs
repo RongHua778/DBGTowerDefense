@@ -6,27 +6,28 @@ public class TargetProjectile : Projectile
 {
     protected override void MoveProjectile()
     {
-        if (_enemyTarget != null)
+        if (target != null)
         {
-            MoveTowards(_enemyTarget.transform.position);
+            MoveTowards(target.position);
         }
     }
 
     protected override void RotateProjectile()
     {
-        if (_enemyTarget != null)
+        if (target != null)
         {
-            RotateTowards(_enemyTarget.transform.position);
+            RotateTowards(target.position);
         }
     }
 
     protected override void DealDamage()
     {
+        base.DealDamage();
         IDamageable idamage;
-        idamage = _enemyTarget.GetComponent<IDamageable>();
+        idamage = target.GetComponent<IDamageable>();
         if (idamage != null)
         {
-            TriggerDamageEffect(_enemyTarget);
+            TriggerDamageEffect(target.GetComponent<Enemy>());
             idamage.TakeDamage(Damage);
         }
         ObjectPool.Instance.UnSpawn(this.gameObject);
@@ -34,7 +35,7 @@ public class TargetProjectile : Projectile
 
     public override float GetTargetDistance()
     {
-        float distance = ((Vector2)_enemyTarget.transform.position - (Vector2)transform.position).magnitude;
+        float distance = ((Vector2)target.position - (Vector2)transform.position).magnitude;
         return distance;
     }
 }

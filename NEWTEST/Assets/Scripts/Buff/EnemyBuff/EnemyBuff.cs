@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyBuff:Buff
+public abstract class EnemyBuff : Buff
 {
+    public abstract EnemyBuffName enemyBuffName{get;}
     public Enemy Target;
 
 }
 
 public class SlowDown : EnemyBuff
 {
-    public override BuffName buffName => BuffName.SlowDown;
+    public override EnemyBuffName enemyBuffName => EnemyBuffName.SlowDown;
     public override bool IsStackable => false;
     public override void Affect(GameObject target)
     {

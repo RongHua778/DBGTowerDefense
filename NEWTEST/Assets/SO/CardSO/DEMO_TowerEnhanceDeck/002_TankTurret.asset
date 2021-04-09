@@ -17,6 +17,16 @@ MonoBehaviour:
   Description: Deal damage to all adjacent enemies
   CardImage: {fileID: 21300000, guid: b925f5076d5fd4e42b2d3717a0f82305, type: 3}
   CardCost: 3
+  RebuildEffectList:
+    AttributeEffects: []
+    AttackEffects: []
+    EnemyBuffs: []
+    NoTargetEffects: []
+  PlayEffectList:
+    AttributeEffects: []
+    AttackEffects: []
+    EnemyBuffs: []
+    NoTargetEffects: []
   TurretPrefab: {fileID: 8005339885002978379, guid: 6fb5e0350bf679946aba1706966a0bcb,
     type: 3}
   Damage: 4
@@ -28,9 +38,6 @@ MonoBehaviour:
   ProjectileSprite: {fileID: 21300000, guid: 105cc10a136935f4b9642704303a3140, type: 3}
   SputteringRange: 1
   ProjectileSpeed: 4
-  AttackEffectBuffList: []
+  HitEffectPrefab: {fileID: 0}
   MagicDamage: 0
   MagicRange: 0
-  TurretBuffList: []
-  EnemyBuffList: []
-  NoTargetEffectList: []

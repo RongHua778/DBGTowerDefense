@@ -25,7 +25,7 @@ public class DraggingMagicCard : DraggingActions
         if (endDragSuccessful)
         {
             MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
-            if (_card.CardAsset.MagicDamage > 0 || _card.CardAsset.TurretBuffList.Count > 0 || _card.CardAsset.EnemyBuffList.Count > 0)
+            if (_card.CardAsset.MagicDamage > 0 || _card.CardAsset.PlayEffectList.EnemyBuffs.Count > 0)
                 DealDamageAndBuff();
             ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
@@ -65,35 +65,17 @@ public class DraggingMagicCard : DraggingActions
             BuffableEnemy affectable = item.GetComponent<BuffableEnemy>();
             if (affectable != null)
             {
-                affectable.ApplyEffects(_card.CardAsset.EnemyBuffList);
+                affectable.ApplyEffects(_card.CardAsset.PlayEffectList.EnemyBuffs);
             }
-            BuffableTurret affectable2 = item.GetComponent<BuffableTurret>();
-            if (affectable2 != null)
-            {
-                affectable2.ApplyEffects(_card.CardAsset.TurretBuffList);
-            }
+            //BuffableTurret affectable2 = item.GetComponent<BuffableTurret>();
+            //if (affectable2 != null)
+            //{
+            //    affectable2.ApplyEffects(_card.CardAsset.TurretBuffList);
+            //}
 
         }
     }
 
-    private void ApplyEffect()
-    {
-
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _card.CardAsset.MagicRange);
-        foreach (var item in colliders)
-        {
-            BuffableEnemy affectable = item.GetComponent<BuffableEnemy>();
-            if (affectable != null)
-            {
-                affectable.ApplyEffects(_card.CardAsset.EnemyBuffList);
-            }
-            BuffableTurret affectable2 = item.GetComponent<BuffableTurret>();
-            if (affectable2 != null)
-            {
-                affectable2.ApplyEffects(_card.CardAsset.TurretBuffList);
-            }
-        }
-    }
 
 
     public override void UnsuccessfulDrag()

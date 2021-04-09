@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class Buff
 {
-    public abstract BuffName buffName { get; }
     public bool IsFinished { get; internal set; }
     public abstract bool IsStackable { get;}
     public int Stacks;
@@ -23,6 +22,13 @@ public abstract class Buff
             End();
             IsFinished = true;
         }
+    }
+
+    public void SetBuff(EnemyBuffConfig config)
+    {
+        this.Stacks = config.Stacks;
+        this.IsInfinity = config.IsInfinity;
+        this.Duration = config.Duration;
     }
     public abstract void End();
 }

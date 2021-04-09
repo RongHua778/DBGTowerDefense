@@ -14,7 +14,7 @@ public class EnemyBuffFactory : TypeFactory
         foreach (Type type in types)
         {
             var buff = Activator.CreateInstance(type) as EnemyBuff;
-            TypeDic.Add((int)buff.buffName, type);
+            TypeDic.Add((int)buff.enemyBuffName, type);
         }
     }
 }

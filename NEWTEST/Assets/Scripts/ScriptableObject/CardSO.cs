@@ -13,58 +13,8 @@ public enum ProjectileType
 {
     Target,
     Ground,
-    Fly
-}
-
-public enum BuffName
-{
-    Strength,
-    SpeedUp,
-    LongSighted,
-    Persist,
-    SlowDown,
-    None
- 
-}
-
-public enum NoTargetBuffName
-{
-    Overload,
-    Investment,
-    MagicMaster,
-    FastConveyor
-}
-
-[System.Serializable]
-public struct BuffConfig
-{
-    public BuffName BuffName;
-    public int Stacks;
-    public bool IsInfinity;
-    public float Duration;
-}
-
-
-[System.Serializable]
-public struct AttackEffectConfig
-{
-    public AttackEffectType AttackEffectType;
-    public float Value;
-}
-
-[System.Serializable]
-public struct NoTargetEffectConfig
-{
-    public NoTargetBuffName NoTargetBuffName;
-    public float Duration;
-    public float KeyValue;
-
-    public NoTargetEffectConfig(NoTargetBuffName name,float duration,float keyValue)
-    {
-        this.NoTargetBuffName = name;
-        this.Duration = duration;
-        this.KeyValue = keyValue;
-    }
+    Fly,
+    Wave
 }
 
 
@@ -78,6 +28,8 @@ public class CardSO : ScriptableObject
     public string Description;
     public Sprite CardImage;
     public int CardCost;
+    public CardEffectConfig RebuildEffectList;
+    public CardEffectConfig PlayEffectList;
 
     [Header("TowerCard Info")]
     public GameObject TurretPrefab;
@@ -90,16 +42,17 @@ public class CardSO : ScriptableObject
     public Sprite ProjectileSprite;
     public float SputteringRange;
     public float ProjectileSpeed;
-    public List<AttackEffectConfig> AttackEffectBuffList;
+    public GameObject HitEffectPrefab;
+    //public List<AttackEffectConfig> AttackEffectBuffList;
 
     [Header("MagicCard Info")]
     public float MagicDamage;
     public float MagicRange;
-    public List<BuffConfig> TurretBuffList;
-    public List<BuffConfig> EnemyBuffList;
+    //public List<AttributeEffectConfig> TurretBuffList;
+    //public List<EnemyBuffConfig> EnemyBuffList;
 
-    [Header("NoTargetMagicCard Info")]
-    public List<NoTargetEffectConfig> NoTargetEffectList;
+    //[Header("NoTargetMagicCard Info")]
+    //public List<NoTargetEffectConfig> NoTargetEffectList;
 
     //public CardSO CreateNewInstance()
     //{

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870eaeb64374adb449cf6b6e97aecdbe, type: 3}
+  m_Name: 012_SlowTurret
+  m_EditorClassIdentifier: 
+  CardType: 0
+  CardName: SnowTurret
+  Description: Apply [SlowDown] to enemies
+  CardImage: {fileID: 21302746, guid: 21f5d8d2e032c6345b295e5a9cdbcea2, type: 3}
+  CardCost: 2
+  TurretPrefab: {fileID: 8005339885002978379, guid: 73ecf9b0a16bb994d9cb267c9d96e8d4,
+    type: 3}
+  Damage: 1
+  Range: 1
+  Speed: 0.5
+  PersistTime: 25
+  CriticalRate: 0
+  ProjectileType: 3
+  ProjectileSprite: {fileID: 21300000, guid: 691072bec2d323a40b79a42de043fb25, type: 3}
+  SputteringRange: 0
+  ProjectileSpeed: 5
+  HitEffectPrefab: {fileID: 7454466049650975209, guid: 028419860a7d92b498c7aa6ec9841597,
+    type: 3}
+  AttackEffectBuffList:
+  - AttackEffectType: 2
+    Value: 2
+  MagicDamage: 0
+  MagicRange: 0
+  TurretBuffList: []
+  EnemyBuffList: []
+  NoTargetEffectList: []

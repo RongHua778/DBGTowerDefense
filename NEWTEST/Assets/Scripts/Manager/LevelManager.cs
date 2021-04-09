@@ -21,7 +21,6 @@ public class LevelManager : Singleton<LevelManager>
 
     public Dictionary<NoTargetBuffName, NoTargetBuff> _noTargetEffects = new Dictionary<NoTargetBuffName, NoTargetBuff>();
 
-    private TypeFactory _turretBuffFactory;
     private TypeFactory _enemyBuffFactory;
     private TypeFactory _attackEffectFactory;
     private TypeFactory _noTargetBuffFactory;
@@ -45,8 +44,6 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
-        _turretBuffFactory = new TurretBuffFactory();
-        _turretBuffFactory.Initialize();
         _enemyBuffFactory = new EnemyBuffFactory();
         _enemyBuffFactory.Initialize();
         _attackEffectFactory = new AttackEffectFactory();
@@ -65,19 +62,19 @@ public class LevelManager : Singleton<LevelManager>
         NoTargetEffectCounter();
     }
 
-    public TurretBuff GetTurretBuff(int buffID)
+
+    public EnemyBuff GetEnemyBuff(EnemyBuffConfig buffConfig)
     {
-        return _turretBuffFactory.GetType(buffID) as TurretBuff;
+        EnemyBuff buff = _enemyBuffFactory.GetType((int)buffConfig.EnemyBuffName) as EnemyBuff;
+        buff.SetBuff(buffConfig);
+        return buff;
     }
 
-    public EnemyBuff GetEnemyBuff(int buffID)
+    public AttackEffect GetAttackEffect(AttackEffectConfig config)
     {
-        return _enemyBuffFactory.GetType(buffID) as EnemyBuff;
-    }
-
-    public AttackEffect GetAttackEffect(int effecID)
-    {
-        return _attackEffectFactory.GetType(effecID) as AttackEffect;
+        AttackEffect attackEffect = _attackEffectFactory.GetType((int)config.AttackEffectType) as AttackEffect;
+        attackEffect.SetValue(config);
+        return attackEffect;
     }
 
     public NoTargetBuff GetNoTargetBuff(int noTargetBuffId)
