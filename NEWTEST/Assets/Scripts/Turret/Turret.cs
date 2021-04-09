@@ -4,26 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using DBGTD.Cells;
 using System;
+using System.Linq;
 
 public abstract class Turret : ReusableObject
 {
     [Header("SupportField")]
-    static Collider2D[] targetsBuffer = new Collider2D[50];
-    protected GameObject _projectile;
-    public Square LandedSquare;
-    public Enemy CurrentEnemyTarget { get; set; }
-    public List<Enemy> _enemies = new List<Enemy>();
-    public const int enemyLayerMask = 1 << 9;
-    private float nextAttackTime;
     public CardSO _cardAsset;
     public Card _card;
-    public bool _ShootFirst = true;
+    public bool ShootFirst = true;
+    public Square LandedSquare;
+    public Enemy CurrentEnemyTarget { get; set; }
+    public const int enemyLayerMask = 1 << 9;
+
     protected float _rotSpeed = 15f;
+    protected GameObject _projectile;
 
-    //自动检测最前方敌人间隔
-    protected float autoCheckCounter;
-    private const float autoCheckInterval = 1f;
-
+    private float nextAttackTime;
 
     [SerializeField] protected Transform _rotTrans;
     [SerializeField] protected Transform _projectileSpawnPos;
@@ -48,7 +44,7 @@ public abstract class Turret : ReusableObject
     }
 
     [Header("TowerAttribute")]
-    [SerializeField] protected float _attackRange = 0f;
+    [SerializeField] protected int _attackRange = 0;
     [SerializeField] protected float _attackDamage = 0f;
     [SerializeField] protected float _attackSpeed = 0f;
     [SerializeField] protected float _persistTime = 0f;
@@ -56,19 +52,36 @@ public abstract class Turret : ReusableObject
     [SerializeField] protected float _criticalRate = 0f;
     [SerializeField] protected float _projectileSpeed = 0f;
 
-    public float AttackRange
+    public int AttackRange
     {
-        get => _attackRange * (1 + RangeIntensify);
+        get {
+            if (LandedSquare != null)
+                return _attackRange + LandedSquare.RangeIntensify;
+            else
+                return _attackRange;
+        } 
         set => _attackRange = value;
     }
     public float AttackDamage
     {
-        get => _attackDamage * (1 + AttackIntensify);
+        get
+        {
+            if (LandedSquare != null)
+                return _attackDamage *(1+ LandedSquare.AttackIntensify);
+            else
+                return _attackDamage;
+        }
         set => _attackDamage = value;
     }
     public float AttackSpeed
     {
-        get => _attackSpeed * (1 + SpeedIntensify);
+        get
+        {
+            if (LandedSquare != null)
+                return _attackSpeed * (1 + LandedSquare.SpeedIntensify);
+            else
+                return _attackSpeed;
+        }
         set => _attackSpeed = value;
     }
     public float PersistTime
@@ -101,24 +114,27 @@ public abstract class Turret : ReusableObject
         set { _maxPersistTime = value; }
     }
 
-
-
-    [Header("Intensify")]
-    [SerializeField] private float _attackIntensify = 0f;
-    [SerializeField] private float _speedIntensify = 0f;
-    [SerializeField] private float _rangeIntensify = 0f;
-
     [Header("AttackEffect")]
     public List<AttackEffect> attackEffects = new List<AttackEffect>();
 
-    public float AttackIntensify { get => LandedSquare.AttackIntensify; set => _attackIntensify = value; }
-    public float SpeedIntensify { get => LandedSquare.SpeedIntensify; set => _speedIntensify = value; }
-    public float RangeIntensify { get => LandedSquare.RangeIntensify; set => _rangeIntensify = value; }
 
+    //敌人检测相关
+    static Collider2D[] targetsBuffer = new Collider2D[10];
+    List<Collider2D> SquareColliders = new List<Collider2D>();
+    List<Collider2D> potentialEnemyies = new List<Collider2D>();
+    ContactFilter2D filter = new ContactFilter2D();
+
+    //自动检测最前方敌人间隔
+    protected float autoCheckCounter;
+    private const float autoCheckInterval = .5f;
 
     private void Start()
     {
         _buffableEntity = this.GetComponent<BuffableTurret>();
+        LayerMask mask = enemyLayerMask;
+        filter.SetLayerMask(mask);
+        filter.useLayerMask = true;
+
     }
     protected virtual void Update()
     {
@@ -141,10 +157,16 @@ public abstract class Turret : ReusableObject
         gameObject.HideCircle();
     }
 
-    public virtual void LandTurret()
+    public virtual void LandTurret(Square landedSquare)
     {
+        LandedSquare = landedSquare;
         TurretLanded = true;
         LandedSquare.SetTurret(this);
+        foreach (var square in LandedSquare.GetRangeSquares(AttackRange))
+        {
+            if(square.IsRoad)
+                SquareColliders.Add(square.GetComponent<Collider2D>());
+        }
     }
 
     protected void PersistimeCountDown()
@@ -157,40 +179,100 @@ public abstract class Turret : ReusableObject
         this.GetComponent<CircleCollider2D>().radius = AttackRange;
     }
 
+
     protected bool AcquireTarget()
     {
-        int hits = Physics2D.OverlapCircleNonAlloc(transform.position, AttackRange, targetsBuffer, enemyLayerMask);
-        if (hits > 0)
+        int hit = 0;
+        potentialEnemyies.Clear();
+        foreach (var collider in SquareColliders)
         {
-            if (_ShootFirst)//攻击第一个敌人
+            hit = Physics2D.OverlapCollider(collider, filter, targetsBuffer);
+            if (hit <= 0)
+                continue;
+            for (int i = 0; i < hit; i++)
             {
-                int maxIndex = -1;
-                for (int i = 0; i < hits; i++)
-                {
-                    Enemy enemy = targetsBuffer[i].GetComponent<Enemy>();
-                    if (enemy.CurrentWayPointIndex > maxIndex)
-                    {
-                        maxIndex = enemy.CurrentWayPointIndex;
-                        CurrentEnemyTarget = enemy;
-                    }
-                    else if (enemy.CurrentWayPointIndex == maxIndex)
-                    {
-                        if (enemy.GetDistanceToNextPoint() < CurrentEnemyTarget.GetDistanceToNextPoint())
-                            CurrentEnemyTarget = enemy;
-                    }
-                }
-                return true;
+                if (!potentialEnemyies.Contains(targetsBuffer[i]))
+                    potentialEnemyies.Add(targetsBuffer[i]);
+            }
+        }
+        if (potentialEnemyies.Count > 0)
+        {
+            if (ShootFirst)
+            {
+                return FirstAttack();
             }
             else
             {
-
-                CurrentEnemyTarget = targetsBuffer[UnityEngine.Random.Range(0, hits)].GetComponent<Enemy>();
-                return true;
+                return RandomAttack();
             }
         }
-
         CurrentEnemyTarget = null;
         return false;
+    }
+
+    private bool RandomAttack()
+    {
+        CurrentEnemyTarget = potentialEnemyies[UnityEngine.Random.Range(0, potentialEnemyies.Count)].GetComponent<Enemy>();
+        return true;
+    }
+
+    //protected bool AcquireTarget2()
+    //{
+    //    int hits = Physics2D.OverlapCircleNonAlloc(transform.position, AttackRange, targetsBuffer, enemyLayerMask);
+    //    if (hits > 0)
+    //    {
+    //        if (_ShootFirst)//攻击第一个敌人
+    //        {
+    //            int maxIndex = -1;
+    //            for (int i = 0; i < hits; i++)
+    //            {
+    //                Enemy enemy = targetsBuffer[i].GetComponent<Enemy>();
+
+    //                if (enemy.CurrentWayPointIndex > maxIndex)
+    //                {
+    //                    maxIndex = enemy.CurrentWayPointIndex;
+    //                    CurrentEnemyTarget = enemy;
+    //                }
+    //                else if (enemy.CurrentWayPointIndex == maxIndex)
+    //                {
+    //                    if (enemy.GetDistanceToNextPoint() < CurrentEnemyTarget.GetDistanceToNextPoint())
+    //                        CurrentEnemyTarget = enemy;
+    //                }
+    //            }
+    //            return true;
+    //        }
+    //        else
+    //        {
+
+    //            CurrentEnemyTarget = targetsBuffer[UnityEngine.Random.Range(0, hits)].GetComponent<Enemy>();
+    //            return true;
+    //        }
+    //    }
+
+    //    CurrentEnemyTarget = null;
+    //    return false;
+    //}
+
+    private bool FirstAttack()
+    {
+        int maxIndex = -1;
+        for (int i = 0; i < potentialEnemyies.Count; i++)
+        {
+            if (potentialEnemyies[i] == null)
+                continue;
+            Enemy enemy = potentialEnemyies[i].GetComponent<Enemy>();
+            if (enemy.CurrentWayPointIndex > maxIndex)
+            {
+                maxIndex = enemy.CurrentWayPointIndex;
+                CurrentEnemyTarget = enemy;
+            }
+            else if (enemy.CurrentWayPointIndex == maxIndex)
+            {
+                if (enemy.GetDistanceToNextPoint() < CurrentEnemyTarget.GetDistanceToNextPoint())
+                    CurrentEnemyTarget = enemy;
+            }
+        }
+        return true;
     }
 
     private bool TrackTarget()
@@ -211,13 +293,13 @@ public abstract class Turret : ReusableObject
             CurrentEnemyTarget = null;
             return false;
         }
-        Vector2 a = transform.position;
-        Vector2 b = CurrentEnemyTarget.transform.position;
-        if ((a - b).magnitude > AttackRange + 0.2f)//enemy的scale必须为1
-        {
-            CurrentEnemyTarget = null;
-            return true;
-        }
+        //Vector2 a = transform.position;
+        //Vector2 b = CurrentEnemyTarget.transform.position;
+        //if ((a - b).magnitude > AttackRange + 0.2f)//enemy的scale必须为1
+        //{
+        //    CurrentEnemyTarget = null;
+        //    return true;
+        //}
         return true;
     }
 
@@ -285,12 +367,12 @@ public abstract class Turret : ReusableObject
 
     private void OnMouseOver()
     {
-        ShowRange();
+        //ShowRange();
     }
 
     private void OnMouseExit()
     {
-        HideRange();
+        //HideRange();
     }
 
     public override void OnSpawn()
@@ -300,19 +382,17 @@ public abstract class Turret : ReusableObject
 
     public override void OnUnSpawn()
     {
-        _enemies.Clear();
+        SquareColliders.Clear();
+        potentialEnemyies.Clear();
         //_landedGround = null;
         CurrentEnemyTarget = null;
         nextAttackTime = 0;
         _rotTrans.localRotation = Quaternion.Euler(Vector3.zero);
-        AttackIntensify = 0;
-        RangeIntensify = 0;
-        SpeedIntensify = 0;
         HideRange();
         _buffableEntity.ClearBuffs();
         attackEffects.Clear();
         GameEvents.Instance.AddCard(_cardAsset);
-        
+
     }
 
 
