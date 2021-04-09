@@ -6,7 +6,6 @@ using UnityEngine;
 public class Deck : MonoBehaviour
 {
     public DeckSO StartDeck;
-    //public List<CardSO> _startDeck = new List<CardSO>();
 
     public List<CardSO> _drawPile = new List<CardSO>();
     public List<CardSO> _discardPile = new List<CardSO>();
@@ -22,15 +21,17 @@ public class Deck : MonoBehaviour
     private void OnDisable()
     {
         GameEvents.Instance.onDiscardCard -= AddToDiscardPile;
+        GameEvents.Instance.onRemoveCard -= RemoveCardFromDeck;
+        GameEvents.Instance.onAddCard -= AddToDrawPile;
     }
 
     private void InitDeck()
     {
-        foreach(var cardSO in StartDeck.DeckCards)
+        foreach (var cardSO in StartDeck.DeckCards)
         {
             CardSO newCard = Instantiate(cardSO);
             newCard.name = newCard.CardName;
-            _drawPile.Add(newCard);
+            AddToDrawPile(newCard);
         }
         DrawPileShuffle();
     }
@@ -38,7 +39,7 @@ public class Deck : MonoBehaviour
     {
         CardSO cardToReturn;
         if (_drawPile.Count > 0)
-        {   
+        {
             cardToReturn = _drawPile[0];
             _drawPile.RemoveAt(0);
             _tablePile.Add(cardToReturn);
@@ -57,11 +58,19 @@ public class Deck : MonoBehaviour
 
     public void AddToDrawPile(CardSO cardSO)
     {
+        if (cardSO.original == null)//如果是从场上回来的防御塔牌，这个就为NULL
+            cardSO.BackUpAsset();//备份原始卡牌数据，卡牌数据可能在战斗中改变,方便必要时还原
+        else
+            cardSO.RebuildTrigger();//回炉特效
         _drawPile.Add(cardSO);
     }
+
+
+
     public void AddToDiscardPile(CardSO cardSO)
     {
-        _tablePile.Remove(cardSO);
+        if (_tablePile.Contains(cardSO))
+            _tablePile.Remove(cardSO);
         _discardPile.Add(cardSO);
         if (_drawPile.Count <= 0)
             DiscardPileBackToDrawPile();
@@ -76,10 +85,10 @@ public class Deck : MonoBehaviour
     {
         _discardPile.Shuffle();
     }
-  
+
     public void DiscardPileBackToDrawPile()
     {
-        foreach(var cardSO in _discardPile)
+        foreach (var cardSO in _discardPile)
         {
             AddToDrawPile(cardSO);
         }

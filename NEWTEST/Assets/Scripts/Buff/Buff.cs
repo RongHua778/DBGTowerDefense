@@ -6,9 +6,10 @@ public abstract class Buff
 {
     public bool IsFinished { get; internal set; }
     public abstract bool IsStackable { get;}
-    public int Stacks;
-    public bool IsInfinity { get; set; }
-    public float Duration;
+    public abstract bool IsInfinity { get;}
+    public abstract float Duration { get; set; }
+
+    public float KeyValue;
 
     public virtual void Affect(GameObject target) { }
 
@@ -22,13 +23,6 @@ public abstract class Buff
             End();
             IsFinished = true;
         }
-    }
-
-    public void SetBuff(EnemyBuffConfig config)
-    {
-        this.Stacks = config.Stacks;
-        this.IsInfinity = config.IsInfinity;
-        this.Duration = config.Duration;
     }
     public abstract void End();
 }

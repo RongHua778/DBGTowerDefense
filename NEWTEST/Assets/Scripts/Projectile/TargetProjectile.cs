@@ -27,7 +27,7 @@ public class TargetProjectile : Projectile
         idamage = target.GetComponent<IDamageable>();
         if (idamage != null)
         {
-            TriggerDamageEffect(target.GetComponent<Enemy>());
+            TriggerHitAttackEffect(target.GetComponent<Enemy>());
             idamage.TakeDamage(Damage);
         }
         ObjectPool.Instance.UnSpawn(this.gameObject);

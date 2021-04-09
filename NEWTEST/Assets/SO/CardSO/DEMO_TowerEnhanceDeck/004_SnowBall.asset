@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870eaeb64374adb449cf6b6e97aecdbe, type: 3}
   m_Name: 004_SnowBall
   m_EditorClassIdentifier: 
+  original: {fileID: 0}
   CardType: 1
   CardName: SnowBall
   Description: Slowdown enemies for 5s
@@ -22,15 +23,22 @@ MonoBehaviour:
     AttackEffects: []
     EnemyBuffs: []
     NoTargetEffects: []
-  PlayEffectList:
+  ComboEffectList:
     AttributeEffects: []
     AttackEffects: []
     EnemyBuffs: []
     NoTargetEffects: []
+  FinalEffectList:
+    AttributeEffects: []
+    AttackEffects: []
+    EnemyBuffs:
+    - EnemyBuffName: 0
+      Value: 3
+    NoTargetEffects: []
   TurretPrefab: {fileID: 0}
-  Damage: 0
-  Range: 0
-  Speed: 0
+  TurretAttack: 0
+  TurretRange: 0
+  TurretSpeed: 0
   PersistTime: 0
   CriticalRate: 0
   ProjectileType: 0
@@ -38,5 +46,5 @@ MonoBehaviour:
   SputteringRange: 0
   ProjectileSpeed: 0
   HitEffectPrefab: {fileID: 0}
-  MagicDamage: 0
+  MagicAttack: 0
   MagicRange: 1

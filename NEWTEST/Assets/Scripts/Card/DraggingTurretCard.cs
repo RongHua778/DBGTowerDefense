@@ -37,6 +37,7 @@ public class DraggingTurretCard : DraggingActions
             GhostTurret.transform.position = endSquare.GetPosofCell();
             GhostTurret.GetComponent<Turret>().LandTurret(endSquare);
             GameEvents.Instance.RemoveCard(_card.CardAsset);//暂时从卡组移除这张牌
+            _card.CardAsset = null;
             ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
         else
@@ -57,7 +58,7 @@ public class DraggingTurretCard : DraggingActions
     private GameObject CreateGhostTower(GameObject prefab)
     {
         GameObject turret = ObjectPool.Instance.Spawn(prefab);
-        turret.GetComponent<Turret>().ReadCardAsset(_card);
+        turret.GetComponent<Turret>().ReadCardAsset(_card.CardAsset);
         turret.GetComponent<Collider2D>().enabled = false;
         return turret;
     }

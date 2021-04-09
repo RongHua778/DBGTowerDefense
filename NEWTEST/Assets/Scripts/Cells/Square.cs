@@ -11,7 +11,19 @@ namespace DBGTD.Cells
         public Turret SquareTurret;
 
         public float AttackIntensify;
-        public int RangeIntensify;
+        private int _rangeIntensify;
+        public int RangeIntensify
+        {
+            get => _rangeIntensify;
+            set
+            {
+                _rangeIntensify = value;
+                if (SquareTurret != null)
+                {
+                    SquareTurret.SetAttackRangeColliders();
+                }
+            }
+        }
         public float SpeedIntensify;
 
         //public List<Cell> neighbours;

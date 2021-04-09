@@ -14,7 +14,7 @@ public class AttackEffectFactory:TypeFactory
         foreach (Type type in types)
         {
             var buff = Activator.CreateInstance(type) as AttackEffect;
-            TypeDic.Add((int)buff.AttackEffectType, type);
+            TypeDic.Add((int)buff.AttackEffectName, type);
         }
     }
 

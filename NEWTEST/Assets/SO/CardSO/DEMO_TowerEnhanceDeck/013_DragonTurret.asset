@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 870eaeb64374adb449cf6b6e97aecdbe, type: 3}
-  m_Name: 001_MachineTurret
+  m_Name: 013_DragonTurret
   m_EditorClassIdentifier: 
   original: {fileID: 0}
   CardType: 0
-  CardName: Machine Gun
-  Description: 
-  CardImage: {fileID: 21300000, guid: 56505d0d974b52840ad34257d50585fb, type: 3}
-  CardCost: 2
+  CardName: DragonTurret
+  Description: Deal AOE damage, increase sputterrange with attackrange.[Rebuild]Attackrange+1.
+  CardImage: {fileID: 21300000, guid: a9758c1ccc8c5e642ae614dd07a8e4c3, type: 3}
+  CardCost: 1
   RebuildEffectList:
-    AttributeEffects: []
+    AttributeEffects:
+    - ChangeAttribute: 3
+      Value: 1
     AttackEffects: []
     EnemyBuffs: []
     NoTargetEffects: []
@@ -30,20 +32,23 @@ MonoBehaviour:
     NoTargetEffects: []
   FinalEffectList:
     AttributeEffects: []
-    AttackEffects: []
+    AttackEffects:
+    - AttackEffectType: 3
+      Value: 0.65
     EnemyBuffs: []
     NoTargetEffects: []
-  TurretPrefab: {fileID: 8005339885002978379, guid: 138259841fcdb644987b75e5f906cff6,
+  TurretPrefab: {fileID: 8005339885002978379, guid: 4fd2f8a5a5b30ce4eb31eca4098c9fd2,
     type: 3}
-  TurretAttack: 2
-  TurretRange: 1
-  TurretSpeed: 1.5
-  PersistTime: 15
+  TurretAttack: 15
+  TurretRange: 2
+  TurretSpeed: 0.25
+  PersistTime: 35
   CriticalRate: 0
-  ProjectileType: 0
-  ProjectileSprite: {fileID: 21300000, guid: ee2e2cded0c6786438ed4e598f236b00, type: 3}
-  SputteringRange: 0
+  ProjectileType: 1
+  ProjectileSprite: {fileID: 21300000, guid: 403542537c71183418c069f635419c29, type: 3}
+  SputteringRange: 0.5
   ProjectileSpeed: 5
-  HitEffectPrefab: {fileID: 0}
+  HitEffectPrefab: {fileID: 7454466049650975209, guid: 028419860a7d92b498c7aa6ec9841597,
+    type: 3}
   MagicAttack: 0
   MagicRange: 0

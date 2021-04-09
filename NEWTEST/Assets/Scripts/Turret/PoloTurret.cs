@@ -35,7 +35,6 @@ public class PoloTurret : Turret
 
     public override void OnUnSpawn()
     {
-        base.OnUnSpawn();
         if (LandedSquare != null)
         {
             foreach (Square square in LandedSquare.GetRangeSquares(1))
@@ -43,6 +42,8 @@ public class PoloTurret : Turret
                 square.RangeIntensify -= 1;
             }
         }
+        base.OnUnSpawn();
+        
     }
 
 }

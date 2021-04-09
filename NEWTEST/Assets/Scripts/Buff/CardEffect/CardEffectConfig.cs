@@ -4,9 +4,10 @@ using UnityEngine;
 
 public enum Attribute
 {
-    Attack,
-    Speed,
-    Range,
+    Cost,
+    TurretAttack,
+    TurretSpeed,
+    TurretRange,
     SputterRange,
     CritcalRate,
     PersistTime,
@@ -17,7 +18,8 @@ public enum AttackEffectType
 {
     RangeBaseDamage,
     Flame,
-    SlowProjectile
+    SlowProjectile,
+    RangeBaseSputtering
 }
 
 public enum EnemyBuffName
@@ -27,7 +29,7 @@ public enum EnemyBuffName
 }
 
 [System.Serializable]
-public struct AttributeEffectConfig
+public struct AttributeConfig
 {
     public Attribute ChangeAttribute;
     public float Value;
@@ -44,17 +46,11 @@ public struct AttackEffectConfig
 public struct EnemyBuffConfig
 {
     public EnemyBuffName EnemyBuffName;
-    public int Stacks;
-    public bool IsInfinity;
-    public float Duration;
     public float Value;
 
-    public EnemyBuffConfig(EnemyBuffName name, int stack, bool isInfinity, float duration, float value)
+    public EnemyBuffConfig(EnemyBuffName name,float value)
     {
         this.EnemyBuffName = name;
-        this.Stacks = stack;
-        this.IsInfinity = isInfinity;
-        this.Duration = duration;
         this.Value = value;
     }
 }
@@ -88,7 +84,7 @@ public struct NoTargetEffectConfig
 [System.Serializable]
 public struct CardEffectConfig
 {
-    public List<AttributeEffectConfig> AttributeEffects;
+    public List<AttributeConfig> AttributeEffects;
     public List<AttackEffectConfig> AttackEffects;
     public List<EnemyBuffConfig> EnemyBuffs;
     public List<NoTargetEffectConfig> NoTargetEffects;

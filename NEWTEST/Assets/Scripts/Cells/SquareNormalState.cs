@@ -17,7 +17,7 @@ namespace DBGTD.Cells
             Square square = cell as Square;
             if (square.SquareTurret != null || Square.PreviewingTurret != null)
             {
-                int range = Square.PreviewingTurret != null ? Square.PreviewingTurret.AttackRange + square.RangeIntensify : square.SquareTurret.AttackRange;
+                int range = Square.PreviewingTurret != null ? Square.PreviewingTurret.TurretRange + square.RangeIntensify : square.SquareTurret.TurretRange;
                 highLigtedCells = square.GetRangeSquares(range);
                 foreach (var tile in highLigtedCells)
                 {

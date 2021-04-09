@@ -25,7 +25,7 @@ public class DraggingMagicCard : DraggingActions
         if (endDragSuccessful)
         {
             MoneySystem.ReduceMoney(_card.CardAsset.CardCost);
-            if (_card.CardAsset.MagicDamage > 0 || _card.CardAsset.PlayEffectList.EnemyBuffs.Count > 0)
+            if (_card.CardAsset.MagicAttack > 0 || _card.CardAsset.FinalEffectList.EnemyBuffs.Count > 0)
                 DealDamageAndBuff();
             ObjectPool.Instance.UnSpawn(_card.HandleNode);
         }
@@ -60,12 +60,12 @@ public class DraggingMagicCard : DraggingActions
             IDamageable idamage = item.GetComponent<IDamageable>();
             if (idamage != null)
             {
-                idamage.TakeDamage(_card.CardAsset.MagicDamage);
+                idamage.TakeDamage(_card.CardAsset.MagicAttack);
             }
             BuffableEnemy affectable = item.GetComponent<BuffableEnemy>();
             if (affectable != null)
             {
-                affectable.ApplyEffects(_card.CardAsset.PlayEffectList.EnemyBuffs);
+                affectable.ApplyEffects(_card.CardAsset.FinalEffectList.EnemyBuffs);
             }
             //BuffableTurret affectable2 = item.GetComponent<BuffableTurret>();
             //if (affectable2 != null)

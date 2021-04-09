@@ -9,7 +9,8 @@ public class RHTest : MonoBehaviour
     void Start()
     {
         //GetRangeTiles(3);
-        UnionTest();
+        //UnionTest();
+        ClassTest();
     }
     public void GetRangeTiles(int range)
     {
@@ -36,6 +37,18 @@ public class RHTest : MonoBehaviour
         }
     }
 
+    public class Good
+    {
+        public int A = 1;
+    }
+
+    public void ClassTest()
+    {
+        Good B = new Good();
+        Good C = B;
+        C.A = 2;
+        Debug.Log(B.A);
+    }
     // Update is called once per frame
     void Update()
     {

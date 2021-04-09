@@ -7,7 +7,6 @@ public abstract class NoTargetBuff : Buff
 {
     public abstract NoTargetBuffName NoTargetBuffName { get; }
 
-    public float KeyValue;
     public GameObject Target;
     public override void Affect(GameObject target)
     {
@@ -20,6 +19,10 @@ public class Overload : NoTargetBuff
 {
     public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.Overload;
     public override bool IsStackable => false;
+
+    public override bool IsInfinity => false;
+
+    public override float Duration { get => KeyValue; set => KeyValue = value; }
 
     public override void Affect(GameObject target)
     {
@@ -39,6 +42,10 @@ public class Inverstment : NoTargetBuff
     public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.Investment;
 
     public override bool IsStackable => false;
+
+    public override bool IsInfinity => false;
+
+    public override float Duration { get => KeyValue; set => KeyValue = value; }
 
     public override void Affect(GameObject target)
     {
@@ -60,6 +67,10 @@ public class MagicMaster : NoTargetBuff
 
     public override bool IsStackable => false;
 
+    public override bool IsInfinity => false;
+
+    public override float Duration { get => KeyValue; set => KeyValue = value; }
+
     public override void Affect(GameObject target)
     {
         base.Affect(target);
@@ -79,6 +90,10 @@ public class FastConveyor : NoTargetBuff
 
     public override bool IsStackable => false;
 
+    public override bool IsInfinity => false;
+
+    public override float Duration { get => KeyValue; set => KeyValue = value; }
+
     public override void Affect(GameObject target)
     {
         base.Affect(target);
@@ -88,6 +103,6 @@ public class FastConveyor : NoTargetBuff
     public override void End()
     {
         StaticData.Instance.NodeSpeed -= KeyValue;
-        
+
     }
 }

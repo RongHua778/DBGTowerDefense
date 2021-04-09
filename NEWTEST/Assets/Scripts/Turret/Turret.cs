@@ -10,21 +10,31 @@ public abstract class Turret : ReusableObject
 {
     [Header("SupportField")]
     public CardSO _cardAsset;
-    public Card _card;
     public bool ShootFirst = true;
     public Square LandedSquare;
-    public Enemy CurrentEnemyTarget { get; set; }
+    public Enemy CurrentEnemyTarget;
     public const int enemyLayerMask = 1 << 9;
 
     protected float _rotSpeed = 15f;
     protected GameObject _projectile;
-
     private float nextAttackTime;
 
+    [SerializeField] protected float _persistTime = 0f;
+    [SerializeField] protected float _maxPersistTime = 0f;
     [SerializeField] protected Transform _rotTrans;
     [SerializeField] protected Transform _projectileSpawnPos;
     [SerializeField] protected GameObject _persistCanvas;
     [SerializeField] protected Image _persistProgress;
+
+    //敌人检测相关
+    static Collider2D[] targetsBuffer = new Collider2D[10];
+    List<Collider2D> SquareColliders = new List<Collider2D>();
+    List<Collider2D> potentialEnemyies = new List<Collider2D>();
+    ContactFilter2D filter = new ContactFilter2D();
+
+    //自动检测最前方敌人间隔
+    protected float autoCheckCounter;
+    private const float autoCheckInterval = .5f;
 
     protected bool _turretLanded = false;
     public bool TurretLanded
@@ -41,46 +51,35 @@ public abstract class Turret : ReusableObject
         }
     }
 
-    [Header("TowerAttribute")]
-    [SerializeField] protected int _attackRange = 0;
-    [SerializeField] protected float _attackDamage = 0f;
-    [SerializeField] protected float _attackSpeed = 0f;
-    [SerializeField] protected float _persistTime = 0f;
-    [SerializeField] protected float _maxPersistTime = 0f;
-    [SerializeField] protected float _criticalRate = 0f;
-    [SerializeField] protected float _projectileSpeed = 0f;
 
-    public int AttackRange
+    public int TurretRange
     {
         get {
             if (LandedSquare != null)
-                return _attackRange + LandedSquare.RangeIntensify;
+                return _cardAsset.TurretRange + LandedSquare.RangeIntensify;
             else
-                return _attackRange;
+                return _cardAsset.TurretRange;
         } 
-        set => _attackRange = value;
     }
-    public float AttackDamage
+    public float TurretAttack
     {
         get
         {
             if (LandedSquare != null)
-                return _attackDamage *(1+ LandedSquare.AttackIntensify);
+                return _cardAsset.TurretAttack *(1+ LandedSquare.AttackIntensify);
             else
-                return _attackDamage;
+                return _cardAsset.TurretAttack;
         }
-        set => _attackDamage = value;
     }
-    public float AttackSpeed
+    public float TurretSpeed
     {
         get
         {
             if (LandedSquare != null)
-                return _attackSpeed * (1 + LandedSquare.SpeedIntensify);
+                return _cardAsset.TurretSpeed * (1 + LandedSquare.SpeedIntensify);
             else
-                return _attackSpeed;
+                return _cardAsset.TurretSpeed;
         }
-        set => _attackSpeed = value;
     }
     public float PersistTime
     {
@@ -97,13 +96,11 @@ public abstract class Turret : ReusableObject
     }
     public float CriticalRate
     {
-        get => _criticalRate;
-        set => _criticalRate = value;
+        get => _cardAsset.CriticalRate;
     }
     public float ProjectileSpeed
     {
-        get => _projectileSpeed;
-        set => _projectileSpeed = value;
+        get => _cardAsset.ProjectileSpeed;
     }
 
     public float MaxPersistTime
@@ -112,22 +109,10 @@ public abstract class Turret : ReusableObject
         set { _maxPersistTime = value; }
     }
 
-    //[Header("AttackEffect")]
-    //public List<AttackEffect> attackEffects = new List<AttackEffect>();
-
-
-    //敌人检测相关
-    static Collider2D[] targetsBuffer = new Collider2D[10];
-    List<Collider2D> SquareColliders = new List<Collider2D>();
-    List<Collider2D> potentialEnemyies = new List<Collider2D>();
-    ContactFilter2D filter = new ContactFilter2D();
-
-    //自动检测最前方敌人间隔
-    protected float autoCheckCounter;
-    private const float autoCheckInterval = .5f;
 
     private void Start()
     {
+        //设置碰撞检测敌人的过滤器
         LayerMask mask = enemyLayerMask;
         filter.SetLayerMask(mask);
         filter.useLayerMask = true;
@@ -145,23 +130,20 @@ public abstract class Turret : ReusableObject
         PersistimeCountDown();
     }
 
-    public void ShowRange()
-    {
-        gameObject.DrawCircle(AttackRange, 0.04f, StaticData.Instance.TowerRangeColor);
-    }
-    public void HideRange()
-    {
-        gameObject.HideCircle();
-    }
 
-    public virtual void LandTurret(Square landedSquare)
+    public virtual void LandTurret(Square landedSquare)//放下防御塔时触发
     {
         LandedSquare = landedSquare;
         TurretLanded = true;
         LandedSquare.SetTurret(this);
-        foreach (var square in LandedSquare.GetRangeSquares(AttackRange))
+        SetAttackRangeColliders();
+    }
+
+    public void SetAttackRangeColliders()
+    {
+        foreach (var square in LandedSquare.GetRangeSquares(TurretRange))
         {
-            if(square.IsRoad)
+            if (square.IsRoad)
                 SquareColliders.Add(square.GetComponent<Collider2D>());
         }
     }
@@ -171,17 +153,12 @@ public abstract class Turret : ReusableObject
         PersistTime -= Time.deltaTime;
     }
 
-    protected void SetCollider()
-    {
-        this.GetComponent<CircleCollider2D>().radius = AttackRange;
-    }
-
 
     protected bool AcquireTarget()
     {
         int hit = 0;
         potentialEnemyies.Clear();
-        foreach (var collider in SquareColliders)
+        foreach (var collider in SquareColliders)//将每个格子的collider逐个检测上面的敌人，整合在potentialenemies中
         {
             hit = Physics2D.OverlapCollider(collider, filter, targetsBuffer);
             if (hit <= 0)
@@ -207,7 +184,7 @@ public abstract class Turret : ReusableObject
         return false;
     }
 
-    private bool RandomAttack()
+    private bool RandomAttack()//攻击随机敌人
     {
         CurrentEnemyTarget = potentialEnemyies[UnityEngine.Random.Range(0, potentialEnemyies.Count)].GetComponent<Enemy>();
         return true;
@@ -250,7 +227,7 @@ public abstract class Turret : ReusableObject
     //    return false;
     //}
 
-    private bool FirstAttack()
+    private bool FirstAttack()//攻击走在最前方敌人
     {
         int maxIndex = -1;
         for (int i = 0; i < potentialEnemyies.Count; i++)
@@ -272,7 +249,7 @@ public abstract class Turret : ReusableObject
         return true;
     }
 
-    private bool TrackTarget()
+    private bool TrackTarget()//判断是否需要重新索敌
     {
         if (Time.time - autoCheckCounter > autoCheckInterval)//自动重新索敌间隔
         {
@@ -281,15 +258,16 @@ public abstract class Turret : ReusableObject
             return true;
         }
 
-        if (CurrentEnemyTarget == null)
+        if (CurrentEnemyTarget == null)//没有目标，重新索敌
         {
             return false;
         }
-        if (CurrentEnemyTarget.IsDie)
+        if (CurrentEnemyTarget.IsDie)//目标已死，重新索敌
         {
             CurrentEnemyTarget = null;
             return false;
         }
+        //涉及脱离攻击范围时用下面这段，因为现在用检测间隔判断，暂时不需要
         //Vector2 a = transform.position;
         //Vector2 b = CurrentEnemyTarget.transform.position;
         //if ((a - b).magnitude > AttackRange + 0.2f)//enemy的scale必须为1
@@ -311,13 +289,13 @@ public abstract class Turret : ReusableObject
     }
 
 
-    protected virtual void FireProjectile()
+    protected virtual void FireProjectile()//攻击间隔判断
     {
-        if (Time.time - nextAttackTime > 1 / AttackSpeed)
+        if (Time.time - nextAttackTime > 1 / TurretSpeed)
         {
             if (CurrentEnemyTarget != null)
             {
-                LocateTarget();
+                Shoot();
             }
             else
             {
@@ -328,44 +306,26 @@ public abstract class Turret : ReusableObject
         }
     }
 
-    protected virtual void LocateTarget()
+    protected virtual void Shoot()//发出子弹
     {
         Projectile newProjectile = LevelManager.Instance.SpawnProjectile(_cardAsset.ProjectileType);
         newProjectile.transform.position = _projectileSpawnPos.transform.position;
         newProjectile.GetComponent<Projectile>().SetProjectile(CurrentEnemyTarget.transform, this);
     }
 
-    public virtual void ReadCardAsset(Card card)
+    public virtual void ReadCardAsset(CardSO cardSO)//保存cardasset到本塔
     {
-        _card = card;
-        _cardAsset = _card.CardAsset;
+        _cardAsset = cardSO;
         _projectile = Resources.Load<GameObject>("Prefabs/Projectile/BasicProjectile");
-        ReadBasicAttribute();
-        //ReadTurretEffects();
+        SetPersistTime();
+
     }
 
-    private void ReadBasicAttribute()
+    private void SetPersistTime()//设置存续时间
     {
-        AttackDamage = _cardAsset.Damage;
-        AttackRange = _cardAsset.Range;
-        AttackSpeed = _cardAsset.Speed;
         PersistTime = _cardAsset.PersistTime;
         MaxPersistTime = _cardAsset.PersistTime;
-        CriticalRate = _cardAsset.CriticalRate;
-        ProjectileSpeed = _cardAsset.ProjectileSpeed;
     }
-
-    //private void ReadTurretEffects()
-    //{
-    //    //attackeffect
-    //    foreach (var attackEffect in _cardAsset.PlayEffectList.AttackEffects)
-    //    {
-    //        AttackEffect effect = LevelManager.Instance.GetAttackEffect((int)attackEffect.ChangeAttackEffect);
-    //        effect.KeyValue = attackEffect.Value;
-    //        attackEffects.Add(effect);
-    //    }
-    //}
-
 
 
     public override void OnSpawn()
@@ -378,15 +338,15 @@ public abstract class Turret : ReusableObject
         SquareColliders.Clear();
         potentialEnemyies.Clear();
         CurrentEnemyTarget = null;
+        if (LandedSquare != null)
+            LandedSquare.SquareTurret = null;
+        LandedSquare = null;
         nextAttackTime = 0;
         _rotTrans.localRotation = Quaternion.Euler(Vector3.zero);
-        HideRange();
-        //attackEffects.Clear();
-        GameEvents.Instance.AddCard(_cardAsset);
-
+        GameEvents.Instance.AddCard(_cardAsset.original);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmos()//查看aoe塔攻击范围
     {
         Gizmos.DrawWireSphere(this.transform.position, _cardAsset.SputteringRange);
     }

@@ -22,7 +22,7 @@ namespace DBGTD.Cells
         /// <summary>
         /// GameEnded event is invoked when there is a single player left in the game.
         /// </summary>
-        public event EventHandler GameEnded;
+        //public event EventHandler GameEnded;
 
         public bool GameFinished { get; private set; }
 

@@ -20,6 +20,10 @@ public class Node : ReusableObject
 
     public override void OnUnSpawn()
     {
+        if (_holdingCard != null)
+        {
+            ObjectPool.Instance.UnSpawn(_holdingCard);
+        }
         _holdingCard = null;
     }
 
@@ -38,7 +42,7 @@ public class Node : ReusableObject
         {
             if (_holdingCard != null)
             {
-                ObjectPool.Instance.UnSpawn(_holdingCard);
+                _holdingCard.GetComponent<DraggingActions>().UnsuccessfulDrag();
             }
             ObjectPool.Instance.UnSpawn(this.gameObject);
         }    

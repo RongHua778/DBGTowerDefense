@@ -23,10 +23,12 @@ public abstract class TypeFactory
     {
         if (TypeDic.ContainsKey(id))
         {
+            //return TypeDic[id];
             Type type = TypeDic[id];
             var o = Activator.CreateInstance(type);
             return o;
         }
+        Debug.Assert(TypeDic.ContainsKey(id), "工厂种不存在这种东西");
         return null;
     }
 

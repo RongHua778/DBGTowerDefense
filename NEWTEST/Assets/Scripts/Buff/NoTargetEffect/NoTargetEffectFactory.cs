@@ -7,8 +7,6 @@ using System.Linq;
 
 public class NoTargetEffectFactory:TypeFactory
 {
-    private Dictionary<int, Type> effectByType;
-
     public override Type baseType => typeof(NoTargetBuff);
 
 

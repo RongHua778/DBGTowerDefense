@@ -62,10 +62,11 @@ public class Card : ReusableObject
         //进入弃牌堆
         if (CardAsset != null)
             GameEvents.Instance.DiscardCard(CardAsset);
-
+        CardAsset = null;
         HandleNode = null;
+        ShowCard();
         //拖动状态下移出传送带时
-        DraggingActions da = this.GetComponent<DraggingActions>();
-        da.UnsuccessfulDrag();
+        //DraggingActions da = this.GetComponent<DraggingActions>();
+        //da.UnsuccessfulDrag();
     }
 }

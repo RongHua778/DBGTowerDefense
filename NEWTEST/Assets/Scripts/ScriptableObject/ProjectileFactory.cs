@@ -2,7 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+public enum ProjectileType
+{
+    Target,
+    Ground,
+    Fly,
+    Wave
+}
 [CreateAssetMenu(fileName = "New ProjectileFactory", menuName = "DBGTD/Factory")]
 public class ProjectileFactory : ScriptableObject
 {

@@ -27,11 +27,14 @@ public class BuffableEnemy : BuffableEntity
 
             if (buff.IsStackable)
             {
-                buff.Stacks += newBuff.Stacks;
+                buff.KeyValue += newBuff.KeyValue;
             }
-            if (buff.Duration < newBuff.Duration)
+            if (!buff.IsInfinity)
             {
-                buff.Duration = newBuff.Duration;
+                if (buff.Duration < newBuff.Duration)
+                {
+                    buff.Duration = newBuff.Duration;
+                }
             }
             buff.Affect(this.gameObject);
         }

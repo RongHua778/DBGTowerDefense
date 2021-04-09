@@ -7,12 +7,12 @@ using UnityEngine;
 public abstract class Projectile : ReusableObject
 {
     public ProjectileType ProjectileType = default;
-
     [SerializeField] protected float _moveSpeed = default;
-    [SerializeField] protected float _sputteringRange = default;
+    [SerializeField] private float sputteringRange = default;
     [SerializeField] protected float _criticalRate = default;
     [SerializeField] protected float _damage = default;
     public float Damage { get => _damage; set => _damage = value; }
+    public float SputteringRange { get => sputteringRange; set => sputteringRange = value; }
 
     protected readonly float minDistanceToDealDamage = .1f;
 
@@ -66,35 +66,47 @@ public abstract class Projectile : ReusableObject
 
     protected virtual void DealDamage()
     {
-        if (_hitEffect != null)
-        {
-            GameObject effect = Instantiate(_hitEffect, transform.position, Quaternion.identity);
-            effect.transform.localScale = Vector3.one * Mathf.Max(1, _sputteringRange);
-            Destroy(effect, 3f);
-        }
 
     }
 
-    protected void TriggerDamageEffect(Enemy target)
+    protected virtual void PlayHitEffect(float effectScale)
     {
-        foreach (var effect in _turretOwner._cardAsset.PlayEffectList.AttackEffects)
+        GameObject effect = Instantiate(_hitEffect, transform.position, Quaternion.identity);
+        effect.transform.localScale = 0.5f * Vector3.one * Mathf.Max(1, effectScale);
+        Destroy(effect, 3f);
+    }
+
+    protected void TriggerShootAttackEffect(Enemy target)
+    {
+        foreach (var effect in _turretOwner._cardAsset.FinalEffectList.AttackEffects)
         {
             AttackEffect attackEffect = LevelManager.Instance.GetAttackEffect(effect);
-            attackEffect.Affect(this, target);
+            if (attackEffect.AttackEffectTiming == AttackEffectTiming.Shoot)
+                attackEffect.Affect(this, target);
+        }
+    }
+
+    protected void TriggerHitAttackEffect(Enemy target)
+    {
+        foreach (var effect in _turretOwner._cardAsset.FinalEffectList.AttackEffects)
+        {
+            AttackEffect attackEffect = LevelManager.Instance.GetAttackEffect(effect);
+            if (attackEffect.AttackEffectTiming == AttackEffectTiming.Hit)
+                attackEffect.Affect(this, target);
         }
     }
     public void SetProjectile(Transform enemy, Turret turret)
     {
         _turretOwner = turret;
-        ProjectileType = turret._cardAsset.ProjectileType;
         target = enemy;
         _targetGroundPos = enemy.position;
         _spriteRenderer.sprite = turret._cardAsset.ProjectileSprite;
-        _damage = turret.AttackDamage;
+        _damage = turret.TurretAttack;
         _moveSpeed = turret._cardAsset.ProjectileSpeed;
         _criticalRate = turret._cardAsset.CriticalRate;
-        _sputteringRange = turret._cardAsset.SputteringRange;
+        SputteringRange = turret._cardAsset.SputteringRange;
         _hitEffect = turret._cardAsset.HitEffectPrefab;
+        TriggerShootAttackEffect(enemy.GetComponent<Enemy>());
 
     }
 

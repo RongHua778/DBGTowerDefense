@@ -12,29 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870eaeb64374adb449cf6b6e97aecdbe, type: 3}
   m_Name: 012_SlowTurret
   m_EditorClassIdentifier: 
+  original: {fileID: 0}
   CardType: 0
   CardName: SnowTurret
   Description: Apply [SlowDown] to enemies
   CardImage: {fileID: 21302746, guid: 21f5d8d2e032c6345b295e5a9cdbcea2, type: 3}
   CardCost: 2
+  RebuildEffectList:
+    AttributeEffects: []
+    AttackEffects: []
+    EnemyBuffs: []
+    NoTargetEffects: []
+  ComboEffectList:
+    AttributeEffects: []
+    AttackEffects: []
+    EnemyBuffs: []
+    NoTargetEffects: []
+  FinalEffectList:
+    AttributeEffects: []
+    AttackEffects:
+    - AttackEffectType: 2
+      Value: 1
+    EnemyBuffs: []
+    NoTargetEffects: []
   TurretPrefab: {fileID: 8005339885002978379, guid: 73ecf9b0a16bb994d9cb267c9d96e8d4,
     type: 3}
-  Damage: 1
-  Range: 1
-  Speed: 0.5
-  PersistTime: 25
+  TurretAttack: 1
+  TurretRange: 1
+  TurretSpeed: 0.3
+  PersistTime: 20
   CriticalRate: 0
   ProjectileType: 3
   ProjectileSprite: {fileID: 21300000, guid: 691072bec2d323a40b79a42de043fb25, type: 3}
-  SputteringRange: 0
+  SputteringRange: 2.2
   ProjectileSpeed: 5
   HitEffectPrefab: {fileID: 7454466049650975209, guid: 028419860a7d92b498c7aa6ec9841597,
     type: 3}
-  AttackEffectBuffList:
-  - AttackEffectType: 2
-    Value: 2
-  MagicDamage: 0
+  MagicAttack: 0
   MagicRange: 0
-  TurretBuffList: []
-  EnemyBuffList: []
-  NoTargetEffectList: []

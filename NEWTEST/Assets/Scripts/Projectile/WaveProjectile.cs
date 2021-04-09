@@ -16,19 +16,19 @@ public class WaveProjectile : Projectile
     }
     protected override void DealDamage()
     {
-        _sputteringRange = _turretOwner.AttackRange * rangeAdjust;
         base.DealDamage();
         IDamageable idamage;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 2f * _sputteringRange);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _turretOwner.TurretRange * SputteringRange);
         foreach (var item in colliders)
         {
             idamage = item.GetComponent<IDamageable>();
             if (idamage != null)
             {
-                TriggerDamageEffect(item.GetComponent<Enemy>());
+                TriggerHitAttackEffect(item.GetComponent<Enemy>());
                 idamage.TakeDamage(Damage);
             }
         }
+        PlayHitEffect(_turretOwner.TurretRange * SputteringRange);
         ObjectPool.Instance.UnSpawn(this.gameObject);
     }
 

@@ -9,9 +9,9 @@ public class GroundTurret : Turret
 
     public float SputteringRange { get => sputteringRange; set => sputteringRange = value; }
 
-    public override void ReadCardAsset(Card card)
+    public override void ReadCardAsset(CardSO cardSO)
     {
-        base.ReadCardAsset(card);
+        base.ReadCardAsset(cardSO);
         sputteringRange = _cardAsset.SputteringRange;
     }
 

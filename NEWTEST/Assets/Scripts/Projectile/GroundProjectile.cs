@@ -19,16 +19,17 @@ public class GroundProjectile : Projectile
     {
         base.DealDamage();
         IDamageable idamage;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _sputteringRange);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, SputteringRange);
         foreach (var item in colliders)
         {
             idamage = item.GetComponent<IDamageable>();
             if (idamage != null)
             {
-                TriggerDamageEffect(item.GetComponent<Enemy>());
+                TriggerHitAttackEffect(item.GetComponent<Enemy>());
                 idamage.TakeDamage(Damage);
             }
         }
+        PlayHitEffect(SputteringRange);
         ObjectPool.Instance.UnSpawn(this.gameObject);
     }
 

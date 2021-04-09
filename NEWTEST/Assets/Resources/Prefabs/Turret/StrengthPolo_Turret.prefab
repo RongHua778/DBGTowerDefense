@@ -389,7 +389,6 @@ GameObject:
   - component: {fileID: 8005339885002978380}
   - component: {fileID: 8005339885002978378}
   - component: {fileID: 1051878715701904336}
-  - component: {fileID: 4019075248665770543}
   - component: {fileID: 4790694436483943969}
   m_Layer: 0
   m_Name: StrengthPolo_Turret
@@ -529,18 +528,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &4019075248665770543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8005339885002978379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c320741381a82664b893292d77ca22de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4790694436483943969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,23 +541,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardAsset: {fileID: 0}
-  _card: {fileID: 0}
   ShootFirst: 1
   LandedSquare: {fileID: 0}
+  CurrentEnemyTarget: {fileID: 0}
+  _persistTime: 0
+  _maxPersistTime: 0
   _rotTrans: {fileID: 8005339885030405820}
   _projectileSpawnPos: {fileID: 8005339886081336497}
   _persistCanvas: {fileID: 463855087278521324}
   _persistProgress: {fileID: 3246603056759541455}
-  _attackRange: 0
-  _attackDamage: 0
-  _attackSpeed: 0
-  _persistTime: 0
-  _maxPersistTime: 0
-  _criticalRate: 0
-  _projectileSpeed: 0
-  _attackIntensify: 0
-  _speedIntensify: 0
-  _rangeIntensify: 0
   AtackIntensify: 0
   RangeIntensify: 0
   SpeedIntensify: 0
