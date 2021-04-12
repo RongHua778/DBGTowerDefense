@@ -19,7 +19,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private ProjectileFactory _projectileFactory = default;
     [SerializeField] private EnemyFactory _enemyFactory = default;
 
-    public Dictionary<NoTargetBuffName, NoTargetBuff> _noTargetEffects = new Dictionary<NoTargetBuffName, NoTargetBuff>();
+    public Dictionary<NoTargetBuffType, NoTargetBuff> _noTargetEffects = new Dictionary<NoTargetBuffType, NoTargetBuff>();
 
     private TypeFactory _enemyBuffFactory;
     private TypeFactory _attackEffectFactory;
@@ -63,23 +63,25 @@ public class LevelManager : Singleton<LevelManager>
     }
 
 
-    public EnemyBuff GetEnemyBuff(EnemyBuffConfig buffConfig)
+    public EnemyBuff GetEnemyBuff(EffectConfig config)
     {
-        EnemyBuff buff = _enemyBuffFactory.GetType((int)buffConfig.EnemyBuffName) as EnemyBuff;
-        buff.SetBuff(buffConfig);
+        EnemyBuff buff = _enemyBuffFactory.GetType((int)config.EnemyBuffType) as EnemyBuff;
+        buff.SetValue(config.KeyValue);
         return buff;
     }
 
-    public AttackEffect GetAttackEffect(AttackEffectConfig config)
+    public AttackEffect GetAttackEffect(EffectConfig config)
     {
         AttackEffect attackEffect = _attackEffectFactory.GetType((int)config.AttackEffectType) as AttackEffect;
-        attackEffect.SetValue(config);
+        attackEffect.SetValue(config.KeyValue);
         return attackEffect;
     }
 
-    public NoTargetBuff GetNoTargetBuff(int noTargetBuffId)
+    public NoTargetBuff GetNoTargetBuff(EffectConfig config)
     {
-        return _noTargetBuffFactory.GetType(noTargetBuffId) as NoTargetBuff;
+        NoTargetBuff noTargetBuff = _noTargetBuffFactory.GetType((int)config.NoTargetBuffType) as NoTargetBuff;
+        noTargetBuff.SetValue(config.KeyValue);
+        return noTargetBuff;
     }
 
     private void NoTargetEffectCounter()
@@ -89,42 +91,43 @@ public class LevelManager : Singleton<LevelManager>
             effect.Tick(Time.deltaTime);
             if (effect.IsFinished)
             {
-                _noTargetEffects.Remove(effect.NoTargetBuffName);
+                _noTargetEffects.Remove(effect.NoTargetBuffType);
             }
         }
     }
 
-    public void AddEffect(NoTargetBuff effect, float keyValue, float duration)
+    public void AddEffect(NoTargetBuff effect)
     {
-        if (_noTargetEffects.ContainsKey(effect.NoTargetBuffName))
+        if (_noTargetEffects.ContainsKey(effect.NoTargetBuffType))
         {
-            NoTargetBuff effectItem = _noTargetEffects[effect.NoTargetBuffName];
+            NoTargetBuff effectItem = _noTargetEffects[effect.NoTargetBuffType];
             if (effect.IsStackable)
             {
                 effectItem.Affect(this.gameObject);
             }
-            if (effectItem.Duration < duration)
+            if (effectItem.Duration < effect.KeyValue)
             {
-                effectItem.Duration = duration;
+                effectItem.Duration = effect.KeyValue;
             }
         }
         else
         {
-            effect.Duration += duration;
-            effect.KeyValue = keyValue;
-            _noTargetEffects.Add(effect.NoTargetBuffName, effect);
+            effect.Duration += effect.KeyValue;
+            _noTargetEffects.Add(effect.NoTargetBuffType, effect);
             effect.Affect(this.gameObject);
         }
     }
 
-    public void ApplyNoTargetEffects(IEnumerable<NoTargetEffectConfig> effectList)
+    public void ApplyNoTargetEffects(IEnumerable<EffectConfig> configList)
     {
-        foreach (var effectItem in effectList)
+        foreach (var config in configList)
         {
-            NoTargetBuff effect = GetNoTargetBuff((int)effectItem.NoTargetBuffName);
-            if(effect!=null)
-                AddEffect(effect, effectItem.KeyValue, effectItem.Duration);
-            Debug.Assert(effect != null, "≈‰÷√¡À¥ÌŒÛµƒNotargetBuff:" + effect.NoTargetBuffName.ToString());
+            if (config.BaseEffectType == EffectType.NoTargetBuff)
+            {
+                NoTargetBuff effect = GetNoTargetBuff(config);
+                if (effect != null)
+                    AddEffect(effect);
+            }
         }
     }
 

@@ -16,10 +16,10 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     private void SpeedUp()
     {
-        NoTargetEffectConfig effect1 = new NoTargetEffectConfig(NoTargetBuffName.Overload, 15, 2f);
-        NoTargetEffectConfig effect2 = new NoTargetEffectConfig(NoTargetBuffName.FastConveyor, 15, 1f);
-        List<NoTargetEffectConfig> effects = new List<NoTargetEffectConfig> { effect1 ,effect2};
-        LevelManager.Instance.ApplyNoTargetEffects(effects);
+        //NoTargetEffectConfig effect1 = new NoTargetEffectConfig(NoTargetBuffType.Overload, 15, 2f);
+        //NoTargetEffectConfig effect2 = new NoTargetEffectConfig(NoTargetBuffType.FastConveyor, 15, 1f);
+        //List<NoTargetEffectConfig> effects = new List<NoTargetEffectConfig> { effect1 ,effect2};
+        //LevelManager.Instance.ApplyNoTargetEffects(effects);
         Debug.Log("Speed Up");
     }
 

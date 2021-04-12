@@ -9,6 +9,35 @@ public enum CardType
     NoTargetMagic
 }
 
+public enum EffectType
+{
+    AttributeEffect,
+    AttackEffect,
+    EnemyBuff,
+    NoTargetBuff
+}
+
+[System.Serializable]
+public struct EffectConfig
+{
+    public EffectType BaseEffectType;
+    public AttributeType AttributeType;
+    public AttackEffectType AttackEffectType;
+    public EnemyBuffType EnemyBuffType;
+    public NoTargetBuffType NoTargetBuffType;
+    public float KeyValue;
+
+    public EffectConfig(EffectType baseEffectType, AttributeType attributeType = default, AttackEffectType attackEffectType = default, EnemyBuffType enemyBuffType = default, NoTargetBuffType noTargetBuffType = default, float keyValue = 0)
+    {
+        this.BaseEffectType = baseEffectType;
+        this.AttributeType = attributeType;
+        this.AttackEffectType = attackEffectType;
+        this.EnemyBuffType = enemyBuffType;
+        this.NoTargetBuffType = noTargetBuffType;
+        this.KeyValue = keyValue;
+    }
+}
+
 
 [CreateAssetMenu(fileName = "New Card", menuName = "DBGTD/CardSO")]
 public class CardSO : ScriptableObject
@@ -22,9 +51,10 @@ public class CardSO : ScriptableObject
     public string Description;
     public Sprite CardImage;
     public int CardCost;
-    public CardEffectConfig RebuildEffectList;
-    public CardEffectConfig ComboEffectList;
-    public CardEffectConfig FinalEffectList;
+    public List<EffectConfig> RemakeEffectList;
+    public List<EffectConfig> PoloEffectList;
+    public List<EffectConfig> FinalEffectList;
+
 
     [Header("TowerCard Info")]
     public GameObject TurretPrefab;
@@ -51,56 +81,60 @@ public class CardSO : ScriptableObject
         original = Instantiate(this);
     }
 
-    public void ChangeAttribute(AttributeConfig config)//这个只影响卡牌的基础属性,不包括之后在地形加成的属性
+    public void ChangeAttribute(EffectConfig config)//这个只影响卡牌的基础属性,不包括之后在地形加成的属性
     {
-        switch (config.ChangeAttribute)
+        switch (config.AttributeType)
         {
-            case Attribute.Cost:
-                CardCost += (int)config.Value;
+            case AttributeType.Cost:
+                CardCost += (int)config.KeyValue;
                 break;
-            case Attribute.TurretAttack:
-                TurretAttack += config.Value;
+            case AttributeType.TurretAttack:
+                TurretAttack += config.KeyValue;
                 break;
-            case Attribute.TurretSpeed:
-                TurretSpeed += config.Value;
+            case AttributeType.TurretSpeed:
+                TurretSpeed += config.KeyValue;
                 break;
-            case Attribute.TurretRange:
-                TurretRange += (int)config.Value;
+            case AttributeType.TurretRange:
+                TurretRange += (int)config.KeyValue;
                 break;
-            case Attribute.SputterRange:
-                SputteringRange += config.Value;
+            case AttributeType.SputterRange:
+                SputteringRange += config.KeyValue;
                 break;
-            case Attribute.CritcalRate:
-                CriticalRate += config.Value;
+            case AttributeType.CritcalRate:
+                CriticalRate += config.KeyValue;
                 break;
-            case Attribute.PersistTime:
-                PersistTime += config.Value;
+            case AttributeType.PersistTime:
+                PersistTime += config.KeyValue;
                 break;
-            case Attribute.MagicRange:
-                MagicRange += config.Value;
+            case AttributeType.MagicRange:
+                MagicRange += config.KeyValue;
                 break;
-            case Attribute.MagicAttack:
-                MagicAttack += config.Value;
+            case AttributeType.MagicAttack:
+                MagicAttack += config.KeyValue;
                 break;
         }
     }
 
-    public void RebuildTrigger()
+    public void RemakeTrigger()
     {
-        if (RebuildEffectList.AttributeEffects.Count > 0)
+        if (RemakeEffectList.Count > 0)
         {
-            foreach (AttributeConfig config in RebuildEffectList.AttributeEffects)
+            foreach (EffectConfig config in RemakeEffectList)
             {
-                ChangeAttribute(config);
+                switch (config.BaseEffectType)
+                {
+                    case EffectType.AttributeEffect:
+                        ChangeAttribute(config);
+                        break;
+                    case EffectType.AttackEffect:
+                    case EffectType.EnemyBuff:
+                    case EffectType.NoTargetBuff:
+                        FinalEffectList.Add(config);
+                        break;
+                }
             }
+            RemakeEffectList.Clear();
         }
-        FinalEffectList.AttackEffects.AddRange(RebuildEffectList.AttackEffects);
-        FinalEffectList.EnemyBuffs.AddRange(RebuildEffectList.EnemyBuffs);
-        FinalEffectList.NoTargetEffects.AddRange(RebuildEffectList.NoTargetEffects);
-        RebuildEffectList.AttributeEffects.Clear();
-        RebuildEffectList.AttackEffects.Clear();
-        RebuildEffectList.EnemyBuffs.Clear();
-        RebuildEffectList.NoTargetEffects.Clear();
     }
 
 

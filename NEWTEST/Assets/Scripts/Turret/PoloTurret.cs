@@ -22,10 +22,10 @@ public class PoloTurret : Turret
     public override void LandTurret(Square landedSquare)
     {
         base.LandTurret(landedSquare);
-        foreach (Square square in LandedSquare.GetRangeSquares(1))
-        {
-            square.RangeIntensify += 1;
-        }
+        //foreach (Square square in LandedSquare.GetRangeSquares(1))
+        //{
+        //    square.RangeIntensify += 1;
+        //}
     }
 
     public override void OnSpawn()
@@ -35,13 +35,13 @@ public class PoloTurret : Turret
 
     public override void OnUnSpawn()
     {
-        if (LandedSquare != null)
-        {
-            foreach (Square square in LandedSquare.GetRangeSquares(1))
-            {
-                square.RangeIntensify -= 1;
-            }
-        }
+        //if (LandedSquare != null)
+        //{
+        //    foreach (Square square in LandedSquare.GetRangeSquares(1))
+        //    {
+        //        square.RangeIntensify -= 1;
+        //    }
+        //}
         base.OnUnSpawn();
         
     }

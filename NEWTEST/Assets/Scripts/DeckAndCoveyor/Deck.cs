@@ -61,7 +61,7 @@ public class Deck : MonoBehaviour
         if (cardSO.original == null)//如果是从场上回来的防御塔牌，这个就为NULL
             cardSO.BackUpAsset();//备份原始卡牌数据，卡牌数据可能在战斗中改变,方便必要时还原
         else
-            cardSO.RebuildTrigger();//回炉特效
+            cardSO.RemakeTrigger();//回炉特效
         _drawPile.Add(cardSO);
     }
 

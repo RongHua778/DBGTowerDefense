@@ -15,7 +15,7 @@ public class NoTargetEffectFactory:TypeFactory
         foreach (Type type in types)
         {
             var buff = Activator.CreateInstance(type) as NoTargetBuff;
-            TypeDic.Add((int)buff.NoTargetBuffName, type);
+            TypeDic.Add((int)buff.NoTargetBuffType, type);
         }
     }
 }

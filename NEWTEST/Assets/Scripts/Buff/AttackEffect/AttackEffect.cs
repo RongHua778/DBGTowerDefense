@@ -14,9 +14,10 @@ public abstract class AttackEffect
     public abstract AttackEffectType AttackEffectName { get; }
     public abstract AttackEffectTiming AttackEffectTiming { get; }
     public abstract void Affect(Projectile projectile, Enemy target);
-    public void SetValue(AttackEffectConfig config)
+
+    public void SetValue(float value)
     {
-        KeyValue = config.Value;
+        KeyValue = value;
     }
 }
 
@@ -57,7 +58,7 @@ public class SlowProjectile : AttackEffect
 
     public override void Affect(Projectile projectile, Enemy target)
     {
-        EnemyBuffConfig config = new EnemyBuffConfig(EnemyBuffName.SlowDown, 1f);
+        EffectConfig config = new EffectConfig(EffectType.EnemyBuff, default, default, EnemyBuffType.SlowDown, default, 3f);
         EnemyBuff buff = LevelManager.Instance.GetEnemyBuff(config);
         target.GetComponent<BuffableEnemy>().AddBuff(buff);
     }

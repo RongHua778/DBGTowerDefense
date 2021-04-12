@@ -18,21 +18,8 @@ MonoBehaviour:
   Description: Deal damage to all adjacent enemies
   CardImage: {fileID: 21300000, guid: b925f5076d5fd4e42b2d3717a0f82305, type: 3}
   CardCost: 3
-  RebuildEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
-  ComboEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
-  FinalEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
+  RemakeEffectList: []
+  FinalEffectList: []
   TurretPrefab: {fileID: 8005339885002978379, guid: 6fb5e0350bf679946aba1706966a0bcb,
     type: 3}
   TurretAttack: 4

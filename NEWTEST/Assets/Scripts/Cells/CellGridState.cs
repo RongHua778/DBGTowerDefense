@@ -28,7 +28,7 @@ namespace DBGTD.Cells
 
         public virtual void OnStateEnter()
         {
-            foreach (var cell in _cellGrid.Cells)
+            foreach (var cell in CellGrid.Cells)
             {
                 cell.UnMark();
             }

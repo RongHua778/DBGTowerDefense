@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +12,23 @@ namespace DBGTD.Cells
         public Turret SquareTurret;
 
         public float AttackIntensify;
+
+        [SerializeField]
+        private TextMesh rangeInidicator;//测试用 范围强化效果指示器
+
         private int _rangeIntensify;
         public int RangeIntensify
         {
             get => _rangeIntensify;
             set
             {
-                _rangeIntensify = value;
+                int temp = _rangeIntensify;
+                _rangeIntensify = value;//先把强化值设定好，防御塔的攻击范围需要取这个值来决定
+                if (SquareTurret != null)
+                {
+                    SquareTurret.RecaculatePoloEffect(value, temp);//如果改变后的值大于原先值，则进行一次递归
+                }
+                rangeInidicator.text = _rangeIntensify.ToString();
                 if (SquareTurret != null)
                 {
                     SquareTurret.SetAttackRangeColliders();
@@ -26,19 +37,55 @@ namespace DBGTD.Cells
         }
         public float SpeedIntensify;
 
-        //public List<Cell> neighbours;
         public static Turret PreviewingTurret = null;
-        //protected static readonly Vector2[] _directions =
-        //{
-        //    new Vector2(1,0),new Vector2(-1,0),new Vector2(0,1),new Vector2(0,-1),
-        //    new Vector2(1,1),new Vector2(-1,-1),new Vector2(1,-1),new Vector2(-1,1)
-        //};
+
 
         public void Start()
         {
             transform.Find("Highlighter").GetComponent<SpriteRenderer>().sortingOrder = 3;
+            rangeInidicator.GetComponent<MeshRenderer>().sortingOrder = 5;
         }
 
+        public void ResetAllIntensify()
+        {
+            AttackIntensify = 0;
+            RangeIntensify = 0;
+            SpeedIntensify = 0;
+        }
+        public void ApplyPoloEffect(List<EffectConfig> poloEffectList, bool isRemove)
+        {
+            foreach (EffectConfig config in poloEffectList)
+            {
+                if (config.BaseEffectType == EffectType.AttributeEffect)
+                {
+                    ModifyIntensify(config, isRemove);
+                }
+            }
+        }
+
+
+        private void ModifyIntensify(EffectConfig config, bool isRemove)
+        {
+            int flag = isRemove ? -1 : 1;
+            switch (config.AttributeType)
+            {
+                case AttributeType.TurretAttack:
+                    AttackIntensify += config.KeyValue * flag;
+                    break;
+                case AttributeType.TurretSpeed:
+                    SpeedIntensify += config.KeyValue * flag;
+                    break;
+                case AttributeType.TurretRange:
+                    RangeIntensify += (int)config.KeyValue * flag;
+                    break;
+                case AttributeType.SputterRange:
+                    break;
+                case AttributeType.CritcalRate:
+                    break;
+                case AttributeType.PersistTime:
+                    break;
+            }
+        }
         public override Vector3 GetCellDimensions()
         {
             var ret = GetComponent<SpriteRenderer>().bounds.size;
@@ -52,21 +99,11 @@ namespace DBGTD.Cells
         public override void GetMap(List<Cell> cells)
         {
             base.GetMap(cells);
-            //if (neighbours.Count <= 0)
-            //{
-            //    neighbours = new List<Cell>(8);
-            //    foreach (var direction in _directions)
-            //    {
-            //        var neighbour = cells.Find(c => c.OffsetCoord == OffsetCoord + direction);
-            //        if (neighbour == null) continue;
-            //        neighbours.Add(neighbour);
-            //    }
-            //}
-            //return neighbours;
         }
 
         public List<Square> GetRangeSquares(int range)
         {
+            range = Mathf.Clamp(range, 0, 20);
             List<Square> squaresToReturn = new List<Square>();
             for (int x = -range; x <= range; x++)
             {

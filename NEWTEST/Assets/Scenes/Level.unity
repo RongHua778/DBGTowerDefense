@@ -4597,6 +4597,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile
       objectReference: {fileID: 0}
+    - target: {fileID: 7118201503104982887, guid: a38923dd0eb6f1746a052fdd4b8d45b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a38923dd0eb6f1746a052fdd4b8d45b4, type: 3}
 --- !u!1 &1617054606
@@ -4705,7 +4710,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51efdf5ac1a74f643a8d4ecf33d70a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cells: []
 --- !u!483693784 &1617054609
 TilemapRenderer:
   m_ObjectHideFlags: 0

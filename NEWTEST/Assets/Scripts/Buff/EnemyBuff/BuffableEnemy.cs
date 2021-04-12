@@ -44,13 +44,16 @@ public class BuffableEnemy : BuffableEntity
             newBuff.Affect(this.gameObject);
         }
     }
-    public void ApplyEffects(IEnumerable<EnemyBuffConfig> effectList)
+    public void ApplyEffects(IEnumerable<EffectConfig> configList)
     {
-        foreach (var buffConfig in effectList)
+        foreach (var config in configList)
         {
-            EnemyBuff buff = LevelManager.Instance.GetEnemyBuff(buffConfig);
-            AddBuff(buff);
-            Debug.Assert(buff != null, "EnemyBuff÷–≈‰÷√¡À¥ÌŒÛBuff:" + buffConfig.EnemyBuffName.ToString());
+            if (config.BaseEffectType == EffectType.EnemyBuff)
+            {
+                EnemyBuff buff = LevelManager.Instance.GetEnemyBuff(config);
+                if (buff != null)
+                    AddBuff(buff);
+            }
         }
     }
 

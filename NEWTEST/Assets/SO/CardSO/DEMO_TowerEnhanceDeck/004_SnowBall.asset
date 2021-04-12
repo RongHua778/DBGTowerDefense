@@ -18,23 +18,14 @@ MonoBehaviour:
   Description: Slowdown enemies for 5s
   CardImage: {fileID: 21303406, guid: 21f5d8d2e032c6345b295e5a9cdbcea2, type: 3}
   CardCost: 2
-  RebuildEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
-  ComboEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
+  RemakeEffectList: []
   FinalEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs:
-    - EnemyBuffName: 0
-      Value: 3
-    NoTargetEffects: []
+  - BaseEffectType: 2
+    AttributeType: 0
+    AttackEffectType: 0
+    EnemyBuffType: 0
+    NoTargetBuffType: 0
+    KeyValue: 5
   TurretPrefab: {fileID: 0}
   TurretAttack: 0
   TurretRange: 0

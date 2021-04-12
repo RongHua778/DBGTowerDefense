@@ -18,21 +18,8 @@ MonoBehaviour:
   Description: 
   CardImage: {fileID: 21300000, guid: 56505d0d974b52840ad34257d50585fb, type: 3}
   CardCost: 2
-  RebuildEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
-  ComboEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
-  FinalEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
+  RemakeEffectList: []
+  FinalEffectList: []
   TurretPrefab: {fileID: 8005339885002978379, guid: 138259841fcdb644987b75e5f906cff6,
     type: 3}
   TurretAttack: 2

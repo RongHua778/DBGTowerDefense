@@ -78,21 +78,31 @@ public abstract class Projectile : ReusableObject
 
     protected void TriggerShootAttackEffect(Enemy target)
     {
-        foreach (var effect in _turretOwner._cardAsset.FinalEffectList.AttackEffects)
+        foreach (var config in _turretOwner._cardAsset.FinalEffectList)
         {
-            AttackEffect attackEffect = LevelManager.Instance.GetAttackEffect(effect);
-            if (attackEffect.AttackEffectTiming == AttackEffectTiming.Shoot)
-                attackEffect.Affect(this, target);
+            if (config.BaseEffectType == EffectType.AttackEffect)
+            {
+                AttackEffect attackEffect = LevelManager.Instance.GetAttackEffect(config);
+                if (attackEffect == null)
+                    continue;
+                if (attackEffect.AttackEffectTiming == AttackEffectTiming.Shoot)
+                    attackEffect.Affect(this, target);
+            }
         }
     }
 
     protected void TriggerHitAttackEffect(Enemy target)
     {
-        foreach (var effect in _turretOwner._cardAsset.FinalEffectList.AttackEffects)
+        foreach (var config in _turretOwner._cardAsset.FinalEffectList)
         {
-            AttackEffect attackEffect = LevelManager.Instance.GetAttackEffect(effect);
-            if (attackEffect.AttackEffectTiming == AttackEffectTiming.Hit)
-                attackEffect.Affect(this, target);
+            if (config.BaseEffectType == EffectType.AttackEffect)
+            {
+                AttackEffect attackEffect = LevelManager.Instance.GetAttackEffect(config);
+                if (attackEffect == null)
+                    continue;
+                if (attackEffect.AttackEffectTiming == AttackEffectTiming.Hit)
+                    attackEffect.Affect(this, target);
+            }
         }
     }
     public void SetProjectile(Transform enemy, Turret turret)

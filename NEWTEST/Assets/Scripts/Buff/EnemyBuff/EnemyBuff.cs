@@ -4,18 +4,13 @@ using UnityEngine;
 
 public abstract class EnemyBuff : Buff
 {
-    public abstract EnemyBuffName enemyBuffName { get; }
+    public abstract EnemyBuffType enemyBuffName { get; }
     public Enemy Target;
-    public void SetBuff(EnemyBuffConfig buffConfig)
-    {
-        KeyValue = buffConfig.Value;
-    }
-
 }
 
 public class SlowDown : EnemyBuff
 {
-    public override EnemyBuffName enemyBuffName => EnemyBuffName.SlowDown;
+    public override EnemyBuffType enemyBuffName => EnemyBuffType.SlowDown;
     public override bool IsStackable => false;
 
     public override bool IsInfinity => false;

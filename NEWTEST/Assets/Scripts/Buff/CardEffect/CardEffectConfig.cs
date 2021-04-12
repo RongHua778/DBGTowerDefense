@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Attribute
+public enum AttributeType
 {
     Cost,
     TurretAttack,
@@ -22,7 +22,7 @@ public enum AttackEffectType
     RangeBaseSputtering
 }
 
-public enum EnemyBuffName
+public enum EnemyBuffType
 {
     SlowDown,
     OverLoad
@@ -31,7 +31,7 @@ public enum EnemyBuffName
 [System.Serializable]
 public struct AttributeConfig
 {
-    public Attribute ChangeAttribute;
+    public AttributeType ChangeAttribute;
     public float Value;
 }
 
@@ -45,17 +45,17 @@ public struct AttackEffectConfig
 [System.Serializable]
 public struct EnemyBuffConfig
 {
-    public EnemyBuffName EnemyBuffName;
+    public EnemyBuffType EnemyBuffName;
     public float Value;
 
-    public EnemyBuffConfig(EnemyBuffName name,float value)
+    public EnemyBuffConfig(EnemyBuffType name,float value)
     {
         this.EnemyBuffName = name;
         this.Value = value;
     }
 }
 
-public enum NoTargetBuffName
+public enum NoTargetBuffType
 {
     Overload,
     Investment,
@@ -68,13 +68,13 @@ public enum NoTargetBuffName
 [System.Serializable]
 public struct NoTargetEffectConfig
 {
-    public NoTargetBuffName NoTargetBuffName;
+    public NoTargetBuffType NoTargetBuffType;
     public float Duration;
     public float KeyValue;
 
-    public NoTargetEffectConfig(NoTargetBuffName name, float duration, float keyValue)
+    public NoTargetEffectConfig(NoTargetBuffType name, float duration, float keyValue)
     {
-        this.NoTargetBuffName = name;
+        this.NoTargetBuffType = name;
         this.Duration = duration;
         this.KeyValue = keyValue;
     }

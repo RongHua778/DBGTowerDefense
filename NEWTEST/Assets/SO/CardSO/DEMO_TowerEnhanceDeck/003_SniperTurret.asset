@@ -18,25 +18,20 @@ MonoBehaviour:
   Description: Deal damage base on the distance to enemy
   CardImage: {fileID: 21300000, guid: a5604eac6a61b4c469c9dfa05c9e7f32, type: 3}
   CardCost: 6
-  RebuildEffectList:
-    AttributeEffects:
-    - ChangeAttribute: 3
-      Value: 1
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
-  ComboEffectList:
-    AttributeEffects: []
-    AttackEffects: []
-    EnemyBuffs: []
-    NoTargetEffects: []
+  RemakeEffectList:
+  - BaseEffectType: 0
+    AttributeType: 3
+    AttackEffectType: 0
+    EnemyBuffType: 0
+    NoTargetBuffType: 0
+    KeyValue: 1
   FinalEffectList:
-    AttributeEffects: []
-    AttackEffects:
-    - AttackEffectType: 0
-      Value: 3
-    EnemyBuffs: []
-    NoTargetEffects: []
+  - BaseEffectType: 1
+    AttributeType: 0
+    AttackEffectType: 0
+    EnemyBuffType: 0
+    NoTargetBuffType: 0
+    KeyValue: 0.5
   TurretPrefab: {fileID: 8005339885002978379, guid: 8e85b89edebb4d646801e0efecfc84eb,
     type: 3}
   TurretAttack: 4

@@ -27,7 +27,7 @@ namespace DBGTD.Cells
         public bool GameFinished { get; private set; }
 
         private const float cellOffset = 1.6f;
-        public List<Cell> Cells;
+        public static List<Cell> Cells;
 
         private CellGridState _cellGridState; //The grid delegates some of its behaviours to cellGridState object.
         public CellGridState CellGridState

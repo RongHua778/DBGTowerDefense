@@ -5,7 +5,7 @@ using System;
 
 public abstract class NoTargetBuff : Buff
 {
-    public abstract NoTargetBuffName NoTargetBuffName { get; }
+    public abstract NoTargetBuffType NoTargetBuffType { get; }
 
     public GameObject Target;
     public override void Affect(GameObject target)
@@ -17,7 +17,7 @@ public abstract class NoTargetBuff : Buff
 
 public class Overload : NoTargetBuff
 {
-    public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.Overload;
+    public override NoTargetBuffType NoTargetBuffType => NoTargetBuffType.Overload;
     public override bool IsStackable => false;
 
     public override bool IsInfinity => false;
@@ -39,7 +39,7 @@ public class Overload : NoTargetBuff
 
 public class Inverstment : NoTargetBuff
 {
-    public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.Investment;
+    public override NoTargetBuffType NoTargetBuffType => NoTargetBuffType.Investment;
 
     public override bool IsStackable => false;
 
@@ -62,7 +62,7 @@ public class Inverstment : NoTargetBuff
 
 public class MagicMaster : NoTargetBuff
 {
-    public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.MagicMaster;
+    public override NoTargetBuffType NoTargetBuffType => NoTargetBuffType.MagicMaster;
 
 
     public override bool IsStackable => false;
@@ -85,7 +85,7 @@ public class MagicMaster : NoTargetBuff
 
 public class FastConveyor : NoTargetBuff
 {
-    public override NoTargetBuffName NoTargetBuffName => NoTargetBuffName.FastConveyor;
+    public override NoTargetBuffType NoTargetBuffType => NoTargetBuffType.FastConveyor;
 
 
     public override bool IsStackable => false;

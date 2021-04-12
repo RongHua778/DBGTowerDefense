@@ -11,6 +11,11 @@ public abstract class Buff
 
     public float KeyValue;
 
+    public void SetValue(float value)
+    {
+        KeyValue = value;
+    }
+
     public virtual void Affect(GameObject target) { }
 
     public void Tick(float delta)
