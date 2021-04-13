@@ -38,7 +38,7 @@ public class DraggingTurretCard : DraggingActions
             GhostTurret.GetComponent<Turret>().LandTurret(endSquare);
             GameEvents.Instance.RemoveCard(_card.CardAsset);//暂时从卡组移除这张牌
             _card.CardAsset = null;
-            ObjectPool.Instance.UnSpawn(_card.HandleNode);
+            ObjectPool.Instance.UnSpawn(_card.gameObject);
         }
         else
         {

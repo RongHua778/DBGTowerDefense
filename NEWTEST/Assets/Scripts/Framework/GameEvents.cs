@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DBGTD.Cells;
 
 public class GameEvents : Singleton<GameEvents>
 {
@@ -52,5 +53,17 @@ public class GameEvents : Singleton<GameEvents>
     public void RemoveCard(CardSO cardSO)
     {
         onRemoveCard?.Invoke(cardSO);
+    }
+
+    public event Action<Turret> onTurretLanded;
+    public void TurretLanded(Turret turret)
+    {
+        onTurretLanded?.Invoke(turret);
+    }
+
+    public event Action<Turret> onTurretDemolish;
+    public void TurretDemolish(Turret turret)
+    {
+        onTurretDemolish?.Invoke(turret);
     }
 }

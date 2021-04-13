@@ -16,6 +16,8 @@ public class Conveyor : MonoBehaviour
     [SerializeField] private GameObject _magicCardPrefab = default;
     [SerializeField] private GameObject _noTargetMagicCardPrefab = default;
 
+    private Transform lastNode;
+
     private void Awake()
     {
         _deck = this.GetComponent<Deck>();
@@ -32,6 +34,7 @@ public class Conveyor : MonoBehaviour
             cardObj = SpawnCard(nodeObj);
         }
         node.SetNode(_unSpawnPos.position, cardObj);
+        lastNode = nodeObj.transform;
     }
 
     private GameObject SpawnCard(GameObject nodeObj)
@@ -60,10 +63,20 @@ public class Conveyor : MonoBehaviour
 
     void Update()
     {
-        if (Time.time - _spawnTimer >= StaticData.Instance.NodeSpawnInterval)
-        {
+        //if (Time.time - _spawnTimer >= StaticData.Instance.NodeSpawnInterval)
+        //{
+        //    SpawnNode();
+        //    _spawnTimer = Time.time;
+        //}
+        if (lastNode == null)
             SpawnNode();
-            _spawnTimer = Time.time;
+        else
+        {
+            float distance = (lastNode.position - _spawnPos.position).magnitude;
+            if (distance > StaticData.Instance.NodeSpawnInterval)
+            {
+                SpawnNode();
+            }
         }
     }
 }

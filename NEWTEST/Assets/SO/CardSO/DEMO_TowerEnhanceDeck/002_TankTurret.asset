@@ -19,6 +19,8 @@ MonoBehaviour:
   CardImage: {fileID: 21300000, guid: b925f5076d5fd4e42b2d3717a0f82305, type: 3}
   CardCost: 3
   RemakeEffectList: []
+  PoloEffectList: []
+  NotargetEffectList: []
   FinalEffectList: []
   TurretPrefab: {fileID: 8005339885002978379, guid: 6fb5e0350bf679946aba1706966a0bcb,
     type: 3}
@@ -31,6 +33,7 @@ MonoBehaviour:
   ProjectileSprite: {fileID: 21300000, guid: 105cc10a136935f4b9642704303a3140, type: 3}
   SputteringRange: 1
   ProjectileSpeed: 4
-  HitEffectPrefab: {fileID: 0}
+  HitEffectPrefab: {fileID: 7454466049650975209, guid: 028419860a7d92b498c7aa6ec9841597,
+    type: 3}
   MagicAttack: 0
   MagicRange: 0

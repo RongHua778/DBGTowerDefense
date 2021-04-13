@@ -8,7 +8,7 @@ namespace DBGTD.Cells
 {
     public abstract class Cell : MonoBehaviour, IGraphNode, IEquatable<Cell>
     {
-        protected List<Cell> cellMap=new List<Cell>();
+        public List<Cell> cellMap = new List<Cell>();
         private Vector2 _offsetCoord;
 
         public Vector2 OffsetCoord { get => _offsetCoord; set => _offsetCoord = value; }

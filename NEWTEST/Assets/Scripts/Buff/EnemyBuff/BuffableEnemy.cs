@@ -25,21 +25,22 @@ public class BuffableEnemy : BuffableEntity
         {
             Buff buff = _buffs[(int)newBuff.enemyBuffName];
 
-            if (buff.IsStackable)
+            if (buff.IsStackable)//敌人BUFF可叠加的如燃烧都是不限时间BUFF
             {
-                buff.KeyValue += newBuff.KeyValue;
+                buff.Stacks += (int)newBuff.KeyValue;
+                buff.Affect(this.gameObject);
             }
-            if (!buff.IsInfinity)
+            else if (buff.Duration < newBuff.KeyValue)//不可叠加的如减速为时间限定BUFF
             {
-                if (buff.Duration < newBuff.Duration)
-                {
-                    buff.Duration = newBuff.Duration;
-                }
+                buff.Duration = newBuff.KeyValue;
             }
-            buff.Affect(this.gameObject);
         }
         else
         {
+            if (newBuff.IsStackable)
+                newBuff.Stacks = (int)newBuff.KeyValue;
+            else
+                newBuff.Duration = newBuff.KeyValue;
             _buffs.Add((int)newBuff.enemyBuffName, newBuff);
             newBuff.Affect(this.gameObject);
         }

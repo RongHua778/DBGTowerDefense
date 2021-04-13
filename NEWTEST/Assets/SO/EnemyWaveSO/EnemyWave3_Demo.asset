@@ -15,7 +15,7 @@ MonoBehaviour:
   spawnSequence:
   - enemyRace: 0
     level: 1
-    amount: 10
+    amount: 12
     coolDown: 1
   - enemyRace: 0
     level: 1
@@ -23,5 +23,5 @@ MonoBehaviour:
     coolDown: 5
   - enemyRace: 0
     level: 3
-    amount: 3
+    amount: 4
     coolDown: 3

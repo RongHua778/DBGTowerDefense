@@ -10,26 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 870eaeb64374adb449cf6b6e97aecdbe, type: 3}
-  m_Name: 009_PersistPotion
+  m_Name: 009_ConveyorFactory
   m_EditorClassIdentifier: 
   original: {fileID: 0}
-  CardType: 1
-  CardName: PersistPotion
-  Description: Restore turrets' persist time for 10s
-  CardImage: {fileID: 21300000, guid: 7af82e98587ffc346b723e5c34cabf83, type: 3}
-  CardCost: 4
+  CardType: 0
+  CardName: ConveyorFactory
+  Description: Increase your max Coin by 2
+  CardImage: {fileID: 21300594, guid: 21f5d8d2e032c6345b295e5a9cdbcea2, type: 3}
+  CardCost: 3
   RemakeEffectList: []
+  PoloEffectList: []
+  NotargetEffectList:
+  - BaseEffectType: 3
+    AttributeType: 0
+    AttackEffectType: 0
+    EnemyBuffType: 0
+    NoTargetBuffType: 3
+    KeyValue: 1
   FinalEffectList: []
-  TurretPrefab: {fileID: 0}
+  TurretPrefab: {fileID: 8005339885002978379, guid: b9ad8e32ebd4b544e9bbca9a7431e471,
+    type: 3}
   TurretAttack: 0
   TurretRange: 0
   TurretSpeed: 0
-  PersistTime: 0
+  PersistTime: 30
   CriticalRate: 0
-  ProjectileType: 0
+  ProjectileType: 3
   ProjectileSprite: {fileID: 0}
   SputteringRange: 0
   ProjectileSpeed: 0
   HitEffectPrefab: {fileID: 0}
   MagicAttack: 0
-  MagicRange: 1
+  MagicRange: 0

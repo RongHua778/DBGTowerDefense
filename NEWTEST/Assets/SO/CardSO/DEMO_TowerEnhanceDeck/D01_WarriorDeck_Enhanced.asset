@@ -13,8 +13,19 @@ MonoBehaviour:
   m_Name: D01_WarriorDeck_Enhanced
   m_EditorClassIdentifier: 
   DeckCards:
+  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
+  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
+  - {fileID: 11400000, guid: e8365f35bb85a084d9e10c0482cc68af, type: 2}
+  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
+  - {fileID: 11400000, guid: b5b034b9d8fe36c46829ceb090c35bcc, type: 2}
   - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
   - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
-  - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
-  - {fileID: 11400000, guid: 022ea7ae3b314b04aa5999ab3ca0a727, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
+  - {fileID: 11400000, guid: 95b5b3accb2f48a459cf19fd5e578148, type: 2}
   - {fileID: 11400000, guid: 8b754bd0fd96bd5408e5d3581af26210, type: 2}
+  - {fileID: 11400000, guid: 8b754bd0fd96bd5408e5d3581af26210, type: 2}
+  - {fileID: 11400000, guid: f3bad3b56f092514d8cb538b81620e56, type: 2}
+  - {fileID: 11400000, guid: f3bad3b56f092514d8cb538b81620e56, type: 2}
+  - {fileID: 11400000, guid: b12d16b49c922aa47affd0795f195fc5, type: 2}
+  - {fileID: 11400000, guid: b12d16b49c922aa47affd0795f195fc5, type: 2}
+  - {fileID: 11400000, guid: 45e8443654a9f5a439a9adf68b5af63b, type: 2}

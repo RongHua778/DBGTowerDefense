@@ -6,7 +6,7 @@ using UnityEngine;
 public class Node : ReusableObject
 {
     private Vector2 _targetPos;
-    private GameObject _holdingCard;
+    public GameObject _holdingCard;
 
     public float NodeSpeed
     {

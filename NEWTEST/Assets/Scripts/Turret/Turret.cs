@@ -18,7 +18,6 @@ public abstract class Turret : ReusableObject
     protected float _rotSpeed = 15f;
     protected GameObject _projectile;
     private float nextAttackTime;
-    public bool LandedCheck = false;
 
     //已经强化过的地形列表
     [HideInInspector]
@@ -144,67 +143,15 @@ public abstract class Turret : ReusableObject
         LandedSquare = landedSquare;
         TurretLanded = true;
         LandedSquare.SetTurret(this);
-        PrepareIntensify();
-        //LandedApplyPoloEffect();
+        GameEvents.Instance.TurretLanded(this);
         SetAttackRangeColliders();
     }
-    public void RecaculatePoloEffect(int newIntensify, int oldIntensify)
-    {
-        if (_cardAsset.PoloEffectList == null)
-            return;
-        if (newIntensify > oldIntensify)
-        {
-            List<Square> changeList = LandedSquare.GetRangeSquares(TurretRange).Except(AlreadyIntensifyList).ToList();//减去已经强化过的防御塔
-
-            AlreadyIntensifyList.AddRange(changeList);
-            foreach (Square square in changeList)
-            {
-                square.ApplyPoloEffect(_cardAsset.PoloEffectList, false);
-            }
-        }
-
-    }
-
-    private void PrepareIntensify()//从这个塔开始递归，强化能强化到的塔，每次强化对应塔的攻击范围时，就让被强化的塔继续递归
-    {
-        if (_cardAsset.PoloEffectList.Count <= 0)
-            return;
-        foreach (Square square in CellGrid.Cells)//先把所有地形的强化效果重置
-        {
-            square.ResetAllIntensify();
-            if (square.SquareTurret != null)
-                square.SquareTurret.AlreadyIntensifyList.Clear();//重置该塔已强化过的地形list
-
-        }
-        foreach (Square square in CellGrid.Cells)
-        {
-            if (square.SquareTurret != null && square.SquareTurret.AlreadyIntensifyList.Count == 0)//如果该塔的已强化list不为空，说明已递归过，不需要再开始递归
-                square.SquareTurret.LandedApplyPoloEffect();
-        }
-    }
-    public void LandedApplyPoloEffect()
-    {
-        List<Square> changeList = LandedSquare.GetRangeSquares(TurretRange);
-        AlreadyIntensifyList.AddRange(changeList);
-        //if (alreadyModifyList.Count == 0)//没有被影响过
-        //    alreadyModifyList.AddRange(changeList);
-        //else
-        //    changeList = changeList.Except(alreadyModifyList).ToList();
-        if (changeList.Count > 0)
-        {
-            foreach (Square square in changeList)
-            {
-                square.ApplyPoloEffect(_cardAsset.PoloEffectList, false);
-            }
-        }
-
-    }
-
 
     public void UnspawnRemovePoloEffect()
     {
         LandedSquare.SquareTurret = null;
-        PrepareIntensify();
+        GameEvents.Instance.TurretDemolish(this);
+        //PrepareIntensify();
     }
 
     public void SetAttackRangeColliders()
@@ -399,11 +346,11 @@ public abstract class Turret : ReusableObject
 
     public override void OnSpawn()
     {
-        TurretLanded = false;
     }
 
     public override void OnUnSpawn()
     {
+        TurretLanded = false;
         SquareColliders.Clear();
         potentialEnemyies.Clear();
         CurrentEnemyTarget = null;

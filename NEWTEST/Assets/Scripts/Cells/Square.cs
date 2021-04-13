@@ -11,11 +11,12 @@ namespace DBGTD.Cells
         public bool IsRoad;
         public Turret SquareTurret;
 
-        public float AttackIntensify;
+
 
         [SerializeField]
-        private TextMesh rangeInidicator;//测试用 范围强化效果指示器
+        private TextMesh rangeInidicator = default;//测试用 范围强化效果指示器
 
+        public float AttackIntensify;
         private int _rangeIntensify;
         public int RangeIntensify
         {
@@ -26,13 +27,15 @@ namespace DBGTD.Cells
                 _rangeIntensify = value;//先把强化值设定好，防御塔的攻击范围需要取这个值来决定
                 if (SquareTurret != null)
                 {
-                    SquareTurret.RecaculatePoloEffect(value, temp);//如果改变后的值大于原先值，则进行一次递归
-                }
-                rangeInidicator.text = _rangeIntensify.ToString();
-                if (SquareTurret != null)
-                {
+                    if (temp < value)
+                    {
+                        GridIntensifyHelper.TurretApplyPoloEffect(SquareTurret);
+                        // SquareTurret.RecaculatePoloEffect();//如果改变后的值大于原先值，则进行一次递归
+                        rangeInidicator.text = _rangeIntensify.ToString();
+                    }
                     SquareTurret.SetAttackRangeColliders();
                 }
+                rangeInidicator.text = _rangeIntensify.ToString();
             }
         }
         public float SpeedIntensify;

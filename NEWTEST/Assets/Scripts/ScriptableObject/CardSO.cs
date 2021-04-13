@@ -53,6 +53,7 @@ public class CardSO : ScriptableObject
     public int CardCost;
     public List<EffectConfig> RemakeEffectList;
     public List<EffectConfig> PoloEffectList;
+    public List<EffectConfig> NotargetEffectList;
     public List<EffectConfig> FinalEffectList;
 
 

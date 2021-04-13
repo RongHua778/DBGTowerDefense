@@ -63,6 +63,7 @@ public class Card : ReusableObject
         if (CardAsset != null)
             GameEvents.Instance.DiscardCard(CardAsset);
         CardAsset = null;
+        HandleNode.GetComponent<Node>()._holdingCard = null;
         HandleNode = null;
         ShowCard();
         //拖动状态下移出传送带时

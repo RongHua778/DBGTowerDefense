@@ -6,21 +6,24 @@ public abstract class Buff
 {
     public bool IsFinished { get; internal set; }
     public abstract bool IsStackable { get;}
-    public abstract bool IsInfinity { get;}
     public abstract float Duration { get; set; }
+    public int Stacks;
 
     public float KeyValue;
 
     public void SetValue(float value)
     {
-        KeyValue = value;
+        if (IsStackable)
+            Stacks = (int)value;
+        else
+            Duration = value;
     }
 
     public virtual void Affect(GameObject target) { }
 
     public void Tick(float delta)
     {
-        if (IsInfinity)
+        if (IsStackable)
             return;
         Duration -= delta;
         if (Duration <= 0)

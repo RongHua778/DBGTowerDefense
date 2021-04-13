@@ -13,8 +13,6 @@ public class SlowDown : EnemyBuff
     public override EnemyBuffType enemyBuffName => EnemyBuffType.SlowDown;
     public override bool IsStackable => false;
 
-    public override bool IsInfinity => false;
-
     public override float Duration { get => KeyValue; set => KeyValue = value; }
 
     public override void Affect(GameObject target)

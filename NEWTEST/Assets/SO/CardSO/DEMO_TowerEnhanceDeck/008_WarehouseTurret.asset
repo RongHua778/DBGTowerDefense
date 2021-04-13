@@ -20,13 +20,14 @@ MonoBehaviour:
   CardCost: 3
   RemakeEffectList: []
   PoloEffectList: []
-  FinalEffectList:
-  - BaseEffectType: 0
-    AttributeType: 1
+  NotargetEffectList:
+  - BaseEffectType: 3
+    AttributeType: 0
     AttackEffectType: 0
     EnemyBuffType: 0
-    NoTargetBuffType: 1
-    KeyValue: 0
+    NoTargetBuffType: 0
+    KeyValue: 1
+  FinalEffectList: []
   TurretPrefab: {fileID: 8005339885002978379, guid: d22767f637dd5774085c0728a5451056,
     type: 3}
   TurretAttack: 0

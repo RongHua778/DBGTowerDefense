@@ -28,6 +28,8 @@ namespace DBGTD.Cells
 
         private const float cellOffset = 1.6f;
         public static List<Cell> Cells;
+        private GridIntensifyHelper _intensifyHelper;
+
 
         private CellGridState _cellGridState; //The grid delegates some of its behaviours to cellGridState object.
         public CellGridState CellGridState
@@ -51,13 +53,19 @@ namespace DBGTD.Cells
                 LevelLoading.Invoke(this, new EventArgs());
 
             Initialize();
-
+            GameEvents.Instance.onTurretLanded += RecaculateIntensifyMap;
+            GameEvents.Instance.onTurretDemolish += RecaculateIntensifyMap;
             if (LevelLoadingDone != null)
                 LevelLoadingDone.Invoke(this, new EventArgs());
 
             StartGame();
         }
 
+        private void OnDestroy()
+        {
+            GameEvents.Instance.onTurretLanded -= RecaculateIntensifyMap;
+            GameEvents.Instance.onTurretDemolish -= RecaculateIntensifyMap;
+        }
         private void StartGame()
         {
             if (GameStarted != null)
@@ -69,6 +77,7 @@ namespace DBGTD.Cells
         private void Initialize()
         {
             GameFinished = false;
+            _intensifyHelper = this.GetComponent<GridIntensifyHelper>();
             Cells = new List<Cell>();
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -89,6 +98,11 @@ namespace DBGTD.Cells
                 cell.CellDehighlighted += OnCellDehighlighted;
                 cell.GetComponent<Cell>().GetMap(Cells);
             }
+        }
+
+        private void RecaculateIntensifyMap(Turret turret)
+        {
+            _intensifyHelper.CaculateIntensifyMap(turret, Cells);
         }
 
         private void CorrectCellCoord(Cell cell)

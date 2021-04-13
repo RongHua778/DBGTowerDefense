@@ -8,12 +8,10 @@ public class MoneySystem : MonoBehaviour
 
     private static int _currentMoney;
 
-    private static int _maxMoney = 10;
 
     public static int MaxMoney
     {
-        get => _maxMoney;
-        set => _maxMoney = value;
+        get => StaticData.Instance.MaxMoney;
     }
     public static int CurrentMoney
     {

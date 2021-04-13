@@ -5,10 +5,6 @@ using DBGTD.Cells;
 
 public class PoloTurret : Turret
 {
-    public float AtackIntensify;
-    public float RangeIntensify;
-    public float SpeedIntensify;
-
     protected override void RotateTowardsEnemy()
     {
 

@@ -54,6 +54,15 @@ public class LevelManager : Singleton<LevelManager>
         _enemyFactory.Initialize();
         _projectileFactory.Initialize();
         activeScenario = scenario.Begin();
+
+        GameEvents.Instance.onTurretLanded += ApplyNoTargetEffects;
+        GameEvents.Instance.onTurretDemolish += RemoveNotargetBuff;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.Instance.onTurretLanded -= ApplyNoTargetEffects;
+        GameEvents.Instance.onTurretDemolish -= RemoveNotargetBuff;
     }
 
     void Update()
@@ -101,33 +110,51 @@ public class LevelManager : Singleton<LevelManager>
         if (_noTargetEffects.ContainsKey(effect.NoTargetBuffType))
         {
             NoTargetBuff effectItem = _noTargetEffects[effect.NoTargetBuffType];
-            if (effect.IsStackable)
+            if (effect.IsStackable)//层数类BUFF
             {
+                effectItem.Stacks += effect.Stacks;
                 effectItem.Affect(this.gameObject);
             }
-            if (effectItem.Duration < effect.KeyValue)
+            else if (effectItem.Duration < effect.Duration)//时间类BUFF
             {
-                effectItem.Duration = effect.KeyValue;
+                effectItem.Duration = effect.Duration;
             }
+
         }
         else
         {
-            effect.Duration += effect.KeyValue;
             _noTargetEffects.Add(effect.NoTargetBuffType, effect);
             effect.Affect(this.gameObject);
         }
     }
 
-    public void ApplyNoTargetEffects(IEnumerable<EffectConfig> configList)
+    public void RemoveNotargetBuff(Turret turret)
     {
-        foreach (var config in configList)
+
+        foreach(EffectConfig config in turret._cardAsset.NotargetEffectList)
         {
-            if (config.BaseEffectType == EffectType.NoTargetBuff)
+            if (config.BaseEffectType != EffectType.NoTargetBuff)
+                continue;
+            NoTargetBuff effect = GetNoTargetBuff(config);
+            if (effect.IsStackable)
             {
-                NoTargetBuff effect = GetNoTargetBuff(config);
-                if (effect != null)
-                    AddEffect(effect);
+                _noTargetEffects[config.NoTargetBuffType].Stacks -= effect.Stacks;//只有stackable的buff可以被移除
+                _noTargetEffects[config.NoTargetBuffType].IsFinished = true;
+                _noTargetEffects[config.NoTargetBuffType].End();
+                _noTargetEffects.Remove(config.NoTargetBuffType);
             }
+        }
+    }
+
+    public void ApplyNoTargetEffects(Turret turret)
+    {
+        //if (turret._cardAsset.NotargetEffectList.Count <= 0)
+        //    return;
+        foreach (var config in turret._cardAsset.NotargetEffectList)
+        {
+            NoTargetBuff effect = GetNoTargetBuff(config);
+            if (effect != null)
+                AddEffect(effect);
         }
     }
 

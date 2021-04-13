@@ -8,8 +8,11 @@ public class StaticData : Singleton<StaticData>
     [Header("LevelSetting")]
     public float MaxPersistime = default;
     public int StartMoney = default;
+    public int InitMaxMoney = default;
+    public int MaxMoney = default;
     public int BasicIncome = default;
     public float BasicIncomeInterval = default;
+    public float InitNodeSpeed = default;
     public float NodeSpeed = default;
     public float NodeSpawnInterval = default;
     public GameObject NoTargetEffect = default;
